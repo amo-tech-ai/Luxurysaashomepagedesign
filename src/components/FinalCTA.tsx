@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 
-export function FinalCTA() {
+export function FinalCTA({ onNavigate }: { onNavigate?: (page: string) => void }) {
   return (
     <section className="bg-[#1a1a1a] py-40 lg:py-48">
       <div className="max-w-4xl mx-auto px-6 lg:px-8">
@@ -11,7 +11,10 @@ export function FinalCTA() {
           </h2>
           
           <div className="pt-8">
-            <button className="group bg-[#0d5f4e] hover:bg-[#0a4a3d] text-white px-12 py-5 rounded-sm transition-all duration-200 flex items-center justify-center gap-3 mx-auto text-xl">
+            <button 
+              onClick={() => onNavigate?.('onboarding')}
+              className="group bg-[#0d5f4e] hover:bg-[#0a4a3d] text-white px-12 py-5 rounded-sm transition-all duration-200 flex items-center justify-center gap-3 mx-auto text-xl"
+            >
               <span>Start Your Strategy Session</span>
               <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
             </button>

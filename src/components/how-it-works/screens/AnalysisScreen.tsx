@@ -1,32 +1,32 @@
-import { TrendingUp, AlertCircle } from 'lucide-react';
+import { TrendingUp, Sparkles } from 'lucide-react';
 
 export function AnalysisScreen() {
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-5 space-y-3">
       {/* Header */}
-      <div className="space-y-2">
-        <h3 className="text-xl text-gray-900">
+      <div className="space-y-0.5">
+        <h3 className="text-lg text-gray-900 font-light">
           Startup Readiness Analysis
         </h3>
-        <p className="text-sm text-gray-600">
+        <p className="text-xs text-gray-500 font-light leading-relaxed">
           Based on your profile
         </p>
       </div>
 
       {/* Readiness Score */}
-      <div className="bg-gray-50 border border-gray-200 rounded-sm p-6 space-y-4">
+      <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-100 rounded-xl p-3.5 space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">Readiness Score</span>
-          <div className="flex items-center gap-2 text-[#6b9d89] text-sm">
-            <TrendingUp className="w-4 h-4" />
+          <span className="text-xs text-gray-500 uppercase tracking-wide font-light">Readiness Score</span>
+          <div className="flex items-center gap-1.5 text-[#6b9d89] text-xs font-medium">
+            <TrendingUp className="w-3 h-3" />
             <span>On track</span>
           </div>
         </div>
 
         {/* Large Score */}
-        <div className="text-center py-4">
-          <div className="text-5xl text-gray-900 mb-2">72/100</div>
-          <div className="h-2 bg-gray-200 rounded-full overflow-hidden max-w-md mx-auto">
+        <div className="text-center py-1.5">
+          <div className="text-3xl text-gray-900 font-light mb-1.5 tracking-tight">72<span className="text-gray-400 text-xl">/100</span></div>
+          <div className="h-2 bg-gray-100 rounded-full overflow-hidden max-w-sm mx-auto">
             <div
               className="h-full bg-gradient-to-r from-[#0d5f4e] to-[#6b9d89] rounded-full transition-all duration-1000"
               style={{ width: '72%' }}
@@ -35,45 +35,48 @@ export function AnalysisScreen() {
         </div>
 
         {/* Gap Detection */}
-        <div className="space-y-2 pt-2">
-          <div className="flex items-center gap-2 text-sm">
-            <AlertCircle className="w-4 h-4 text-amber-600" />
-            <span className="text-gray-900">Market Validation</span>
-            <span className="text-gray-500">— Weak</span>
+        <div className="space-y-1 pt-1.5 border-t border-gray-100">
+          <div className="flex items-center gap-2 text-xs">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="text-gray-900 font-light">Market Validation</span>
+            <span className="text-gray-400 font-light">— Needs attention</span>
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <AlertCircle className="w-4 h-4 text-amber-600" />
-            <span className="text-gray-900">Traction Metrics</span>
-            <span className="text-gray-500">— Missing</span>
+          <div className="flex items-center gap-2 text-xs">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="text-gray-900 font-light">Traction Metrics</span>
+            <span className="text-gray-400 font-light">— Missing data</span>
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <AlertCircle className="w-4 h-4 text-amber-600" />
-            <span className="text-gray-900">Pricing Strategy</span>
-            <span className="text-gray-500">— Undefined</span>
+          <div className="flex items-center gap-2 text-xs">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="text-gray-900 font-light">Pricing Strategy</span>
+            <span className="text-gray-400 font-light">— Undefined</span>
           </div>
         </div>
       </div>
 
       {/* AI Intelligence Panel */}
-      <div className="bg-[#f5f5f3] border border-gray-200 rounded-sm p-6 space-y-4">
-        <h4 className="text-sm text-gray-900">AI Intelligence</h4>
+      <div className="bg-white border border-gray-100 rounded-xl p-3.5 space-y-2 shadow-sm">
+        <div className="flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-[#0d5f4e]" />
+          <h4 className="text-xs text-gray-900 font-medium">AI Intelligence</h4>
+        </div>
         
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div>
-            <div className="text-xs text-gray-600 mb-1">What this means:</div>
-            <p className="text-sm text-gray-900 leading-relaxed">
+            <div className="text-xs text-gray-500 mb-1 uppercase tracking-wide font-light">What this means</div>
+            <p className="text-xs text-gray-700 font-light leading-relaxed">
               Your technical foundation is strong, but market positioning needs clarity.
             </p>
           </div>
 
-          <div className="border-t border-gray-300 pt-3">
-            <div className="text-xs text-gray-600 mb-2">Next step:</div>
-            <div className="bg-white border-2 border-[#0d5f4e] rounded-sm p-3">
-              <div className="flex items-start justify-between">
-                <span className="text-sm text-gray-900">→ Define pricing tiers</span>
-                <span className="text-xs text-[#0d5f4e]">+18 pts</span>
+          <div className="pt-1.5 border-t border-gray-100">
+            <div className="text-xs text-gray-500 mb-1 uppercase tracking-wide font-light">Recommended next step</div>
+            <div className="bg-[#0d5f4e] bg-opacity-5 border border-[#0d5f4e] border-opacity-20 rounded-lg p-2">
+              <div className="flex items-start justify-between mb-0.5">
+                <span className="text-xs text-gray-900 font-light">Define pricing tiers</span>
+                <span className="text-xs text-[#0d5f4e] font-semibold bg-white px-1.5 py-0.5 rounded">+18 pts</span>
               </div>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-xs text-gray-600 font-light leading-relaxed">
                 Increases investor confidence score
               </p>
             </div>

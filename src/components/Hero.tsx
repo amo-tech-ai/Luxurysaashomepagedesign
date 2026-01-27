@@ -1,4 +1,4 @@
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play, Target, TrendingUp, Circle, Sparkles } from 'lucide-react';
 
 export function Hero() {
   return (
@@ -28,40 +28,89 @@ export function Hero() {
             </div>
           </div>
           
-          {/* Right Column - Product Preview */}
-          <div className="relative">
-            <div className="bg-white border border-gray-200 rounded-sm p-8 shadow-sm">
-              <div className="space-y-6">
+          {/* Right Column - Premium Dashboard Preview */}
+          <div className="relative scale-90">
+            {/* Main Dashboard Card */}
+            <div className="bg-white border border-gray-200 rounded-lg shadow-2xl overflow-hidden">
+              {/* Header */}
+              <div className="bg-gradient-to-br from-white to-gray-50 border-b border-gray-100 px-8 py-6">
                 <div className="flex items-center justify-between">
-                  <div className="text-sm text-gray-500">Strategy Session</div>
-                  <div className="w-2 h-2 rounded-full bg-[#6b9d89]"></div>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="h-3 bg-gray-100 rounded-sm w-3/4"></div>
-                  <div className="h-3 bg-gray-100 rounded-sm w-full"></div>
-                  <div className="h-3 bg-gray-100 rounded-sm w-5/6"></div>
-                </div>
-                
-                <div className="pt-4 border-t border-gray-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-1 h-1 rounded-full bg-[#0d5f4e]"></div>
-                    <span className="text-sm text-gray-600">Current Focus</span>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0d5f4e] to-[#0a4a3d] flex items-center justify-center">
+                      <Target className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900">StartupAI Dashboard</h3>
+                      <p className="text-sm text-gray-500">Monday, January 13</p>
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <div className="h-2 bg-gray-100 rounded-sm w-full"></div>
-                    <div className="h-2 bg-gray-100 rounded-sm w-2/3"></div>
+                  <div className="px-4 py-1.5 bg-[#0d5f4e] bg-opacity-10 rounded-full">
+                    <span className="text-xs font-medium text-[#0d5f4e]">Active</span>
                   </div>
                 </div>
-                
-                <div className="pt-4">
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#0d5f4e] w-2/3 rounded-full"></div>
+              </div>
+
+              {/* Content Area */}
+              <div className="px-8 py-6 space-y-6">
+                {/* Today's Priorities */}
+                <div>
+                  <h4 className="text-xs uppercase tracking-wide text-gray-400 mb-4 font-medium">Today's Priorities</h4>
+                  <div className="space-y-3">
+                    {/* Priority 1 */}
+                    <div className="group flex items-center gap-4 p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center flex-shrink-0">
+                        <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                      <span className="text-sm text-gray-700 font-medium">Follow up with Sequoia partner</span>
+                    </div>
+
+                    {/* Priority 2 */}
+                    <div className="group flex items-center gap-4 p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center flex-shrink-0">
+                        <TrendingUp className="w-5 h-5 text-emerald-600" />
+                      </div>
+                      <span className="text-sm text-gray-700 font-medium">Finalize Q1 product roadmap</span>
+                    </div>
+
+                    {/* Priority 3 */}
+                    <div className="group flex items-center gap-4 p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center flex-shrink-0">
+                        <Circle className="w-5 h-5 text-gray-600" />
+                      </div>
+                      <span className="text-sm text-gray-700 font-medium">Review burn rate projections</span>
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-500 mt-2">67% complete</div>
+                </div>
+
+                {/* AI Insight */}
+                <div className="bg-gradient-to-br from-[#0d5f4e] to-[#0a4a3d] rounded-lg p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-white bg-opacity-20 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h5 className="text-xs font-medium text-[#6b9d89] mb-2">AI Insight</h5>
+                      <p className="text-sm text-white leading-relaxed">
+                        Based on your runway of 14 months, prioritizing the Sequoia follow-up aligns with your fundraising timeline for Series A.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Runway Indicator */}
+                <div className="flex items-center justify-end pt-2">
+                  <div className="text-right">
+                    <div className="text-2xl font-medium text-gray-900">14mo</div>
+                    <div className="text-xs text-gray-500">runway</div>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Decorative Glow Effect */}
+            <div className="absolute -inset-4 bg-gradient-to-br from-[#0d5f4e] to-[#6b9d89] opacity-5 blur-3xl -z-10 rounded-3xl"></div>
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useScrollProgress } from '../hooks/useScrollProgress';
 import { StepList } from './how-it-works/StepList';
 import { AppWindow } from './how-it-works/AppWindow';
-import { AnimatedCursor } from './how-it-works/AnimatedCursor';
+import { useCursorAnimation } from './how-it-works/useCursorAnimation';
 
 const steps = [
   {
@@ -30,6 +30,36 @@ const steps = [
 export function HowItWorks() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { activeStep } = useScrollProgress(containerRef);
+  const [isInView, setIsInView] = useState(true); // Default to true for initial visibility
+
+  // Intersection Observer to detect if section is in viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsInView(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1 } // Lower threshold for earlier detection
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
+  // Cursor animation
+  const { cursorState, uiState } = useCursorAnimation({
+    activeStep,
+    isInView,
+    isPaused: false,
+  });
 
   return (
     <section
@@ -57,14 +87,15 @@ export function HowItWorks() {
 
             {/* Right Column - Fixed App Window */}
             <div className="hidden lg:flex items-center justify-center">
-              <AppWindow activeStep={activeStep} />
+              <AppWindow 
+                activeStep={activeStep} 
+                cursorState={cursorState}
+                uiState={uiState}
+              />
             </div>
           </div>
         </div>
       </div>
-      
-      {/* Animated Cursor Overlay */}
-      <AnimatedCursor activeStep={activeStep} />
     </section>
   );
 }

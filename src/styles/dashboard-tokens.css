@@ -1,0 +1,162 @@
+/* Dashboard Design Tokens - Luxury 3-Panel System */
+
+@layer base {
+  :root {
+    /* === SURFACES === */
+    --dashboard-off-white: #FAFAF8;
+    --dashboard-soft-grey: #F5F5F3;
+    --dashboard-warm-stone: #E8E6E1;
+    
+    /* === EMERALD (Primary) === */
+    --dashboard-emerald-900: #064E3B;
+    --dashboard-emerald-700: #047857;
+    --dashboard-emerald-600: #059669;
+    --dashboard-emerald-500: #10B981;
+    --dashboard-emerald-400: #34D399;
+    --dashboard-emerald-50: #ECFDF5;
+    
+    /* === GOLD (Premium Highlights) === */
+    --dashboard-gold-700: #A16207;
+    --dashboard-gold-600: #CA8A04;
+    --dashboard-gold-500: #EAB308;
+    --dashboard-gold-400: #FACC15;
+    --dashboard-gold-50: #FEFCE8;
+    
+    /* === TEXT === */
+    --dashboard-charcoal: #2D2D2D;
+    --dashboard-grey-700: #4A4A4A;
+    --dashboard-grey-500: #737373;
+    --dashboard-grey-400: #A3A3A3;
+    --dashboard-grey-300: #D1D5DB;
+    
+    /* === STATUS (Muted) === */
+    --dashboard-status-success: #D1FAE5;
+    --dashboard-status-warning: #FEF3C7;
+    --dashboard-status-error: #FEE2E2;
+    --dashboard-status-info: #DBEAFE;
+    
+    /* === SPACING === */
+    --dashboard-space-1: 4px;
+    --dashboard-space-2: 8px;
+    --dashboard-space-3: 12px;
+    --dashboard-space-4: 16px;
+    --dashboard-space-6: 24px;
+    --dashboard-space-8: 32px;
+    --dashboard-space-12: 48px;
+    --dashboard-space-16: 64px;
+    
+    /* === SHADOWS === */
+    --dashboard-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --dashboard-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+    --dashboard-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12);
+    --dashboard-shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.16);
+    
+    /* === BORDER RADIUS === */
+    --dashboard-radius-sm: 6px;
+    --dashboard-radius-md: 8px;
+    --dashboard-radius-lg: 12px;
+    --dashboard-radius-xl: 16px;
+    
+    /* === LAYOUT === */
+    --dashboard-left-width: 240px;
+    --dashboard-right-width: 360px;
+    --dashboard-tablet-left: 200px;
+    --dashboard-tablet-right: 320px;
+  }
+}
+
+/* === DASHBOARD ANIMATIONS === */
+@keyframes dashboardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes dashboardFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dashboardCardLift {
+  from {
+    transform: translateY(0);
+    box-shadow: var(--dashboard-shadow-sm);
+  }
+  to {
+    transform: translateY(-2px);
+    box-shadow: var(--dashboard-shadow-md);
+  }
+}
+
+@keyframes dashboardDragRotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  100% {
+    transform: rotate(-2deg) scale(0.98);
+    opacity: 0.8;
+  }
+}
+
+/* === DASHBOARD UTILITY CLASSES === */
+.dashboard-container {
+  background-color: var(--dashboard-off-white);
+  min-height: 100vh;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+.dashboard-surface {
+  background-color: white;
+  border: 1px solid var(--dashboard-warm-stone);
+  box-shadow: var(--dashboard-shadow-sm);
+}
+
+.dashboard-h1 {
+  font-family: ui-serif, Georgia, Cambria, serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--dashboard-charcoal);
+}
+
+.dashboard-h2 {
+  font-family: ui-serif, Georgia, Cambria, serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--dashboard-charcoal);
+}
+
+.dashboard-h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--dashboard-charcoal);
+}
+
+.dashboard-body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--dashboard-grey-700);
+}
+
+.dashboard-small {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--dashboard-grey-500);
+}
+
+.dashboard-transition {
+  transition: all 150ms ease-out;
+}

@@ -1,0 +1,203 @@
+export type IdeaCategory = 'code' | 'ui-ux' | 'docs' | 'security' | 'performance';
+export type IdeaEffort = 'small' | 'medium' | 'large';
+
+export interface Idea {
+  id: string;
+  title: string;
+  description: string;
+  category: IdeaCategory;
+  effort: IdeaEffort;
+  rationale: string;
+  affectedAreas: string[];
+  implementation: string;
+  agent: string;
+  priority: number;
+  createdAt: Date;
+}
+
+export const IDEA_CATEGORIES: Record<IdeaCategory, { label: string; color: string; agent: string }> = {
+  'code': {
+    label: 'Code',
+    color: 'blue',
+    agent: 'Code Agent',
+  },
+  'ui-ux': {
+    label: 'UI/UX',
+    color: 'purple',
+    agent: 'UI/UX Agent',
+  },
+  'docs': {
+    label: 'Docs',
+    color: 'emerald',
+    agent: 'Docs Agent',
+  },
+  'security': {
+    label: 'Security',
+    color: 'red',
+    agent: 'Security Agent',
+  },
+  'performance': {
+    label: 'Performance',
+    color: 'amber',
+    agent: 'Performance Agent',
+  },
+};
+
+export const MOCK_IDEAS: Idea[] = [
+  {
+    id: 'idea-1',
+    title: 'Implement lazy loading for dashboard charts',
+    description: 'Defer chart rendering until visible in viewport to improve initial page load',
+    category: 'performance',
+    effort: 'small',
+    rationale: 'Current dashboard loads all charts immediately, causing a 2.3s delay on initial render. Lazy loading would reduce this to ~800ms.',
+    affectedAreas: ['/app/dashboard', '/components/charts'],
+    implementation: 'Use IntersectionObserver API to detect when chart containers enter viewport. Load Recharts components dynamically with React.lazy(). Add loading skeleton placeholders.',
+    agent: 'Performance Agent',
+    priority: 8,
+    createdAt: new Date('2026-01-25'),
+  },
+  {
+    id: 'idea-2',
+    title: 'Add keyboard shortcuts for task navigation',
+    description: 'Enable j/k navigation between tasks, Enter to open, Esc to close',
+    category: 'ui-ux',
+    effort: 'small',
+    rationale: 'Power users spend significant time navigating between tasks. Keyboard shortcuts would improve efficiency by 40% based on similar patterns.',
+    affectedAreas: ['/app/dashboard/page.tsx', '/components/dashboard/DashboardContainer.tsx'],
+    implementation: 'Add global event listener for keyboard events. Maintain focus state for current task. Update UI to show available shortcuts on hover.',
+    agent: 'UI/UX Agent',
+    priority: 7,
+    createdAt: new Date('2026-01-26'),
+  },
+  {
+    id: 'idea-3',
+    title: 'Document the 3-panel layout architecture',
+    description: 'Create comprehensive guide explaining the LeftNav-Center-RightPanel pattern',
+    category: 'docs',
+    effort: 'medium',
+    rationale: 'The 3-panel layout is used across multiple dashboards but lacks formal documentation. New developers spend ~4 hours understanding the pattern.',
+    affectedAreas: ['/docs', '/README.md'],
+    implementation: 'Create /docs/architecture/3-panel-layout.md with diagrams, code examples, and best practices. Include state management patterns and responsive considerations.',
+    agent: 'Docs Agent',
+    priority: 6,
+    createdAt: new Date('2026-01-26'),
+  },
+  {
+    id: 'idea-4',
+    title: 'Add CSRF protection to task creation endpoint',
+    description: 'Implement token-based CSRF validation for all mutating operations',
+    category: 'security',
+    effort: 'medium',
+    rationale: 'Task creation endpoints are vulnerable to CSRF attacks. This is a critical security gap that needs immediate attention.',
+    affectedAreas: ['/app/api/tasks', '/lib/security'],
+    implementation: 'Generate unique CSRF tokens per session. Include tokens in all POST/PUT/DELETE requests. Validate server-side before processing mutations.',
+    agent: 'Security Agent',
+    priority: 9,
+    createdAt: new Date('2026-01-25'),
+  },
+  {
+    id: 'idea-5',
+    title: 'Extract task card component logic into custom hooks',
+    description: 'Refactor TaskCard to use useTaskActions, useTaskState custom hooks',
+    category: 'code',
+    effort: 'small',
+    rationale: 'TaskCard component has grown to 200+ lines with mixed concerns. Extracting hooks would improve testability and reusability.',
+    affectedAreas: ['/components/dashboard/TaskCard.tsx', '/hooks'],
+    implementation: 'Create useTaskActions hook for onSelect, onStart, onDelete. Create useTaskState for isSelected, isPriority. Move business logic out of component.',
+    agent: 'Code Agent',
+    priority: 5,
+    createdAt: new Date('2026-01-27'),
+  },
+  {
+    id: 'idea-6',
+    title: 'Improve color contrast for accessibility compliance',
+    description: 'Update text colors to meet WCAG AA standards across all components',
+    category: 'ui-ux',
+    effort: 'medium',
+    rationale: 'Several text-color combinations fail WCAG AA compliance (4.5:1 ratio). This affects ~15% of users with visual impairments.',
+    affectedAreas: ['/styles/globals.css', '/components'],
+    implementation: 'Audit all color combinations with contrast checker. Update CSS custom properties for text-[#A3A3A3] and similar low-contrast colors. Test with accessibility tools.',
+    agent: 'UI/UX Agent',
+    priority: 8,
+    createdAt: new Date('2026-01-26'),
+  },
+  {
+    id: 'idea-7',
+    title: 'Memoize expensive task filtering operations',
+    description: 'Use useMemo for getTasksByStatus to prevent unnecessary recalculations',
+    category: 'performance',
+    effort: 'small',
+    rationale: 'getTasksByStatus runs on every render, processing 100+ tasks each time. Memoization would reduce CPU usage by ~60%.',
+    affectedAreas: ['/lib/dashboard/DashboardContext.tsx'],
+    implementation: 'Wrap getTasksByStatus with useMemo, using tasks and filters as dependencies. Add performance monitoring to verify improvement.',
+    agent: 'Performance Agent',
+    priority: 7,
+    createdAt: new Date('2026-01-27'),
+  },
+  {
+    id: 'idea-8',
+    title: 'Add API response validation with Zod schemas',
+    description: 'Validate all external API responses to prevent runtime errors',
+    category: 'security',
+    effort: 'medium',
+    rationale: 'External API responses are used without validation, creating potential for injection attacks and runtime crashes.',
+    affectedAreas: ['/lib/api', '/types'],
+    implementation: 'Define Zod schemas for all API response shapes. Wrap fetch calls with validation layer. Add error boundaries for validation failures.',
+    agent: 'Security Agent',
+    priority: 9,
+    createdAt: new Date('2026-01-26'),
+  },
+  {
+    id: 'idea-9',
+    title: 'Create component library documentation site',
+    description: 'Build interactive Storybook showcasing all UI components with examples',
+    category: 'docs',
+    effort: 'large',
+    rationale: 'Team spends significant time searching for existing components. A component library would reduce development time by 30%.',
+    affectedAreas: ['/docs', '/.storybook'],
+    implementation: 'Set up Storybook with MDX documentation. Create stories for all components in /components/dashboard/ui. Add interaction testing.',
+    agent: 'Docs Agent',
+    priority: 5,
+    createdAt: new Date('2026-01-25'),
+  },
+  {
+    id: 'idea-10',
+    title: 'Implement optimistic UI updates for task actions',
+    description: 'Show immediate feedback when starting/completing tasks before server confirms',
+    category: 'ui-ux',
+    effort: 'medium',
+    rationale: 'Current UI waits for server response (300-500ms) before updating. Optimistic updates would make the interface feel instant.',
+    affectedAreas: ['/lib/dashboard/DashboardContext.tsx', '/components/dashboard'],
+    implementation: 'Update local state immediately on user action. Revert on error with toast notification. Use queue for multiple rapid actions.',
+    agent: 'UI/UX Agent',
+    priority: 7,
+    createdAt: new Date('2026-01-27'),
+  },
+  {
+    id: 'idea-11',
+    title: 'Add code splitting for route-based chunks',
+    description: 'Split bundle by route to reduce initial JavaScript payload',
+    category: 'performance',
+    effort: 'medium',
+    rationale: 'Current bundle size is 850KB. Route-based splitting would reduce initial load to ~200KB, improving TTI by 2 seconds.',
+    affectedAreas: ['/routes.ts', '/app'],
+    implementation: 'Use React Router lazy loading for all route components. Configure webpack to create separate chunks per route. Add loading states.',
+    agent: 'Performance Agent',
+    priority: 8,
+    createdAt: new Date('2026-01-26'),
+  },
+  {
+    id: 'idea-12',
+    title: 'Standardize error handling patterns across codebase',
+    description: 'Create consistent error boundary and logging strategy',
+    category: 'code',
+    effort: 'medium',
+    rationale: 'Error handling is inconsistent - some components use try/catch, others use error boundaries. This makes debugging difficult.',
+    affectedAreas: ['/lib/errors', '/components'],
+    implementation: 'Create standardized ErrorBoundary component. Add centralized error logging service. Define error handling patterns in documentation.',
+    agent: 'Code Agent',
+    priority: 6,
+    createdAt: new Date('2026-01-27'),
+  },
+];
