@@ -20,7 +20,14 @@ import {
   Activity,
   Award,
   Eye,
-  ChevronRight
+  ChevronRight,
+  Truck,
+  Battery,
+  Megaphone,
+  GraduationCap,
+  Scale,
+  Lightbulb,
+  Briefcase
 } from 'lucide-react';
 
 export default function AIAdoption2025Page() {

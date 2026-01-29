@@ -27,7 +27,14 @@ import {
   Eye,
   Settings,
   FileText,
-  Layers
+  Layers,
+  Stethoscope,
+  ShoppingCart,
+  Factory,
+  Truck,
+  GraduationCap,
+  Scale,
+  Megaphone
 } from 'lucide-react';
 
 export default function AIJobsV2Page() {
@@ -99,6 +106,7 @@ export default function AIJobsV2Page() {
         <AutomationRiskSection />
         <SkillsMatrixSection />
         <NotReplacedSection />
+        <AIJobsByIndustrySection />
         <MethodologySection 
           methodologyOpen={methodologyOpen}
           setMethodologyOpen={setMethodologyOpen}
@@ -1475,6 +1483,375 @@ function SkillsMatrixSection() {
           <p className="text-sm text-gray-600 italic">
             Human skills (judgment, ambiguity, communication) remain universally high-value.
           </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// AI Jobs by Industry Section
+function AIJobsByIndustrySection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const industries = [
+    {
+      icon: Code,
+      emoji: '🧠',
+      name: 'Technology & SaaS',
+      color: '#0d5f4e',
+      growing: [
+        { title: 'AI Engineer / ML Engineer', status: 'measured' },
+        { title: 'MLOps Engineer', status: 'measured' },
+        { title: 'AI Product Manager', status: 'measured' }
+      ],
+      changing: [
+        'Software engineers now use AI copilots',
+        'QA engineers shift from manual testing to AI validation'
+      ],
+      atRisk: [
+        'Manual QA testing',
+        'Basic code scaffolding tasks'
+      ],
+      example: 'A SaaS company uses AI to generate first-pass code → engineers focus on architecture and reliability.'
+    },
+    {
+      icon: Stethoscope,
+      emoji: '🏥',
+      name: 'Healthcare & Life Sciences',
+      color: '#6b9d89',
+      growing: [
+        { title: 'Clinical AI Analyst', status: 'emerging' },
+        { title: 'AI Health Data Scientist', status: 'measured' },
+        { title: 'Medical AI Compliance Lead', status: 'emerging' }
+      ],
+      changing: [
+        'Doctors spend less time on documentation',
+        'Nurses use AI-assisted triage tools'
+      ],
+      atRisk: [
+        'Manual charting',
+        'Repetitive diagnostic review tasks'
+      ],
+      example: 'Radiologists use AI to flag anomalies → humans make final diagnoses.'
+    },
+    {
+      icon: DollarSign,
+      emoji: '💰',
+      name: 'Finance & FinTech',
+      color: '#0d5f4e',
+      growing: [
+        { title: 'AI Risk Analyst', status: 'measured' },
+        { title: 'Fraud Detection Specialist', status: 'measured' },
+        { title: 'AI Governance & Compliance Lead', status: 'emerging' }
+      ],
+      changing: [
+        'Analysts review AI-generated forecasts',
+        'Compliance teams oversee AI decision logic'
+      ],
+      atRisk: [
+        'Manual transaction monitoring',
+        'Basic credit scoring tasks'
+      ],
+      example: 'AI flags suspicious transactions → human investigators handle edge cases.'
+    },
+    {
+      icon: ShoppingCart,
+      emoji: '🛒',
+      name: 'Retail & eCommerce',
+      color: '#6b9d89',
+      growing: [
+        { title: 'AI Merchandising Manager', status: 'emerging' },
+        { title: 'Personalization Analyst', status: 'measured' },
+        { title: 'Conversational Commerce Designer', status: 'emerging' }
+      ],
+      changing: [
+        'Marketers use AI for testing and personalization',
+        'Merchandisers rely on AI demand forecasting'
+      ],
+      atRisk: [
+        'Manual product tagging',
+        'Static pricing roles'
+      ],
+      example: 'AI optimizes pricing daily → humans set strategy and brand rules.'
+    },
+    {
+      icon: Factory,
+      emoji: '🏭',
+      name: 'Manufacturing & Industrial',
+      color: '#0d5f4e',
+      growing: [
+        { title: 'AI Process Engineer', status: 'measured' },
+        { title: 'Predictive Maintenance Analyst', status: 'measured' },
+        { title: 'Robotics & Automation Engineer', status: 'measured' }
+      ],
+      changing: [
+        'Operators supervise AI-driven systems',
+        'Engineers focus on optimization, not monitoring'
+      ],
+      atRisk: [
+        'Manual quality inspection',
+        'Reactive maintenance roles'
+      ],
+      example: 'AI predicts machine failure → technicians intervene before breakdowns.'
+    },
+    {
+      icon: Truck,
+      emoji: '🚚',
+      name: 'Logistics & Supply Chain',
+      color: '#6b9d89',
+      growing: [
+        { title: 'AI Supply Chain Planner', status: 'measured' },
+        { title: 'Demand Forecasting Analyst', status: 'measured' }
+      ],
+      changing: [
+        'Planners review AI-generated routes and forecasts',
+        'Managers focus on exceptions'
+      ],
+      atRisk: [
+        'Manual scheduling',
+        'Static route planning'
+      ],
+      example: 'AI reroutes shipments in real time → humans handle disruptions.'
+    },
+    {
+      icon: GraduationCap,
+      emoji: '🎓',
+      name: 'Education & Training',
+      color: '#0d5f4e',
+      growing: [
+        { title: 'AI Curriculum Designer', status: 'emerging' },
+        { title: 'Learning Data Analyst', status: 'measured' }
+      ],
+      changing: [
+        'Teachers use AI for grading and lesson prep',
+        'Instructors focus on mentoring'
+      ],
+      atRisk: [
+        'Manual grading',
+        'Generic content creation'
+      ],
+      example: 'AI grades assignments → teachers focus on feedback and support.'
+    },
+    {
+      icon: Scale,
+      emoji: '⚖️',
+      name: 'Legal & Professional Services',
+      color: '#6b9d89',
+      growing: [
+        { title: 'Legal AI Analyst', status: 'measured' },
+        { title: 'AI Policy & Risk Specialist', status: 'emerging' }
+      ],
+      changing: [
+        'Lawyers review AI-generated research',
+        'Consultants use AI for first-draft analysis'
+      ],
+      atRisk: [
+        'Manual document review',
+        'Basic contract drafting'
+      ],
+      example: 'AI reviews thousands of contracts → lawyers handle negotiation and judgment.'
+    }
+  ];
+
+  return (
+    <section ref={sectionRef} className="py-24 lg:py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-6xl text-gray-900 mb-6 font-light leading-tight">
+            How AI Is Changing Jobs — <br />
+            <span className="text-[#0d5f4e]">Industry by Industry</span>
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Same AI wave. Very different job impact depending on the industry.
+          </p>
+        </div>
+
+        {/* Industry Cards Grid */}
+        <div className="space-y-12">
+          {industries.map((industry, index) => {
+            const Icon = industry.icon;
+            return (
+              <div
+                key={index}
+                className={`bg-[#fafaf8] border border-gray-200 rounded-2xl p-8 lg:p-10 transition-all duration-700 hover:shadow-lg ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {/* Industry Header */}
+                <div className="flex items-center gap-4 mb-8">
+                  <div 
+                    className="w-14 h-14 rounded-xl flex items-center justify-center"
+                    style={{ backgroundColor: `${industry.color}15` }}
+                  >
+                    <Icon className="w-7 h-7" style={{ color: industry.color }} strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-2xl">{industry.emoji}</span>
+                      <h3 className="text-2xl lg:text-3xl text-gray-900 font-light">{industry.name}</h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid lg:grid-cols-3 gap-8">
+                  {/* What's Growing */}
+                  <div>
+                    <h4 className="text-sm uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-[#0d5f4e]" />
+                      What's Growing
+                    </h4>
+                    <div className="space-y-3">
+                      {industry.growing.map((job, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-[#0d5f4e] mt-0.5 flex-shrink-0" />
+                          <div className="flex-1">
+                            <div className="text-sm text-gray-900 font-medium">{job.title}</div>
+                            <span className={`inline-block mt-1 px-2 py-0.5 text-xs rounded ${
+                              job.status === 'measured' 
+                                ? 'bg-[#0d5f4e]/10 text-[#0d5f4e]' 
+                                : 'bg-[#6b9d89]/10 text-[#6b9d89]'
+                            }`}>
+                              {job.status}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 pt-6 border-t border-gray-200">
+                      <h5 className="text-xs uppercase tracking-wider text-gray-500 mb-3">What's Changing</h5>
+                      <ul className="space-y-2">
+                        {industry.changing.map((change, i) => (
+                          <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
+                            <span className="text-[#0d5f4e] mt-1">•</span>
+                            <span>{change}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* What's at Risk */}
+                  <div>
+                    <h4 className="text-sm uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
+                      <AlertTriangle className="w-4 h-4 text-gray-600" />
+                      What's at Risk
+                    </h4>
+                    <div className="space-y-3">
+                      {industry.atRisk.map((risk, i) => (
+                        <div key={i} className="flex items-start gap-2 p-3 bg-gray-100 rounded-lg">
+                          <TrendingDown className="w-4 h-4 text-gray-600 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-gray-700">{risk}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Real-world Example */}
+                  <div>
+                    <h4 className="text-sm uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
+                      <Award className="w-4 h-4 text-[#0d5f4e]" />
+                      Real-world Example
+                    </h4>
+                    <div 
+                      className="p-5 rounded-xl border-l-4"
+                      style={{ 
+                        backgroundColor: `${industry.color}08`,
+                        borderColor: industry.color
+                      }}
+                    >
+                      <p className="text-sm text-gray-700 leading-relaxed">{industry.example}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Cross-Industry Pattern Callout */}
+        <div className="mt-16 p-8 lg:p-12 bg-gradient-to-br from-[#0d5f4e]/10 to-white rounded-2xl border-2 border-[#0d5f4e]/30">
+          <div className="flex items-start gap-4 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-[#0d5f4e]/20 flex items-center justify-center flex-shrink-0">
+              <Sparkles className="w-6 h-6 text-[#0d5f4e]" />
+            </div>
+            <div>
+              <h3 className="text-2xl text-gray-900 font-light mb-1">🧩 Cross-Industry Pattern</h3>
+              <p className="text-sm text-gray-600">What consistently works across all sectors</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <h4 className="text-sm font-medium text-[#0d5f4e] mb-4 uppercase tracking-wider">What Actually Works</h4>
+              <ul className="space-y-3">
+                {[
+                  'AI succeeds when it owns a specific workflow',
+                  'Adoption starts with one clear problem',
+                  'Results matter more than model sophistication'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-[#0d5f4e] mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-gray-700 leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium text-gray-600 mb-4 uppercase tracking-wider">What Fails</h4>
+              <ul className="space-y-3">
+                {[
+                  'Generic "AI dashboards"',
+                  'No clear user or decision owner',
+                  'No measurable outcome'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <AlertTriangle className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-gray-700 leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Key Takeaways */}
+        <div className="mt-12 text-center max-w-4xl mx-auto">
+          <h3 className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-6">🔑 Key Takeaways</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { icon: <TrendingUp className="w-5 h-5" />, text: 'AI adoption is driven by practical value, not hype' },
+              { icon: <Target className="w-5 h-5" />, text: 'Industries adopt AI where it saves time or money' },
+              { icon: <Users className="w-5 h-5" />, text: 'The most successful use cases replace manual work, not people' },
+              { icon: <Zap className="w-5 h-5" />, text: 'AI leaders move from pilot → production → scale' }
+            ].map((takeaway, i) => (
+              <div key={i} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-gray-200">
+                <div className="text-[#0d5f4e] mt-0.5">{takeaway.icon}</div>
+                <p className="text-sm text-gray-700 leading-relaxed text-left">{takeaway.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
