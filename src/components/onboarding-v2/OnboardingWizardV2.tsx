@@ -29,6 +29,8 @@ export function OnboardingWizardV2({ onComplete, onNavigate }: OnboardingWizardV
     companyName: '',
     description: '',
     targetMarket: '',
+    industryDropdown: '',
+    subCategory: '',
     websiteUrl: '',
     linkedinUrl: '',
     additionalUrls: [] as string[],

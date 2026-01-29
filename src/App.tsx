@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { AIChatbot } from './components/ai-chatbot/AIChatbot';
 import { NavigationBar } from './components/navigation/NavigationBar';
 import { Hero } from './components/Hero';
 import { HowItWorks } from './components/HowItWorks';
@@ -28,9 +29,13 @@ import AIHubsPage from './app/infographics/ai-hubs/page';
 import AIProductsPage from './app/infographics/ai-products/page';
 import AIProductsV2Page from './app/infographics/ai-products-v2/page';
 import PitchDeckPage from './app/pitch-deck/page';
+import PitchDeckEditorPage from './app/pitch-deck/editor/page';
+import PitchDeckDashboardPage from './app/pitch-deck/dashboard/page';
+import AIChatbotDemoPage from './app/ai-chatbot-demo/page';
 import PitchDeckWizardPage from './app/pitch-deck-wizard/page';
 import PitchDeckAIDemoPage from './app/pitch-deck/ai-suggestions-demo/page';
 import PitchDeckAIEnhancedPage from './app/pitch-deck/ai-suggestions-enhanced-demo/page';
+import PitchDeckV2Page from './app/pitch-deck/page-v2';
 import DashboardPage from './app/dashboard/page';
 import DashboardV2Page from './app/dashboard-v2/page';
 import DashboardMainPage from './app/dashboard/main/page';
@@ -41,9 +46,12 @@ import SitemapPage from './app/sitemap/page';
 import IdeationPage from './app/dashboard/ideation/page';
 import OnboardingPage from './app/onboarding/page';
 import OnboardingV2Page from './app/onboarding-v2/page';
+import StartupValidatorPage from './app/startup-validator/page';
+import StartupValidatorV2Page from './app/startup-validator-v2/page';
+import StartupValidatorV3Page from './app/startup-validator-v3/page';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'onboarding' | 'onboarding-v2' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'events' | 'event-detail' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'onboarding' | 'onboarding-v2' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'events' | 'event-detail' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'startup-validator' | 'startup-validator-v2' | 'startup-validator-v3'>('home');
 
   const handleNavigate = (page: string) => {
     setCurrentPage(page as any);
@@ -142,6 +150,22 @@ export default function App() {
     return <PitchDeckPage />;
   }
 
+  if (currentPage === 'pitch-deck-v2') {
+    return <PitchDeckV2Page />;
+  }
+
+  if (currentPage === 'pitch-deck-editor') {
+    return <PitchDeckEditorPage />;
+  }
+
+  if (currentPage === 'pitch-deck-dashboard') {
+    return <PitchDeckDashboardPage />;
+  }
+
+  if (currentPage === 'ai-chatbot-demo') {
+    return <AIChatbotDemoPage />;
+  }
+
   if (currentPage === 'pitch-deck-wizard') {
     return <PitchDeckWizardPage />;
   }
@@ -178,6 +202,18 @@ export default function App() {
     return <OnboardingV2Page onNavigate={handleNavigate} />;
   }
 
+  if (currentPage === 'startup-validator') {
+    return <StartupValidatorPage />;
+  }
+
+  if (currentPage === 'startup-validator-v2') {
+    return <StartupValidatorV2Page />;
+  }
+
+  if (currentPage === 'startup-validator-v3') {
+    return <StartupValidatorV3Page />;
+  }
+
   return (
     <div className="min-h-screen">
       <NavigationBar onNavigate={handleNavigate} currentPage={currentPage} />
@@ -193,6 +229,15 @@ export default function App() {
       <PitchDeckSection onNavigate={handleNavigate} />
       <FinalCTA onNavigate={handleNavigate} />
       <Footer onNavigate={handleNavigate} />
+      
+      {/* AI Chatbot - Available on all pages */}
+      <AIChatbot 
+        currentContext="dashboard"
+        startupStage="validation"
+        onActionApply={(actionId) => {
+          console.log('Action applied:', actionId);
+        }}
+      />
     </div>
   );
 }

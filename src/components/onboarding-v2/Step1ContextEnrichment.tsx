@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Globe, RefreshCw, Plus, X, Check, Sparkles, Link, AlertCircle } from 'lucide-react';
+import { Globe, RefreshCw, Plus, X, Check, Sparkles, Link, AlertCircle, ChevronDown } from 'lucide-react';
 
 interface FormData {
   companyName: string;
   description: string;
   targetMarket: string;
+  industryDropdown: string;
+  subCategory: string;
   websiteUrl: string;
   linkedinUrl: string;
   additionalUrls: string[];
@@ -20,6 +22,58 @@ interface Step1Props {
   onUpdate: (data: FormData) => void;
   onNext: () => void;
 }
+
+const INDUSTRY_DROPDOWN_OPTIONS = [
+  { value: '', label: 'Select an industry' },
+  { value: 'Retail & eCommerce', label: 'Retail & eCommerce' },
+  { value: 'SaaS', label: 'SaaS' },
+  { value: 'Fintech', label: 'Fintech' },
+  { value: 'Healthcare', label: 'Healthcare' },
+  { value: 'EdTech', label: 'EdTech' },
+  { value: 'AI/ML', label: 'AI/ML' },
+  { value: 'Marketplace', label: 'Marketplace' },
+  { value: 'Consumer', label: 'Consumer' },
+  { value: 'Enterprise', label: 'Enterprise' },
+  { value: 'Other', label: 'Other' },
+];
+
+const SUB_CATEGORY_OPTIONS: Record<string, Array<{ value: string; label: string; competitors?: string }>> = {
+  'Retail & eCommerce': [
+    { value: '', label: 'Select a sub-category' },
+    { value: 'B2B Marketplace', label: 'B2B Marketplace', competitors: 'Retail & eCommerce B2B Marketplace (3,829 startups) competes: FashionOS is an AI-native, creative-workflow platform' },
+    { value: 'B2C Marketplace', label: 'B2C Marketplace' },
+    { value: 'D2C Brand', label: 'D2C Brand' },
+    { value: 'Ecommerce Platform', label: 'Ecommerce Platform' },
+  ],
+  'SaaS': [
+    { value: '', label: 'Select a sub-category' },
+    { value: 'B2B SaaS', label: 'B2B SaaS' },
+    { value: 'B2C SaaS', label: 'B2C SaaS' },
+    { value: 'Vertical SaaS', label: 'Vertical SaaS' },
+    { value: 'Horizontal SaaS', label: 'Horizontal SaaS' },
+  ],
+  'Fintech': [
+    { value: '', label: 'Select a sub-category' },
+    { value: 'Payments', label: 'Payments' },
+    { value: 'Lending', label: 'Lending' },
+    { value: 'Banking', label: 'Banking' },
+    { value: 'Insurance', label: 'Insurance' },
+  ],
+  'Healthcare': [
+    { value: '', label: 'Select a sub-category' },
+    { value: 'Telehealth', label: 'Telehealth' },
+    { value: 'MedTech', label: 'MedTech' },
+    { value: 'BioTech', label: 'BioTech' },
+    { value: 'HealthTech', label: 'HealthTech' },
+  ],
+  'EdTech': [
+    { value: '', label: 'Select a sub-category' },
+    { value: 'K-12', label: 'K-12' },
+    { value: 'Higher Education', label: 'Higher Education' },
+    { value: 'Corporate Training', label: 'Corporate Training' },
+    { value: 'Online Courses', label: 'Online Courses' },
+  ],
+};
 
 const INDUSTRY_OPTIONS = [
   'SaaS', 'Marketplace', 'AI/ML', 'E-commerce', 'Fintech', 'Healthcare', 'EdTech', 'AITMC', 'Consumer', 'Other'
@@ -114,6 +168,10 @@ export function Step1ContextEnrichment({ data, onUpdate, onNext }: Step1Props) {
 
     if (!data.targetMarket.trim()) {
       newErrors.targetMarket = 'Target market is required';
+    }
+
+    if (!data.industryDropdown.trim()) {
+      newErrors.industryDropdown = 'Industry is required';
     }
 
     setErrors(newErrors);
@@ -287,6 +345,88 @@ export function Step1ContextEnrichment({ data, onUpdate, onNext }: Step1Props) {
             </p>
           )}
         </div>
+
+        {/* Industry Dropdown */}
+        <div className="group">
+          <label className="block text-sm font-bold text-[#2D2D2D] mb-2 flex items-center gap-2">
+            Industry
+            <span className="text-[#EF4444]">*</span>
+          </label>
+          <div className="relative">
+            <select
+              value={data.industryDropdown}
+              onChange={(e) => {
+                onUpdate({ ...data, industryDropdown: e.target.value, subCategory: '' });
+                if (errors.industryDropdown) setErrors({ ...errors, industryDropdown: '' });
+              }}
+              onFocus={() => setFocusedField('industryDropdown')}
+              onBlur={() => setFocusedField(null)}
+              className={`w-full px-4 py-3 pr-10 border rounded-lg text-[#2D2D2D] bg-white appearance-none cursor-pointer transition-all duration-200 ${
+                errors.industryDropdown
+                  ? 'border-[#EF4444] bg-[#EF4444]/5'
+                  : focusedField === 'industryDropdown'
+                  ? 'border-[#0D5F4E] shadow-sm'
+                  : 'border-[#E8E6E1] hover:border-[#0D5F4E]/50'
+              }`}
+            >
+              {INDUSTRY_DROPDOWN_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-4 h-4 text-[#A3A3A3] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+          {errors.industryDropdown && (
+            <p className="text-xs text-[#EF4444] mt-1.5 flex items-center gap-1">
+              <AlertCircle className="w-3 h-3" />
+              {errors.industryDropdown}
+            </p>
+          )}
+        </div>
+
+        {/* Sub-category Dropdown */}
+        {data.industryDropdown && SUB_CATEGORY_OPTIONS[data.industryDropdown] && (
+          <div className="group">
+            <label className="block text-sm font-bold text-[#2D2D2D] mb-2 flex items-center gap-2">
+              Sub-category (optional)
+              <button className="text-xs text-[#0D5F4E] hover:underline flex items-center gap-1">
+                <Sparkles className="w-3 h-3" />
+                AI Refine
+              </button>
+            </label>
+            <div className="relative">
+              <select
+                value={data.subCategory}
+                onChange={(e) => onUpdate({ ...data, subCategory: e.target.value })}
+                onFocus={() => setFocusedField('subCategory')}
+                onBlur={() => setFocusedField(null)}
+                className={`w-full px-4 py-3 pr-10 border rounded-lg text-[#2D2D2D] bg-white appearance-none cursor-pointer transition-all duration-200 ${
+                  focusedField === 'subCategory'
+                    ? 'border-[#0D5F4E] shadow-sm'
+                    : 'border-[#E8E6E1] hover:border-[#0D5F4E]/50'
+                }`}
+              >
+                {SUB_CATEGORY_OPTIONS[data.industryDropdown].map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-[#A3A3A3] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-xs text-[#A3A3A3] mt-2 italic">
+              Be specific to reduce the category keywords
+            </p>
+            {data.subCategory && SUB_CATEGORY_OPTIONS[data.industryDropdown].find(opt => opt.value === data.subCategory)?.competitors && (
+              <div className="mt-3 p-3 bg-[#FAFAF8] border border-[#E8E6E1] rounded-lg">
+                <p className="text-xs text-[#4A4A4A] leading-relaxed">
+                  {SUB_CATEGORY_OPTIONS[data.industryDropdown].find(opt => opt.value === data.subCategory)?.competitors}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Enrichment Section */}

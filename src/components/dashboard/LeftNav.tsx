@@ -10,6 +10,8 @@ import {
   Home,
   Grid3x3,
   Target,
+  Presentation,
+  FolderOpen,
 } from 'lucide-react';
 
 interface NavItemProps {
@@ -65,6 +67,12 @@ export function LeftNav({ activeView = 'kanban', onViewChange, onNavigate }: Lef
       onNavigate?.('onboarding-v2');
     } else if (route === '/lean-canvas') {
       onNavigate?.('lean-canvas');
+    } else if (route === '/pitch-deck') {
+      onNavigate?.('pitch-deck-v2');
+    } else if (route === '/pitch-deck-editor') {
+      onNavigate?.('pitch-deck-editor');
+    } else if (route === '/pitch-deck-dashboard') {
+      onNavigate?.('pitch-deck-dashboard');
     } else {
       // For other routes, just pass the view name
       onNavigate?.(view);
@@ -148,11 +156,38 @@ export function LeftNav({ activeView = 'kanban', onViewChange, onNavigate }: Lef
             onClick={() => handleNavClick('lean-canvas', '/lean-canvas')}
           />
           <NavItem
+            icon={<Presentation className="w-4 h-4" />}
+            label="Pitch Deck Editor"
+            shortcut="P"
+            active={activeView === 'pitch-deck-editor'}
+            onClick={() => handleNavClick('pitch-deck-editor', '/pitch-deck-editor')}
+          />
+          <NavItem
+            icon={<FolderOpen className="w-4 h-4" />}
+            label="Pitch Decks"
+            active={activeView === 'pitch-decks'}
+            onClick={() => handleNavClick('pitch-decks', '/pitch-deck-dashboard')}
+          />
+          <NavItem
             icon={<FileText className="w-4 h-4" />}
             label="Content"
             shortcut="C"
             active={activeView === 'content'}
             onClick={() => handleNavClick('content', '/dashboard/content')}
+          />
+          <NavItem
+            icon={<Presentation className="w-4 h-4" />}
+            label="Presentations"
+            shortcut="P"
+            active={activeView === 'presentations'}
+            onClick={() => handleNavClick('presentations', '/dashboard/presentations')}
+          />
+          <NavItem
+            icon={<FolderOpen className="w-4 h-4" />}
+            label="Folders"
+            shortcut="F"
+            active={activeView === 'folders'}
+            onClick={() => handleNavClick('folders', '/dashboard/folders')}
           />
         </div>
       </div>
