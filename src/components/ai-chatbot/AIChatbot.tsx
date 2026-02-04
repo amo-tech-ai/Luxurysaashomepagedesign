@@ -441,47 +441,47 @@ export function AIChatbot({
 
   // Expanded state (full chat)
   return (
-    <div className="fixed right-0 top-0 bottom-0 w-96 bg-white shadow-2xl border-l border-gray-200 z-50 flex flex-col">
+    <div className="fixed right-0 top-0 bottom-0 w-96 bg-white shadow-2xl border-l border-gray-200 z-50 flex flex-col rounded-tl-3xl overflow-hidden">
       {/* Header */}
-      <div className="p-4 bg-gradient-to-r from-[#0D5F4E] to-[#0a4a3b] flex items-center justify-between">
+      <div className="p-5 bg-gradient-to-r from-[#0D5F4E] to-[#0a4a3b] flex items-center justify-between rounded-tl-3xl">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-lg">
+          <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xl shadow-lg">
             {AI_AGENTS.strategist.avatar}
           </div>
           <div>
-            <div className="text-sm font-medium text-white">
+            <div className="text-sm font-semibold text-white">
               {AI_AGENTS.strategist.name} — {AI_AGENTS.strategist.role}
             </div>
-            <div className="text-xs text-white/70 flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+            <div className="text-xs text-white/80 flex items-center gap-1.5">
+              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
               Active in: {getContextLabel()}
             </div>
           </div>
         </div>
         <button
           onClick={() => setState('collapsed')}
-          className="text-white/80 hover:text-white transition-colors"
+          className="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
       {/* Stage & Progress */}
-      <div className="px-4 py-3 bg-gradient-to-b from-gray-50 to-white border-b border-gray-200">
+      <div className="px-5 py-4 bg-gradient-to-b from-gray-50 to-white border-b border-gray-200">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-medium text-gray-600">Startup Stage</span>
-          <span className="text-xs font-medium text-[#0D5F4E] capitalize">{startupStage}</span>
+          <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Startup Stage</span>
+          <span className="text-xs font-semibold text-[#0D5F4E] capitalize px-2 py-1 bg-[#0D5F4E]/10 rounded-lg">{startupStage}</span>
         </div>
-        <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-[#0D5F4E] to-[#059669] rounded-full" style={{ width: '68%' }} />
+        <div className="h-2 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+          <div className="h-full bg-gradient-to-r from-[#0D5F4E] to-[#059669] rounded-full transition-all duration-500" style={{ width: '68%' }} />
         </div>
-        <div className="mt-2 text-xs text-gray-500">
+        <div className="mt-2 text-xs text-gray-600 font-medium">
           68% complete • 3 items need attention
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50/30">
         {messages.map((message) => {
           const agent = message.agent ? AI_AGENTS[message.agent] : null;
           const isUser = message.type === 'user';
@@ -493,25 +493,25 @@ export function AIChatbot({
                 {!isUser && agent && (
                   <div className="flex items-center gap-2 mb-2">
                     <div 
-                      className="w-6 h-6 rounded-full flex items-center justify-center text-sm"
+                      className="w-7 h-7 rounded-xl flex items-center justify-center text-sm shadow-sm"
                       style={{ backgroundColor: `${agent.color}15` }}
                     >
                       {agent.avatar}
                     </div>
-                    <span className="text-xs font-medium text-gray-600">{agent.name}</span>
+                    <span className="text-xs font-semibold text-gray-700">{agent.name}</span>
                     <span className="text-xs text-gray-400">•</span>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-gray-500">
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                 )}
 
                 {/* Message Bubble */}
-                <div className={`rounded-xl p-4 border ${getMessageStyle(message.type)}`}>
+                <div className={`rounded-2xl p-4 border shadow-sm ${getMessageStyle(message.type)}`}>
                   {!isUser && message.type !== 'user' && (
                     <div className="flex items-center gap-2 mb-2">
                       {getMessageIcon(message.type)}
-                      <span className="text-xs font-medium text-gray-600 capitalize">
+                      <span className="text-xs font-semibold text-gray-600 capitalize">
                         {message.type.replace('-', ' ')}
                       </span>
                     </div>
@@ -621,42 +621,42 @@ export function AIChatbot({
       </div>
 
       {/* Quick Actions */}
-      <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
-        <div className="text-xs font-medium text-gray-600 mb-2">Quick Actions</div>
-        <div className="grid grid-cols-2 gap-2">
+      <div className="px-5 py-4 bg-gradient-to-b from-white to-gray-50 border-t border-gray-200">
+        <div className="text-xs font-semibold text-gray-600 mb-3 uppercase tracking-wide">Quick Actions</div>
+        <div className="grid grid-cols-2 gap-2.5">
           <button
             onClick={() => handleQuickAction('What should I do next?')}
-            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-xs text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5"
+            className="px-3 py-2.5 bg-white border-2 border-gray-200 rounded-xl text-xs text-gray-700 hover:bg-gray-50 hover:border-[#0D5F4E]/30 hover:text-[#0D5F4E] transition-all duration-200 flex items-center justify-center gap-2 font-medium shadow-sm"
           >
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-3.5 h-3.5" />
             Next Steps
           </button>
           <button
             onClick={() => handleQuickAction('Review my readiness')}
-            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-xs text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5"
+            className="px-3 py-2.5 bg-white border-2 border-gray-200 rounded-xl text-xs text-gray-700 hover:bg-gray-50 hover:border-[#0D5F4E]/30 hover:text-[#0D5F4E] transition-all duration-200 flex items-center justify-center gap-2 font-medium shadow-sm"
           >
-            <Shield className="w-3 h-3" />
+            <Shield className="w-3.5 h-3.5" />
             Readiness
           </button>
           <button
             onClick={() => handleQuickAction('Help me with my pitch deck')}
-            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-xs text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5"
+            className="px-3 py-2.5 bg-white border-2 border-gray-200 rounded-xl text-xs text-gray-700 hover:bg-gray-50 hover:border-[#0D5F4E]/30 hover:text-[#0D5F4E] transition-all duration-200 flex items-center justify-center gap-2 font-medium shadow-sm"
           >
-            <FileText className="w-3 h-3" />
+            <FileText className="w-3.5 h-3.5" />
             Pitch Deck
           </button>
           <button
             onClick={() => handleQuickAction('Generate content for me')}
-            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-xs text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5"
+            className="px-3 py-2.5 bg-white border-2 border-gray-200 rounded-xl text-xs text-gray-700 hover:bg-gray-50 hover:border-[#0D5F4E]/30 hover:text-[#0D5F4E] transition-all duration-200 flex items-center justify-center gap-2 font-medium shadow-sm"
           >
-            <Sparkles className="w-3 h-3" />
+            <Sparkles className="w-3.5 h-3.5" />
             Generate
           </button>
         </div>
       </div>
 
       {/* Input Field */}
-      <div className="p-4 bg-white border-t border-gray-200">
+      <div className="p-5 bg-white border-t border-gray-200">
         <div className="relative">
           <input
             type="text"
@@ -664,12 +664,12 @@ export function AIChatbot({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(inputValue)}
-            className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0D5F4E] focus:border-transparent text-sm"
+            className="w-full pl-5 pr-14 py-3.5 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#0D5F4E]/30 focus:border-[#0D5F4E] text-sm placeholder:text-gray-400 shadow-sm transition-all duration-200"
           />
           <button
             onClick={() => handleSendMessage(inputValue)}
             disabled={!inputValue.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#0D5F4E] text-white rounded-lg flex items-center justify-center hover:bg-[#0a4a3b] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-[#0D5F4E] text-white rounded-xl flex items-center justify-center hover:bg-[#0a4a3b] hover:scale-105 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-md"
           >
             <Send className="w-4 h-4" />
           </button>

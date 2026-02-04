@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./dashboard-tokens.css";
+@import "./bcg-tokens.css";
 
 @layer base {
   :root {
@@ -35,6 +36,38 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Premium Onboarding Animations */
+  @keyframes scale-in {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    0% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 
   /* Custom Scrollbar Styles for Premium UI */

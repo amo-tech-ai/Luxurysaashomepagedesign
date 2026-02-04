@@ -6,6 +6,7 @@ import { ProgressIndicator } from './ProgressIndicator';
 import { AIAssistantPanel } from './AIAssistantPanel';
 import { Step1ContextEnrichment } from './Step1ContextEnrichment';
 import { Step2AIAnalysis } from './Step2AIAnalysis';
+import { OnboardingAnimation } from '../OnboardingAnimation';
 import { Home, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -24,6 +25,7 @@ interface OnboardingWizardV2Props {
 }
 
 export function OnboardingWizardV2({ onComplete, onNavigate }: OnboardingWizardV2Props) {
+  const [showAnimation, setShowAnimation] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     companyName: '',
@@ -101,6 +103,15 @@ export function OnboardingWizardV2({ onComplete, onNavigate }: OnboardingWizardV
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
+  const handleAnimationComplete = () => {
+    setShowAnimation(false);
+  };
+
+  // Show animation first
+  if (showAnimation) {
+    return <OnboardingAnimation onComplete={handleAnimationComplete} />;
+  }
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] relative overflow-hidden">

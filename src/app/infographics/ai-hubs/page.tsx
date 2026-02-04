@@ -163,9 +163,9 @@ function HeroSection({ scrollY }: { scrollY: number }) {
               {/* Main Heading */}
               <div className="space-y-4">
                 <h1 className="text-6xl lg:text-8xl leading-[0.95] text-gray-900 font-light tracking-tight">
-                  Leading AI <br />
+                  AI Investment Is <br />
                   <span className="bg-gradient-to-r from-[#0d5f4e] to-[#6b9d89] bg-clip-text text-transparent">
-                    Investment Hubs
+                    Highly Concentrated
                   </span>
                 </h1>
                 
@@ -173,7 +173,7 @@ function HeroSection({ scrollY }: { scrollY: number }) {
               </div>
               
               <p className="text-xl lg:text-2xl text-gray-600 leading-relaxed max-w-xl font-light">
-                Where global AI capital concentrates—and why. A small number of cities capture the majority of AI venture funding.
+                Most global AI funding flows into a few cities where AI companies can scale fastest.
               </p>
             </div>
           </div>
@@ -213,14 +213,32 @@ function HeroSection({ scrollY }: { scrollY: number }) {
                 delay={400}
               />
 
+              {/* Why this happens */}
               <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 shadow-2xl">
+                <div className="mb-4">
+                  <span className="text-xs uppercase tracking-wider text-[#6b9d89] font-semibold">
+                    Why this happens
+                  </span>
+                </div>
+                <p className="text-white text-lg font-light leading-relaxed">
+                  Capital follows <strong className="text-[#6b9d89]">talent + compute + research</strong> density, not geography alone.
+                </p>
+              </div>
+
+              {/* Real-world example */}
+              <div className="bg-white border-2 border-[#0d5f4e]/20 rounded-2xl p-8 shadow-xl">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#0d5f4e]/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Award className="w-6 h-6 text-[#0d5f4e]" strokeWidth={2} />
+                  <div className="w-12 h-12 bg-[#0d5f4e]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Rocket className="w-6 h-6 text-[#0d5f4e]" strokeWidth={2} />
                   </div>
-                  <p className="text-white text-lg font-light leading-relaxed">
-                    Capital follows <strong className="text-[#6b9d89]">talent + compute + research</strong> density
-                  </p>
+                  <div>
+                    <div className="text-xs uppercase tracking-wider text-gray-500 mb-2 font-semibold">
+                      Real-world example
+                    </div>
+                    <p className="text-gray-700 leading-relaxed">
+                      An AI founder moves to San Francisco not for lifestyle—but to hire faster, raise sooner, and access GPUs.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -307,39 +325,48 @@ function WhyCitiesWinSection() {
   const pillars = [
     {
       icon: Users,
+      emoji: '🧠',
       title: 'Talent Density',
+      description: 'Deep pools of AI engineers and researchers',
       points: [
-        'Elite AI researchers and engineers',
-        'Immigration magnets for global talent',
-        'Founder recycling (ex-OpenAI, Google, DeepMind)'
-      ]
+        'Deep pools of AI engineers and researchers',
+        'Continuous founder recycling from top labs'
+      ],
+      example: 'Ex-OpenAI engineers start new companies → investors fund them faster due to proven experience.'
     },
     {
       icon: GraduationCap,
-      title: 'Universities & Labs',
+      emoji: '🎓',
+      title: 'Universities & Research Labs',
+      description: 'World-class AI research',
       points: [
-        'Stanford, Berkeley, MIT',
-        'Oxford, Cambridge, Tsinghua',
-        'Research → faster commercialization'
-      ]
+        'World-class AI research',
+        'Faster transfer from research → startups'
+      ],
+      institutions: 'Stanford, Berkeley, MIT\nOxford, Cambridge, Tsinghua',
+      example: 'A PhD project at Berkeley becomes a startup within 12 months, backed by top VCs.'
     },
     {
       icon: Server,
+      emoji: '🖥️',
       title: 'Compute & Infrastructure',
+      description: 'Access to GPUs and AI-ready data centers',
       points: [
-        'GPU data centers',
-        'Cloud + sovereign AI initiatives',
-        'Proximity to Nvidia & hyperscalers'
-      ]
+        'Access to GPUs and AI-ready data centers',
+        'Close proximity to cloud providers and Nvidia'
+      ],
+      example: 'Training a large model is cheaper and faster near hyperscaler infrastructure.'
     },
     {
       icon: DollarSign,
+      emoji: '💰',
       title: 'Capital Flywheel',
+      description: 'More VCs → faster follow-on rounds',
       points: [
-        'Deep VC ecosystems',
-        'Faster follow-on rounds',
-        'Mega-rounds attract more founders'
-      ]
+        'More VCs → faster follow-on rounds',
+        'Big rounds attract more founders'
+      ],
+      example: 'One $1B AI round triggers dozens of new startups relocating to the same city.'
     }
   ];
 
@@ -358,12 +385,12 @@ function WhyCitiesWinSection() {
             Why Capital <span className="text-[#0d5f4e]">Concentrates</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
-            Four interconnected advantages create winner-take-most dynamics
+            Four advantages create winner-take-most dynamics
           </p>
         </div>
 
-        {/* 4 Pillars */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* 4 Pillars Grid */}
+        <div className="grid md:grid-cols-2 gap-8">
           {pillars.map((pillar, index) => {
             const Icon = pillar.icon;
             return (
@@ -375,20 +402,43 @@ function WhyCitiesWinSection() {
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200/50 p-8 h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-500">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#0d5f4e] to-[#6b9d89] rounded-2xl flex items-center justify-center mb-6">
-                    <Icon className="w-7 h-7 text-white" strokeWidth={1.5} />
+                  {/* Icon and Title */}
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-14 h-14 bg-gradient-to-br from-[#0d5f4e] to-[#6b9d89] rounded-2xl flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-7 h-7 text-white" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <div className="text-2xl mb-1">{pillar.emoji}</div>
+                      <h3 className="text-xl font-semibold text-gray-900">{pillar.title}</h3>
+                    </div>
                   </div>
                   
-                  <h3 className="text-xl font-semibold text-gray-900 mb-6">{pillar.title}</h3>
-                  
-                  <ul className="space-y-3">
-                    {pillar.points.map((point, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
-                        <CheckCircle2 className="w-4 h-4 text-[#0d5f4e] flex-shrink-0 mt-0.5" strokeWidth={2} />
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* What it means */}
+                  <div className="mb-6">
+                    <h4 className="text-xs uppercase tracking-wider text-gray-500 mb-3">What it means</h4>
+                    <ul className="space-y-2">
+                      {pillar.points.map((point, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                          <CheckCircle2 className="w-4 h-4 text-[#0d5f4e] flex-shrink-0 mt-0.5" strokeWidth={2} />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Key institutions (if applicable) */}
+                  {pillar.institutions && (
+                    <div className="mb-6 p-4 bg-[#0d5f4e]/5 rounded-lg">
+                      <h4 className="text-xs uppercase tracking-wider text-gray-500 mb-2">Key institutions</h4>
+                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{pillar.institutions}</p>
+                    </div>
+                  )}
+
+                  {/* Real-world example */}
+                  <div className="pt-4 border-t border-gray-200">
+                    <h4 className="text-xs uppercase tracking-wider text-gray-500 mb-2">Real-world example</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed italic">{pillar.example}</p>
+                  </div>
                 </div>
               </div>
             );
@@ -916,10 +966,34 @@ function VCFundingInfographicSection() {
 // Emerging Challengers Section
 function EmergingChallengersSection() {
   const challengers = [
-    { hub: 'Paris', driver: 'Foundation models', rising: 'Mistral + EU support' },
-    { hub: 'Singapore', driver: 'Policy + infrastructure', rising: 'Government-led AI adoption' },
-    { hub: 'Dubai / Abu Dhabi', driver: 'Sovereign capital', rising: 'Compute + data center race' },
-    { hub: 'Toronto', driver: 'Research depth', rising: 'Global ML talent export' },
+    { 
+      flag: '🇫🇷', 
+      hub: 'Paris', 
+      driver: 'Foundation models', 
+      rising: 'Mistral + EU backing',
+      example: 'Europe\'s answer to US foundation models.'
+    },
+    { 
+      flag: '🇸🇬', 
+      hub: 'Singapore', 
+      driver: 'Policy + infrastructure', 
+      rising: 'Government-led AI adoption',
+      example: 'AI used directly in public services and enterprises.'
+    },
+    { 
+      flag: '🇦🇪', 
+      hub: 'Dubai / Abu Dhabi', 
+      driver: 'Sovereign capital', 
+      rising: 'Massive compute investment',
+      example: 'Building AI infrastructure before startups arrive.'
+    },
+    { 
+      flag: '🇨🇦', 
+      hub: 'Toronto', 
+      driver: 'Research depth', 
+      rising: 'World-class ML talent',
+      example: 'Universities act as AI talent exporters.'
+    },
   ];
 
   return (
@@ -941,10 +1015,8 @@ function EmergingChallengersSection() {
           {challengers.map((challenger, index) => (
             <div key={index} className="bg-white rounded-2xl border border-gray-200/50 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-500">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 bg-[#6b9d89]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <ArrowRight className="w-6 h-6 text-[#6b9d89]" strokeWidth={2} />
-                </div>
-                <div>
+                <div className="text-4xl">{challenger.flag}</div>
+                <div className="flex-1">
                   <h3 className="text-2xl font-semibold text-gray-900 mb-2">{challenger.hub}</h3>
                   <div className="px-3 py-1 bg-[#6b9d89]/10 text-[#6b9d89] text-xs rounded-full font-medium inline-block">
                     Rising Fast
@@ -960,6 +1032,10 @@ function EmergingChallengersSection() {
                 <div>
                   <div className="text-xs uppercase tracking-wider text-gray-500 mb-2 font-semibold">Why It's Rising</div>
                   <p className="text-sm text-gray-700">{challenger.rising}</p>
+                </div>
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="text-xs uppercase tracking-wider text-gray-500 mb-2 font-semibold">Example</div>
+                  <p className="text-sm text-gray-700 italic">{challenger.example}</p>
                 </div>
               </div>
             </div>

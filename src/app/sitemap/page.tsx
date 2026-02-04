@@ -30,6 +30,11 @@ export default function SitemapPage({ onNavigate }: SitemapPageProps) {
       route: 'home',
       status: 'active',
       icon: <Home className="w-5 h-5" />,
+      children: [
+        { name: 'Home V1 (Original)', route: 'home', status: 'active' },
+        { name: 'Home V5 (Enhanced)', route: 'home-v5', status: 'active' },
+        { name: 'Home V6 (BCG Design)', route: 'home-v6', status: 'active' },
+      ],
     },
     {
       name: 'Dashboard',
@@ -99,6 +104,17 @@ export default function SitemapPage({ onNavigate }: SitemapPageProps) {
         { name: 'AI Investment Hubs', route: 'ai-hubs', status: 'active' },
         { name: 'AI Startup Products', route: 'ai-products', status: 'active' },
         { name: 'AI Product Intelligence V2', route: 'ai-products-v2', status: 'active' },
+      ],
+    },
+    {
+      name: 'Onboarding',
+      route: 'onboarding-v3',
+      status: 'active',
+      icon: <CheckCircle className="w-5 h-5" />,
+      children: [
+        { name: 'Onboarding V3 (5 Steps)', route: 'onboarding-v3', status: 'active' },
+        { name: 'Smart Interview (Strategy Session)', route: 'smart-interview', status: 'active' },
+        { name: 'Startup Validator', route: 'startup-validator', status: 'active' },
       ],
     },
   ];

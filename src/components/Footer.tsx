@@ -3,7 +3,11 @@ const footerLinks = {
     title: 'Product',
     links: [
       { label: 'Features', href: '#' },
+      { label: '✨ Home V5 (New Design)', href: '/home-v5', isRoute: true, routeName: 'home-v5' },
+      { label: '📐 Home V6 (BCG Design)', href: '/home-v6', isRoute: true, routeName: 'home-v6' },
       { label: 'Onboarding Wizard', href: '/onboarding-v2', isRoute: true, routeName: 'onboarding-v2' },
+      { label: '✨ Minimal Onboarding', href: '/onboarding-minimal', isRoute: true, routeName: 'onboarding-minimal' },
+      { label: '🚀 Onboarding V3', href: '/onboarding-v3', isRoute: true, routeName: 'onboarding-v3' },
       { label: 'Main Dashboard', href: '/dashboard/main', isRoute: true, routeName: 'dashboard-main' },
       { label: 'Kanban Dashboard', href: '/dashboard', isRoute: true, routeName: 'dashboard' },
       { label: 'Lean Canvas', href: '/lean-canvas', isRoute: true, routeName: 'lean-canvas' },
@@ -16,6 +20,7 @@ const footerLinks = {
       { label: 'Pricing', href: '#' },
       { label: 'Security', href: '#' },
       { label: 'Events', href: '/events', isRoute: true, routeName: 'events' },
+      { label: '🎯 Discover Events', href: '/events/discover', isRoute: true, routeName: 'events-discover' },
     ],
   },
   company: {
@@ -25,6 +30,13 @@ const footerLinks = {
       { label: 'Blog', href: '#' },
       { label: 'Careers', href: '#' },
       { label: 'Contact', href: '#' },
+    ],
+  },
+  diagrams: {
+    title: 'Diagrams',
+    links: [
+      { label: 'Flow Diagrams', href: '/diagrams/flows', isRoute: true, routeName: 'diagrams-flows' },
+      { label: 'AI Agent Flows', href: '/diagrams/ai-flows', isRoute: true, routeName: 'diagrams-ai-flows' },
     ],
   },
   resources: {
@@ -44,6 +56,9 @@ const footerLinks = {
       { label: 'AI Investment Hubs 2025', href: '/infographics/ai-hubs', isRoute: true, routeName: 'ai-hubs' },
       { label: 'AI Startup Products 2024-2026', href: '/infographics/ai-products', isRoute: true, routeName: 'ai-products' },
       { label: 'AI Product Intelligence V2', href: '/infographics/ai-products-v2', isRoute: true, routeName: 'ai-products-v2' },
+      { label: '🤖 AI Products Intelligence (2024–2026)', href: '/infographics/ai-products-v3', isRoute: true, routeName: 'ai-products-v3' },
+      { label: '🚀 AI GTM Report 2025', href: '/infographics/ai-gtm', isRoute: true, routeName: 'ai-gtm' },
+      { label: '🌐 AI Startup Landscape 2025–2026', href: '/infographics/ai-startup-landscape', isRoute: true, routeName: 'ai-startup-landscape' },
     ],
   },
   legal: {
@@ -70,7 +85,20 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Main footer content */}
         <div className="py-16 lg:py-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 lg:gap-16">
+          {/* Logo at top of footer */}
+          <div className="mb-12">
+            <button
+              onClick={() => onNavigate && onNavigate('home-v5')}
+              className="text-3xl lg:text-4xl text-gray-900 font-light hover:text-[#0d5f4e] transition-colors duration-200 cursor-pointer"
+            >
+              StartupAI
+            </button>
+            <p className="text-sm text-gray-500 mt-2">
+              From strategy to daily execution, in one guided flow.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-12 lg:gap-16">
             {/* Product Column */}
             <div className="space-y-6">
               <h3 className="text-sm text-gray-900 uppercase tracking-wider">
@@ -109,6 +137,31 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
                       className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
                     >
                       {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Diagrams Column */}
+            <div className="space-y-6">
+              <h3 className="text-sm text-gray-900 uppercase tracking-wider">
+                {footerLinks.diagrams.title}
+              </h3>
+              <ul className="space-y-3">
+                {footerLinks.diagrams.links.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleLinkClick(e, link)}
+                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200 inline-flex items-center gap-2"
+                    >
+                      {link.label}
+                      {link.isRoute && (
+                        <span className="px-2 py-0.5 text-xs bg-[#0d5f4e] bg-opacity-10 text-[#0d5f4e] rounded-full font-medium">
+                          Active
+                        </span>
+                      )}
                     </a>
                   </li>
                 ))}
@@ -164,9 +217,12 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
         {/* Bottom bar */}
         <div className="py-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-2xl text-gray-900">
+            <button
+              onClick={() => onNavigate && onNavigate('home-v5')}
+              className="text-2xl text-gray-900 font-light hover:text-[#0d5f4e] transition-colors duration-200 cursor-pointer"
+            >
               StartupAI
-            </div>
+            </button>
             
             <p className="text-sm text-gray-500">
               © {new Date().getFullYear()} StartupAI. All rights reserved.
