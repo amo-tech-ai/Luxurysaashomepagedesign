@@ -54,6 +54,8 @@ import OnboardingMinimalPage from './app/onboarding-minimal/page';
 import AIStartupLandscapePage from './app/infographics/ai-startup-landscape/page';
 import OnboardingV3Page from './app/onboarding-v3/page';
 import StartupValidatorPage from './app/startup-validator/page';
+import StartupValidatorV2Page from './app/startup-validator-v2/page';
+import StartupValidatorV3Page from './app/startup-validator-v3/page';
 import SmartInterviewPage from './app/smart-interview/page';
 import HomeV5Page from './app/home-v5/page';
 import HomeV6Page from './pages/home-v6';
@@ -61,7 +63,7 @@ import FlowDiagramsPage from './app/diagrams/flows/page';
 import AIFlowsPage from './app/diagrams/ai-flows/page';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'home-v5' | 'home-v6' | 'onboarding' | 'onboarding-v2' | 'onboarding-animation-demo' | 'onboarding-minimal' | 'onboarding-v3' | 'smart-interview' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'events' | 'event-detail' | 'events-discover' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'ai-products-v3' | 'ai-gtm' | 'ai-startup-landscape' | 'startup-validator' | 'diagrams-flows' | 'diagrams-ai-flows'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'home-v5' | 'home-v6' | 'onboarding' | 'onboarding-v2' | 'onboarding-animation-demo' | 'onboarding-minimal' | 'onboarding-v3' | 'smart-interview' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'events' | 'event-detail' | 'events-discover' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'ai-products-v3' | 'ai-gtm' | 'ai-startup-landscape' | 'startup-validator' | 'startup-validator-v2' | 'startup-validator-v3' | 'diagrams-flows' | 'diagrams-ai-flows'>('home');
 
   const handleNavigate = (page: string) => {
     setCurrentPage(page as any);
@@ -242,6 +244,14 @@ export default function App() {
 
   if (currentPage === 'startup-validator') {
     return <StartupValidatorPage />;
+  }
+
+  if (currentPage === 'startup-validator-v2') {
+    return <StartupValidatorV2Page />;
+  }
+
+  if (currentPage === 'startup-validator-v3') {
+    return <StartupValidatorV3Page />;
   }
 
   if (currentPage === 'smart-interview') {
