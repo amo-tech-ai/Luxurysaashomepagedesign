@@ -49,10 +49,19 @@ export default function StartupValidatorV3ReportPage() {
   const [activeSection, setActiveSection] = useState('executive-summary');
   const [expandedSections, setExpandedSections] = useState<string[]>(['executive-summary', 'key-recommendations', 'signal-board']);
   const [aiQuestion, setAiQuestion] = useState('');
+  const [startupDescription, setStartupDescription] = useState('');
 
   const handleNavigate = (route: string) => {
     window.dispatchEvent(new CustomEvent('navigate', { detail: route }));
   };
+
+  // Get startup description from chat flow
+  useEffect(() => {
+    const description = sessionStorage.getItem('validatorStartupDescription');
+    if (description) {
+      setStartupDescription(description);
+    }
+  }, []);
 
   // Track scroll position to update active section
   useEffect(() => {
@@ -314,6 +323,28 @@ export default function StartupValidatorV3ReportPage() {
         <div className="flex-1 overflow-y-auto bg-[#FAFAF8]">
           <div className="max-w-[900px] mx-auto p-8 space-y-6">
             
+            {/* Startup Description (if coming from chat) */}
+            {startupDescription && (
+              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#0d5f4e]/10 flex items-center justify-center">
+                    <Lightbulb className="w-5 h-5 text-[#0d5f4e]" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-lg font-medium text-gray-900 mb-1">Your Startup Idea</h2>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Based on your initial description
+                    </p>
+                    <div className="p-4 bg-[#FAF9F7] rounded-lg border border-gray-200">
+                      <p className="text-base text-[#212427] leading-relaxed">
+                        "{startupDescription}"
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* 1. Executive Summary */}
             <section id="executive-summary">
               <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">

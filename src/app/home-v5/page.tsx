@@ -138,7 +138,7 @@ export default function HomeV5({ onNavigate }: { onNavigate?: (page: string) => 
           
           <div className="space-y-3">
             <button 
-              onClick={() => onNavigate?.('startup-validator-v3')}
+              onClick={() => onNavigate?.('validator-chat')}
               className="w-full px-8 py-6 bg-white hover:bg-[#DCF9E3] text-left text-[#212427] border border-gray-200 rounded-lg transition-all duration-300 group"
             >
               <div className="flex items-center justify-between">

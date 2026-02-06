@@ -2,12 +2,27 @@ const footerLinks = {
   product: {
     title: 'Product',
     links: [
-      { label: 'Features', href: '#' },
-      { label: '✨ Home V5 (New Design)', href: '/home-v5', isRoute: true, routeName: 'home-v5' },
-      { label: '📐 Home V6 (BCG Design)', href: '/home-v6', isRoute: true, routeName: 'home-v6' },
+      { label: 'Home V5', href: '/home-v5', isRoute: true, routeName: 'home-v5' },
+      { label: 'Home V6', href: '/home-v6', isRoute: true, routeName: 'home-v6' },
+      { label: 'How it works', href: '/how-it-works', isRoute: true, routeName: 'how-it-works' },
+      { label: 'Pricing', href: '#' },
+      { label: 'Security', href: '#' },
+      { label: 'Events', href: '/events', isRoute: true, routeName: 'events' },
+      { label: 'Discover Events', href: '/events/discover', isRoute: true, routeName: 'events-discover' },
+    ],
+  },
+  pages: {
+    title: 'Pages',
+    links: [
       { label: 'Onboarding Wizard', href: '/onboarding-v2', isRoute: true, routeName: 'onboarding-v2' },
-      { label: '✨ Minimal Onboarding', href: '/onboarding-minimal', isRoute: true, routeName: 'onboarding-minimal' },
-      { label: '🚀 Onboarding V3', href: '/onboarding-v3', isRoute: true, routeName: 'onboarding-v3' },
+      { label: 'Minimal Onboarding', href: '/onboarding-minimal', isRoute: true, routeName: 'onboarding-minimal' },
+      { label: 'Onboarding V3', href: '/onboarding-v3', isRoute: true, routeName: 'onboarding-v3' },
+      { label: 'Pitch Deck Generator', href: '/pitch-deck', isRoute: true, routeName: 'pitch-deck' },
+    ],
+  },
+  dashboard: {
+    title: 'Dashboard',
+    links: [
       { label: 'Main Dashboard', href: '/dashboard/main', isRoute: true, routeName: 'dashboard-main' },
       { label: 'Kanban Dashboard', href: '/dashboard', isRoute: true, routeName: 'dashboard' },
       { label: 'Lean Canvas', href: '/lean-canvas', isRoute: true, routeName: 'lean-canvas' },
@@ -15,12 +30,7 @@ const footerLinks = {
       { label: 'Startup Validator', href: '/startup-validator', isRoute: true, routeName: 'startup-validator' },
       { label: 'Startup Validator V2', href: '/startup-validator-v2', isRoute: true, routeName: 'startup-validator-v2' },
       { label: 'Startup Validator V3', href: '/startup-validator-v3', isRoute: true, routeName: 'startup-validator-v3' },
-      { label: 'How it works', href: '/how-it-works', isRoute: true, routeName: 'how-it-works' },
-      { label: 'Pitch Deck Generator', href: '/pitch-deck', isRoute: true, routeName: 'pitch-deck' },
-      { label: 'Pricing', href: '#' },
-      { label: 'Security', href: '#' },
-      { label: 'Events', href: '/events', isRoute: true, routeName: 'events' },
-      { label: '🎯 Discover Events', href: '/events/discover', isRoute: true, routeName: 'events-discover' },
+      { label: 'Startup Validator V4', href: '/startup-validator-v4', isRoute: true, routeName: 'startup-validator-v4' },
     ],
   },
   company: {
@@ -42,11 +52,6 @@ const footerLinks = {
   resources: {
     title: 'Resources',
     links: [
-      { label: 'Documentation', href: '#' },
-      { label: 'Help Center', href: '#' },
-      { label: 'Community', href: '#' },
-      { label: 'Founder Stories', href: '#' },
-      { label: 'API Reference', href: '#' },
       { label: 'Site Map', href: '/sitemap', isRoute: true, routeName: 'sitemap' },
       { label: 'AI Landscape', href: '/ai-landscape', isRoute: true, routeName: 'ai-landscape' },
       { label: 'AI Adoption Report 2025', href: '/infographics/ai-adoption-2025', isRoute: true, routeName: 'ai-adoption-2025' },
@@ -56,18 +61,9 @@ const footerLinks = {
       { label: 'AI Investment Hubs 2025', href: '/infographics/ai-hubs', isRoute: true, routeName: 'ai-hubs' },
       { label: 'AI Startup Products 2024-2026', href: '/infographics/ai-products', isRoute: true, routeName: 'ai-products' },
       { label: 'AI Product Intelligence V2', href: '/infographics/ai-products-v2', isRoute: true, routeName: 'ai-products-v2' },
-      { label: '🤖 AI Products Intelligence (2024–2026)', href: '/infographics/ai-products-v3', isRoute: true, routeName: 'ai-products-v3' },
-      { label: '🚀 AI GTM Report 2025', href: '/infographics/ai-gtm', isRoute: true, routeName: 'ai-gtm' },
-      { label: '🌐 AI Startup Landscape 2025–2026', href: '/infographics/ai-startup-landscape', isRoute: true, routeName: 'ai-startup-landscape' },
-    ],
-  },
-  legal: {
-    title: 'Legal',
-    links: [
-      { label: 'Privacy Policy', href: '#' },
-      { label: 'Terms of Service', href: '#' },
-      { label: 'Cookie Policy', href: '#' },
-      { label: 'Data Processing', href: '#' },
+      { label: 'AI Products Intelligence 2024-2026', href: '/infographics/ai-products-v3', isRoute: true, routeName: 'ai-products-v3' },
+      { label: 'AI GTM Report 2025', href: '/infographics/ai-gtm', isRoute: true, routeName: 'ai-gtm' },
+      { label: 'AI Startup Landscape 2025-2026', href: '/infographics/ai-startup-landscape', isRoute: true, routeName: 'ai-startup-landscape' },
     ],
   },
 };
@@ -98,7 +94,7 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-12 lg:gap-16">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 lg:gap-16">
             {/* Product Column */}
             <div className="space-y-6">
               <h3 className="text-sm text-gray-900 uppercase tracking-wider">
@@ -110,14 +106,49 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
                     <a
                       href={link.href}
                       onClick={(e) => handleLinkClick(e, link)}
-                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200 inline-flex items-center gap-2"
+                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
                     >
                       {link.label}
-                      {link.isRoute && (
-                        <span className="px-2 py-0.5 text-xs bg-[#0d5f4e] bg-opacity-10 text-[#0d5f4e] rounded-full font-medium">
-                          Active
-                        </span>
-                      )}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Pages Column */}
+            <div className="space-y-6">
+              <h3 className="text-sm text-gray-900 uppercase tracking-wider">
+                {footerLinks.pages.title}
+              </h3>
+              <ul className="space-y-3">
+                {footerLinks.pages.links.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleLinkClick(e, link)}
+                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Dashboard Column */}
+            <div className="space-y-6">
+              <h3 className="text-sm text-gray-900 uppercase tracking-wider">
+                {footerLinks.dashboard.title}
+              </h3>
+              <ul className="space-y-3">
+                {footerLinks.dashboard.links.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleLinkClick(e, link)}
+                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
+                    >
+                      {link.label}
                     </a>
                   </li>
                 ))}
@@ -154,14 +185,9 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
                     <a
                       href={link.href}
                       onClick={(e) => handleLinkClick(e, link)}
-                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200 inline-flex items-center gap-2"
+                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
                     >
                       {link.label}
-                      {link.isRoute && (
-                        <span className="px-2 py-0.5 text-xs bg-[#0d5f4e] bg-opacity-10 text-[#0d5f4e] rounded-full font-medium">
-                          Active
-                        </span>
-                      )}
                     </a>
                   </li>
                 ))}
@@ -179,30 +205,6 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
                     <a
                       href={link.href}
                       onClick={(e) => handleLinkClick(e, link)}
-                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200 inline-flex items-center gap-2"
-                    >
-                      {link.label}
-                      {link.isRoute && (
-                        <span className="px-2 py-0.5 text-xs bg-[#0d5f4e] bg-opacity-10 text-[#0d5f4e] rounded-full font-medium">
-                          Active
-                        </span>
-                      )}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Legal Column */}
-            <div className="space-y-6">
-              <h3 className="text-sm text-gray-900 uppercase tracking-wider">
-                {footerLinks.legal.title}
-              </h3>
-              <ul className="space-y-3">
-                {footerLinks.legal.links.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
                       className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
                     >
                       {link.label}
