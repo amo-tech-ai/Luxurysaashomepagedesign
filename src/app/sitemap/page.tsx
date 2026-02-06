@@ -45,6 +45,7 @@ export default function SitemapPage({ onNavigate }: SitemapPageProps) {
         { name: 'Startup Validator V3', route: 'startup-validator-v3', description: 'Latest validation system' },
         { name: 'Startup Validator V4', route: 'startup-validator-v4', description: 'Decision-first report (Idea Proof style)' },
         { name: 'Validator Chat', route: 'validator-chat', description: 'Conversational validation entry' },
+        { name: 'Running AI Agents', route: 'running-agents', description: 'Live multi-agent pipeline visualization' },
       ],
     },
     {

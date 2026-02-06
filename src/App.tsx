@@ -62,6 +62,7 @@ import ValidatorPage from './app/validator/page';
 import ValidatorRunPage from './app/validator/run/[sessionId]/page';
 import ValidatorReportPage from './app/validator/report/[reportId]/page';
 import ValidatorTestPage from './app/validator-test/page';
+import RunningAgentsPage from './app/running-agents/page';
 import SmartInterviewPage from './app/smart-interview/page';
 import HomeV5Page from './app/home-v5/page';
 import HomeV6Page from './pages/home-v6';
@@ -69,7 +70,7 @@ import FlowDiagramsPage from './app/diagrams/flows/page';
 import AIFlowsPage from './app/diagrams/ai-flows/page';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'home-v5' | 'home-v6' | 'onboarding' | 'onboarding-v2' | 'onboarding-animation-demo' | 'onboarding-minimal' | 'onboarding-v3' | 'smart-interview' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'events' | 'event-detail' | 'events-discover' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'ai-products-v3' | 'ai-gtm' | 'ai-startup-landscape' | 'startup-validator' | 'startup-validator-v2' | 'startup-validator-v3' | 'startup-validator-v4' | 'validator-chat' | 'validator' | 'validator-run' | 'validator-report' | 'diagrams-flows' | 'diagrams-ai-flows'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'home-v5' | 'home-v6' | 'onboarding' | 'onboarding-v2' | 'onboarding-animation-demo' | 'onboarding-minimal' | 'onboarding-v3' | 'smart-interview' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'events' | 'event-detail' | 'events-discover' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'ai-products-v3' | 'ai-gtm' | 'ai-startup-landscape' | 'startup-validator' | 'startup-validator-v2' | 'startup-validator-v3' | 'startup-validator-v4' | 'validator-chat' | 'validator' | 'validator-run' | 'validator-report' | 'validator-test' | 'running-agents' | 'diagrams-flows' | 'diagrams-ai-flows'>('home');
   const [routeParams, setRouteParams] = useState<Record<string, string>>({});
 
   const handleNavigate = (page: string) => {
@@ -290,6 +291,14 @@ export default function App() {
 
   if (currentPage === 'validator-report') {
     return <ValidatorReportPage onNavigate={handleNavigate} reportId={routeParams.reportId} />;
+  }
+
+  if (currentPage === 'validator-test') {
+    return <ValidatorTestPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'running-agents') {
+    return <RunningAgentsPage onNavigate={handleNavigate} />;
   }
 
   if (currentPage === 'smart-interview') {

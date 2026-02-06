@@ -47,6 +47,7 @@ const footerLinks = {
     links: [
       { label: 'Flow Diagrams', href: '/diagrams/flows', isRoute: true, routeName: 'diagrams-flows' },
       { label: 'AI Agent Flows', href: '/diagrams/ai-flows', isRoute: true, routeName: 'diagrams-ai-flows' },
+      { label: 'Running AI Agents', href: '/running-agents', isRoute: true, routeName: 'running-agents' },
     ],
   },
   resources: {
