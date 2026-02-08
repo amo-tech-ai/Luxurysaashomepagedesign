@@ -59,6 +59,9 @@ export default function SitemapPage({ onNavigate }: SitemapPageProps) {
         { name: 'Ideation Lab', route: 'dashboard-ideation', description: 'Brainstorm & explore' },
         { name: 'Lean Canvas', route: 'lean-canvas', description: 'Business model canvas' },
         { name: 'Lean Canvas AI', route: 'lean-canvas-ai', description: 'AI-assisted canvas' },
+        { name: 'Lean Canvas V2', route: 'lean-canvas-v2', description: 'Premium consulting-grade canvas' },
+        { name: 'Opportunity Canvas', route: 'opportunity-canvas', description: 'Focus on primary opportunity' },
+        { name: '90-Day Plan', route: '90-day-plan', description: 'Kanban-based validation system' },
         { name: 'Dashboard V2', route: 'dashboard-v2', description: 'Alternative layout' },
       ],
     },
@@ -186,7 +189,7 @@ export default function SitemapPage({ onNavigate }: SitemapPageProps) {
               <div className="text-sm text-white/70 uppercase tracking-wider">Research Reports</div>
             </div>
             <div className="border-l-2 border-white/20 pl-6">
-              <div className="font-serif text-4xl mb-1">7</div>
+              <div className="font-serif text-4xl mb-1">8</div>
               <div className="text-sm text-white/70 uppercase tracking-wider">Dashboard Tools</div>
             </div>
           </div>
@@ -291,8 +294,8 @@ export default function SitemapPage({ onNavigate }: SitemapPageProps) {
             <div className="space-y-2">
               <div className="text-[#212427] font-semibold">/ (root)</div>
               <div className="pl-4 text-[#696969]">├── Homepage variants (3)</div>
-              <div className="pl-4 text-[#696969]">├── Onboarding flows (7)</div>
-              <div className="pl-4 text-[#696969]">├── Dashboard suite (7)</div>
+              <div className="pl-4 text-[#696969]">├── Onboarding flows (10)</div>
+              <div className="pl-4 text-[#696969]">├── Dashboard suite (8)</div>
               <div className="pl-4 text-[#696969]">└── Pitch deck tools (7)</div>
             </div>
             <div className="space-y-2">

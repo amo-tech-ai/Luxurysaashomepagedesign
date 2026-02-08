@@ -1,723 +1,362 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Download,
-  Copy,
-  RotateCcw,
-  Sparkles,
-  Check,
-  ChevronRight,
-  X,
-  Home,
-  AlertTriangle,
-  HelpCircle,
-  Plus,
-} from 'lucide-react';
+'use client';
 
-interface CanvasBlock {
-  id: string;
-  title: string;
-  helper: string;
-  items: string[];
-  row: number;
-  col: number;
-  span?: number;
+import { useState, useEffect } from 'react';
+import { Save, Download, Share2, ArrowLeft, Sparkles, Check } from 'lucide-react';
+import { CanvasCard } from './components/CanvasCard';
+
+interface LeanCanvasState {
+  problem: string;
+  solution: string;
+  uvp: string;
+  customerSegments: string;
+  earlyAdopters: string;
+  existingAlternatives: string;
+  channels: string;
+  unfairAdvantage: string;
+  keyMetrics: string;
+  costStructure: string;
+  revenueStreams: string;
+  lastSaved?: string;
 }
 
-interface AIAgentData {
-  name: string;
-  description: string;
-  suggestions: {
-    type: 'suggestion' | 'risk' | 'question';
-    content: string;
-  }[];
-}
-
-const agentData: Record<string, AIAgentData> = {
-  problem: {
-    name: 'Problem Discovery Agent',
-    description: 'Helps refine and validate customer problems',
-    suggestions: [
-      { type: 'question', content: 'Why is this problem urgent now?' },
-      { type: 'risk', content: 'This problem sounds broad. Consider narrowing to one daily pain.' },
-      { type: 'suggestion', content: 'Frame problems from the customer\'s perspective, not yours.' },
-    ],
-  },
-  solution: {
-    name: 'Solution Design Agent',
-    description: 'Validates solution-problem fit',
-    suggestions: [
-      { type: 'risk', content: 'Your solution addresses multiple problems. Focus on one first.' },
-      { type: 'suggestion', content: 'Consider what\'s the simplest version that delivers value.' },
-      { type: 'question', content: 'Can customers achieve this outcome with existing tools?' },
-    ],
-  },
-  'unique-value': {
-    name: 'Positioning Agent',
-    description: 'Sharpens your unique value proposition',
-    suggestions: [
-      { type: 'risk', content: 'Your UVP contains buzzwords. Make it concrete.' },
-      { type: 'suggestion', content: 'Frame as: [Do X] for [audience] without [common pain].' },
-      { type: 'question', content: 'Would a customer understand this in 5 seconds?' },
-    ],
-  },
-  'unfair-advantage': {
-    name: 'Moat Analysis Agent',
-    description: 'Stress-tests your competitive advantage',
-    suggestions: [
-      { type: 'risk', content: 'This advantage can be copied in 6 months. Think deeper.' },
-      { type: 'suggestion', content: 'Network effects, proprietary data, and team expertise are strong moats.' },
-      { type: 'question', content: 'What would it cost a competitor to replicate this?' },
-    ],
-  },
-  'customer-segments': {
-    name: 'ICP Agent',
-    description: 'Defines your ideal customer profile',
-    suggestions: [
-      { type: 'risk', content: 'Your customer segment is too broad. Pick one ICP to start.' },
-      { type: 'suggestion', content: 'Describe your customer with demographics + behaviors.' },
-      { type: 'question', content: 'Who has the strongest pain and budget to pay?' },
-    ],
-  },
-  'existing-alternatives': {
-    name: 'Market Scan Agent',
-    description: 'Maps competitive landscape',
-    suggestions: [
-      { type: 'suggestion', content: 'Include DIY solutions and manual workarounds, not just direct competitors.' },
-      { type: 'question', content: 'What do customers use today when your product doesn\'t exist?' },
-      { type: 'risk', content: 'If no alternatives exist, validate if the problem is real.' },
-    ],
-  },
-  'key-metrics': {
-    name: 'Metrics Advisor Agent',
-    description: 'Validates metric selection',
-    suggestions: [
-      { type: 'risk', content: 'Total signups is a vanity metric. Track activation or retention instead.' },
-      { type: 'suggestion', content: 'Good metrics: Weekly Active Users, MRR, Conversion Rate, Churn.' },
-      { type: 'question', content: 'If this metric improves, does revenue improve?' },
-    ],
-  },
-  'high-level-concept': {
-    name: 'Analogy Agent',
-    description: 'Clarifies your positioning analogy',
-    suggestions: [
-      { type: 'suggestion', content: 'Use format: [Known Product A] for [New Audience/Context].' },
-      { type: 'question', content: 'Would an investor immediately understand this?' },
-      { type: 'risk', content: 'Avoid obscure references. Use household names.' },
-    ],
-  },
-  channels: {
-    name: 'Go-To-Market Agent',
-    description: 'Prioritizes distribution channels',
-    suggestions: [
-      { type: 'risk', content: 'Paid ads require significant budget. Consider organic first.' },
-      { type: 'suggestion', content: 'Best early channels: Communities, partnerships, content, direct outreach.' },
-      { type: 'question', content: 'Which channel can you test this week?' },
-    ],
-  },
-  'early-adopters': {
-    name: 'Early User Agent',
-    description: 'Profiles your first customers',
-    suggestions: [
-      { type: 'suggestion', content: 'Early adopters tolerate rough edges if you solve their urgent pain.' },
-      { type: 'question', content: 'What communities or forums do these people hang out in?' },
-      { type: 'risk', content: 'Enterprise buyers are slow. Consider SMB or individuals first.' },
-    ],
-  },
-  'cost-structure': {
-    name: 'Cost Modeling Agent',
-    description: 'Analyzes cost structure',
-    suggestions: [
-      { type: 'risk', content: 'Don\'t forget: Cloud hosting, support costs, payment fees.' },
-      { type: 'suggestion', content: 'Separate fixed costs (salaries) from variable costs (API usage).' },
-      { type: 'question', content: 'What happens to costs if you 10x customers?' },
-    ],
-  },
-  'revenue-streams': {
-    name: 'Monetization Agent',
-    description: 'Validates pricing and revenue model',
-    suggestions: [
-      { type: 'suggestion', content: 'SaaS models work best with recurring value delivery.' },
-      { type: 'question', content: 'What budget line item would customers pay from?' },
-      { type: 'risk', content: 'Free users rarely convert. Consider paid-from-day-1 or freemium.' },
-    ],
-  },
+const INITIAL_STATE: LeanCanvasState = {
+  problem: '',
+  solution: '',
+  uvp: '',
+  customerSegments: '',
+  earlyAdopters: '',
+  existingAlternatives: '',
+  channels: '',
+  unfairAdvantage: '',
+  keyMetrics: '',
+  costStructure: '',
+  revenueStreams: '',
 };
 
-const initialCanvasData: CanvasBlock[] = [
-  // Row 1 - Strategy Core
-  {
-    id: 'problem',
-    title: 'Problem',
-    helper: 'List your top 1–3 problems',
-    items: [],
-    row: 1,
-    col: 1,
-  },
-  {
-    id: 'solution',
-    title: 'Solution',
-    helper: 'Outline a possible solution for each problem',
-    items: [],
-    row: 1,
-    col: 2,
-  },
-  {
-    id: 'unique-value',
-    title: 'Unique Value Proposition',
-    helper: 'Single, clear, compelling message that states why you are different and worth paying attention',
-    items: [],
-    row: 1,
-    col: 3,
-  },
-  {
-    id: 'unfair-advantage',
-    title: 'Unfair Advantage',
-    helper: 'Something that cannot easily be bought or copied',
-    items: [],
-    row: 1,
-    col: 4,
-  },
-  {
-    id: 'customer-segments',
-    title: 'Customer Segments',
-    helper: 'List your target customers and users',
-    items: [],
-    row: 1,
-    col: 5,
-  },
-  // Row 2 - Validation
-  {
-    id: 'existing-alternatives',
-    title: 'Existing Alternatives',
-    helper: 'List how these problems are solved today',
-    items: [],
-    row: 2,
-    col: 1,
-  },
-  {
-    id: 'key-metrics',
-    title: 'Key Metrics',
-    helper: 'List the key numbers that tell you how your business is doing',
-    items: [],
-    row: 2,
-    col: 2,
-  },
-  {
-    id: 'high-level-concept',
-    title: 'High-Level Concept',
-    helper: 'List your X for Y analogy (e.g. YouTube = Flickr for videos)',
-    items: [],
-    row: 2,
-    col: 3,
-  },
-  {
-    id: 'channels',
-    title: 'Channels',
-    helper: 'List your path to customers (inbound or outbound)',
-    items: [],
-    row: 2,
-    col: 4,
-  },
-  {
-    id: 'early-adopters',
-    title: 'Early Adopters',
-    helper: 'List the characteristics of your ideal customers',
-    items: [],
-    row: 2,
-    col: 5,
-  },
-  // Row 3 - Economics
-  {
-    id: 'cost-structure',
-    title: 'Cost Structure',
-    helper: 'List your fixed and variable costs',
-    items: [],
-    row: 3,
-    col: 1,
-    span: 2,
-  },
-  {
-    id: 'revenue-streams',
-    title: 'Revenue Streams',
-    helper: 'List your sources of revenue',
-    items: [],
-    row: 3,
-    col: 3,
-    span: 3,
-  },
-];
+interface LeanCanvasPageProps {
+  onNavigate?: (page: string) => void;
+}
 
-export default function LeanCanvasPage({ onNavigate }: { onNavigate?: (page: string) => void }) {
-  const [canvasData, setCanvasData] = useState<CanvasBlock[]>(initialCanvasData);
-  const [editingBlock, setEditingBlock] = useState<string | null>(null);
-  const [showAIPanel, setShowAIPanel] = useState(false);
-  const [activeAIBlock, setActiveAIBlock] = useState<string | null>(null);
-  const [addedSuggestions, setAddedSuggestions] = useState<Set<string>>(new Set());
-  const [lastSaved, setLastSaved] = useState<Date>(new Date());
-  const inputRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
+export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
+  const [canvas, setCanvas] = useState<LeanCanvasState>(INITIAL_STATE);
+  const [isSaving, setIsSaving] = useState(false);
 
-  // Auto-save simulation
+  // Load from localStorage on mount
   useEffect(() => {
-    const interval = setInterval(() => {
-      setLastSaved(new Date());
-    }, 60000);
-    return () => clearInterval(interval);
+    const saved = localStorage.getItem('lean-canvas-v2');
+    if (saved) {
+      try {
+        setCanvas(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to parse saved canvas', e);
+      }
+    }
   }, []);
 
-  const handleAddItem = (blockId: string, value: string) => {
-    if (!value.trim()) return;
+  // Auto-save every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleSave(true);
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [canvas]);
 
-    setCanvasData((prev) =>
-      prev.map((block) =>
-        block.id === blockId
-          ? { ...block, items: [...block.items, value.trim()] }
-          : block
-      )
-    );
+  const handleSave = (isAuto = false) => {
+    setIsSaving(true);
+    const updated = {
+      ...canvas,
+      lastSaved: new Date().toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+      }),
+    };
+    localStorage.setItem('lean-canvas-v2', JSON.stringify(updated));
+    setCanvas(updated);
+    setTimeout(() => setIsSaving(false), 500);
   };
 
-  const handleRemoveItem = (blockId: string, index: number) => {
-    setCanvasData((prev) =>
-      prev.map((block) =>
-        block.id === blockId
-          ? { ...block, items: block.items.filter((_, i) => i !== index) }
-          : block
-      )
-    );
+  const handleExport = () => {
+    // Mock PDF export
+    alert('Export to PDF feature coming soon!');
   };
 
-  const handleExportPDF = () => {
-    alert('Export to PDF functionality would be implemented here');
+  const handleShare = () => {
+    // Copy current URL to clipboard
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link copied to clipboard!');
   };
 
-  const handleDuplicate = () => {
-    alert('Duplicate canvas functionality would be implemented here');
+  const updateField = (field: keyof LeanCanvasState, value: string) => {
+    setCanvas((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleReset = () => {
-    if (confirm('Are you sure you want to reset the canvas? This cannot be undone.')) {
-      setCanvasData(initialCanvasData);
+  // Calculate completion
+  const totalSections = 11;
+  const completedSections = Object.entries(canvas).filter(
+    ([key, value]) => key !== 'lastSaved' && value.trim().length > 0
+  ).length;
+  const completionPercentage = Math.round(
+    (completedSections / totalSections) * 100
+  );
+
+  const handleContinue = () => {
+    if (completedSections < 7) {
+      const confirmed = window.confirm(
+        `You've only completed ${completedSections} of ${totalSections} sections. Continue anyway?`
+      );
+      if (!confirmed) return;
+    }
+    handleSave();
+    if (onNavigate) {
+      onNavigate('opportunity-canvas');
     }
   };
 
-  const getTimeSinceLastSave = () => {
-    const now = new Date();
-    const diff = Math.floor((now.getTime() - lastSaved.getTime()) / 1000);
-    if (diff < 60) return 'just now';
-    const minutes = Math.floor(diff / 60);
-    return `${minutes} min ago`;
+  const handleHome = () => {
+    if (onNavigate) {
+      onNavigate('home');
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] relative">
-      {/* Header */}
-      <header className="bg-white border-b border-[#E8E6E1] sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+    <div className="min-h-screen bg-[#FAF9F7]">
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
+          {/* Logo */}
+          <button
+            onClick={handleHome}
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
+            <div className="w-8 h-8 bg-[#0D5F4E] rounded-lg flex items-center justify-center">
+              <span className="text-white font-semibold text-sm">S</span>
+            </div>
+            <span className="text-lg font-light">StartupAI</span>
+          </button>
+
+          {/* Completion Tracker (Desktop) */}
+          <div className="hidden md:flex items-center gap-4">
+            <span className="text-sm text-gray-500">Completion</span>
+            <span className="text-sm font-medium">
+              {completedSections}/{totalSections}
+            </span>
+            <div className="w-32 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#0D5F4E] transition-all duration-500"
+                style={{ width: `${completionPercentage}%` }}
+              />
+            </div>
+            <span className="text-sm font-medium">{completionPercentage}%</span>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => handleSave(false)}
+              disabled={isSaving}
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:text-[#0D5F4E] hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
+            >
+              <Save className="w-4 h-4" />
+              <span className="hidden sm:inline">
+                {isSaving ? 'Saving...' : 'Save'}
+              </span>
+            </button>
+            <button
+              onClick={handleExport}
+              className="p-2 text-gray-700 hover:text-[#0D5F4E] hover:bg-gray-100 rounded-lg transition-colors"
+              title="Download as PDF"
+            >
+              <Download className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleShare}
+              className="p-2 text-gray-700 hover:text-[#0D5F4E] hover:bg-gray-100 rounded-lg transition-colors"
+              title="Share link"
+            >
+              <Share2 className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Progress Bar */}
+        <div className="md:hidden px-6 pb-3">
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => onNavigate?.('home')}
-                className="text-sm text-[#0D5F4E] hover:text-[#0a4a3c] transition-colors flex items-center gap-2"
-              >
-                <Home className="w-4 h-4" />
-                Back to Home
-              </button>
-              <div className="w-px h-6 bg-[#E8E6E1]" />
-              <div>
-                <h1 className="font-serif text-2xl text-[#2D2D2D]">Lean Canvas</h1>
-                <p className="text-sm text-[#A3A3A3]">Your business model on one page</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-6">
-              {/* Autosave Status */}
-              <div className="flex items-center gap-2 text-sm text-[#A3A3A3]">
-                <Check className="w-4 h-4 text-[#0D5F4E]" />
-                <span>Autosaved · {getTimeSinceLastSave()}</span>
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleExportPDF}
-                  className="px-4 py-2 text-sm font-medium text-[#4A4A4A] hover:text-[#0D5F4E] hover:bg-[#F5F5F3] rounded-lg transition-all duration-200 flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  Export PDF
-                </button>
-                <button
-                  onClick={handleDuplicate}
-                  className="px-4 py-2 text-sm font-medium text-[#4A4A4A] hover:text-[#0D5F4E] hover:bg-[#F5F5F3] rounded-lg transition-all duration-200 flex items-center gap-2"
-                >
-                  <Copy className="w-4 h-4" />
-                  Duplicate
-                </button>
-                <button
-                  onClick={handleReset}
-                  className="px-4 py-2 text-sm font-medium text-[#EF4444] hover:bg-[#FEF2F2] rounded-lg transition-all duration-200 flex items-center gap-2"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  Reset
-                </button>
-                <button
-                  onClick={() => setShowAIPanel(!showAIPanel)}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-2 ${
-                    showAIPanel
-                      ? 'bg-[#0D5F4E] text-white'
-                      : 'text-[#0D5F4E] hover:bg-[#0D5F4E] hover:bg-opacity-5'
-                  }`}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  AI Guidance
-                </button>
-              </div>
-            </div>
+            <span className="text-xs text-gray-500">
+              {completedSections}/{totalSections} sections
+            </span>
+            <span className="text-xs font-medium">{completionPercentage}%</span>
+          </div>
+          <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#0D5F4E] transition-all duration-500"
+              style={{ width: `${completionPercentage}%` }}
+            />
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-5 gap-4">
-          {/* Row 1 - Strategy Core */}
-          {canvasData
-            .filter((block) => block.row === 1)
-            .map((block) => (
-              <CanvasBlockComponent
-                key={block.id}
-                block={block}
-                isEditing={editingBlock === block.id}
-                onStartEdit={() => setEditingBlock(block.id)}
-                onEndEdit={() => setEditingBlock(null)}
-                onAddItem={handleAddItem}
-                onRemoveItem={handleRemoveItem}
-                onAIClick={() => setActiveAIBlock(block.id)}
-                inputRef={(el) => (inputRefs.current[block.id] = el)}
-              />
-            ))}
-
-          {/* Row 2 - Validation */}
-          {canvasData
-            .filter((block) => block.row === 2)
-            .map((block) => (
-              <CanvasBlockComponent
-                key={block.id}
-                block={block}
-                isEditing={editingBlock === block.id}
-                onStartEdit={() => setEditingBlock(block.id)}
-                onEndEdit={() => setEditingBlock(null)}
-                onAddItem={handleAddItem}
-                onRemoveItem={handleRemoveItem}
-                onAIClick={() => setActiveAIBlock(block.id)}
-                inputRef={(el) => (inputRefs.current[block.id] = el)}
-              />
-            ))}
-
-          {/* Row 3 - Economics */}
-          {canvasData
-            .filter((block) => block.row === 3)
-            .map((block) => (
-              <div
-                key={block.id}
-                className={block.span ? `col-span-${block.span}` : ''}
-                style={{ gridColumn: block.span ? `span ${block.span}` : undefined }}
-              >
-                <CanvasBlockComponent
-                  block={block}
-                  isEditing={editingBlock === block.id}
-                  onStartEdit={() => setEditingBlock(block.id)}
-                  onEndEdit={() => setEditingBlock(null)}
-                  onAddItem={handleAddItem}
-                  onRemoveItem={handleRemoveItem}
-                  onAIClick={() => setActiveAIBlock(block.id)}
-                  inputRef={(el) => (inputRefs.current[block.id] = el)}
-                />
-              </div>
-            ))}
-        </div>
-      </div>
-
-      {/* AI Guidance Panel */}
-      {showAIPanel && (
-        <aside className="fixed right-0 top-0 h-screen w-96 bg-white border-l border-[#E8E6E1] shadow-2xl z-20 overflow-y-auto animate-slide-in-right">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-[#0D5F4E]" />
-                <h3 className="font-serif text-xl text-[#2D2D2D]">AI Guidance</h3>
-              </div>
-              <button
-                onClick={() => setShowAIPanel(false)}
-                className="p-2 hover:bg-[#F5F5F3] rounded-lg transition-colors duration-200"
-              >
-                <X className="w-5 h-5 text-[#4A4A4A]" />
-              </button>
-            </div>
-
-            <div className="space-y-6">
-              {/* AI Suggestions */}
-              <div className="p-4 bg-[#FAFAF8] border border-[#E8E6E1] rounded-lg">
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#0D5F4E] bg-opacity-10 flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-4 h-4 text-[#0D5F4E]" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-sm font-semibold text-[#2D2D2D] mb-1">
-                      Canvas Incomplete
-                    </h4>
-                    <p className="text-sm text-[#4A4A4A]">
-                      Complete at least 8 of 11 blocks to get strategic insights.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 bg-[#FAFAF8] border border-[#E8E6E1] rounded-lg">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#D4A574] bg-opacity-10 flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-4 h-4 text-[#D4A574]" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-sm font-semibold text-[#2D2D2D] mb-1">
-                      Tip: Start with Problem
-                    </h4>
-                    <p className="text-sm text-[#4A4A4A]">
-                      Founders who clearly define the problem first build better products.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t border-[#E8E6E1] pt-6">
-                <h4 className="text-xs font-semibold text-[#A3A3A3] uppercase tracking-wider mb-4">
-                  Next Steps
-                </h4>
-                <div className="space-y-3">
-                  <button className="w-full text-left p-3 bg-white border border-[#E8E6E1] rounded-lg hover:border-[#0D5F4E] transition-all duration-200 group">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#2D2D2D] group-hover:text-[#0D5F4E]">
-                        Generate Pitch Deck
-                      </span>
-                      <ChevronRight className="w-4 h-4 text-[#A3A3A3] group-hover:text-[#0D5F4E]" />
-                    </div>
-                  </button>
-                  <button className="w-full text-left p-3 bg-white border border-[#E8E6E1] rounded-lg hover:border-[#0D5F4E] transition-all duration-200 group">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#2D2D2D] group-hover:text-[#0D5F4E]">
-                        Export to Notion
-                      </span>
-                      <ChevronRight className="w-4 h-4 text-[#A3A3A3] group-hover:text-[#0D5F4E]" />
-                    </div>
-                  </button>
-                  <button className="w-full text-left p-3 bg-white border border-[#E8E6E1] rounded-lg hover:border-[#0D5F4E] transition-all duration-200 group">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#2D2D2D] group-hover:text-[#0D5F4E]">
-                        Share with Team
-                      </span>
-                      <ChevronRight className="w-4 h-4 text-[#A3A3A3] group-hover:text-[#0D5F4E]" />
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
-      )}
-
-      {/* Block-Specific AI Panel */}
-      {activeAIBlock && agentData[activeAIBlock] && (
-        <aside className="fixed right-0 top-0 h-screen w-96 bg-white border-l border-[#E8E6E1] shadow-2xl z-20 overflow-y-auto animate-slide-in-right">
-          <div className="p-6">
-            <div className="flex items-start justify-between mb-6 pb-6 border-b border-[#E8E6E1]">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-[#0D5F4E] bg-opacity-10 flex items-center justify-center text-[#0D5F4E]">
-                    <Sparkles className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg text-[#2D2D2D]">{agentData[activeAIBlock].name}</h3>
-                    <p className="text-xs text-[#A3A3A3]">{canvasData.find(b => b.id === activeAIBlock)?.title}</p>
-                  </div>
-                </div>
-                <p className="text-sm text-[#4A4A4A]">{agentData[activeAIBlock].description}</p>
-              </div>
-              <button
-                onClick={() => setActiveAIBlock(null)}
-                className="p-2 hover:bg-[#F5F5F3] rounded-lg transition-colors duration-200 flex-shrink-0"
-              >
-                <X className="w-5 h-5 text-[#4A4A4A]" />
-              </button>
-            </div>
-
-            {/* AI Insights */}
-            <div>
-              <h4 className="text-xs font-semibold text-[#A3A3A3] uppercase tracking-wider mb-3">
-                AI Insights
-              </h4>
-              <div className="space-y-3">
-                {agentData[activeAIBlock].suggestions.map((suggestion, index) => {
-                  const suggestionKey = `${activeAIBlock}-${index}`;
-                  const isAdded = addedSuggestions.has(suggestionKey);
-                  
-                  return (
-                    <div
-                      key={index}
-                      className="relative p-4 rounded-lg border border-[#E8E6E1] bg-[#FAFAF8] hover:border-[#0D5F4E] transition-colors duration-200"
-                    >
-                      {/* Add Button - Top Right */}
-                      <button
-                        onClick={() => {
-                          if (!isAdded) {
-                            handleAddItem(activeAIBlock, suggestion.content);
-                            setAddedSuggestions(prev => new Set(prev).add(suggestionKey));
-                          }
-                        }}
-                        disabled={isAdded}
-                        className={`absolute top-3 right-3 p-1.5 rounded transition-all duration-200 ${
-                          isAdded
-                            ? 'bg-[#0D5F4E] bg-opacity-10 text-[#0D5F4E] cursor-default'
-                            : 'bg-white border border-[#E8E6E1] text-[#4A4A4A] hover:bg-[#0D5F4E] hover:text-white hover:border-[#0D5F4E]'
-                        }`}
-                        title={isAdded ? 'Added' : 'Add to canvas'}
-                      >
-                        {isAdded ? (
-                          <Check className="w-3.5 h-3.5" />
-                        ) : (
-                          <Plus className="w-3.5 h-3.5" />
-                        )}
-                      </button>
-
-                      <div className="flex items-start gap-3 pr-10">
-                        <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 bg-[#0D5F4E] bg-opacity-10">
-                          {suggestion.type === 'risk' && <AlertTriangle className="w-3 h-3 text-[#4A4A4A]" />}
-                          {suggestion.type === 'question' && <HelpCircle className="w-3 h-3 text-[#4A4A4A]" />}
-                          {suggestion.type === 'suggestion' && <Sparkles className="w-3 h-3 text-[#0D5F4E]" />}
-                        </div>
-                        <div className="flex-1">
-                          <span className="text-[10px] font-semibold uppercase tracking-wider mb-1 block text-[#A3A3A3]">
-                            {suggestion.type === 'risk' ? 'Risk' : suggestion.type === 'question' ? 'Question' : 'Suggestion'}
-                          </span>
-                          <p className="text-sm text-[#2D2D2D] leading-relaxed">{suggestion.content}</p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Footer Note */}
-            <div className="mt-6 pt-6 border-t border-[#E8E6E1]">
-              <p className="text-xs text-[#A3A3A3] leading-relaxed">
-                💡 <span className="font-semibold">Note:</span> AI never edits your content automatically. All changes require your approval.
-              </p>
-            </div>
-          </div>
-        </aside>
-      )}
-    </div>
-  );
-}
-
-// Canvas Block Component
-function CanvasBlockComponent({
-  block,
-  isEditing,
-  onStartEdit,
-  onEndEdit,
-  onAddItem,
-  onRemoveItem,
-  onAIClick,
-  inputRef,
-}: {
-  block: CanvasBlock;
-  isEditing: boolean;
-  onStartEdit: () => void;
-  onEndEdit: () => void;
-  onAddItem: (blockId: string, value: string) => void;
-  onRemoveItem: (blockId: string, index: number) => void;
-  onAIClick: () => void;
-  inputRef: (el: HTMLTextAreaElement | null) => void;
-}) {
-  const [inputValue, setInputValue] = useState('');
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      if (inputValue.trim()) {
-        onAddItem(block.id, inputValue);
-        setInputValue('');
-      }
-    }
-  };
-
-  return (
-    <div
-      className="bg-white border border-[#E8E6E1] rounded-lg p-5 min-h-[280px] flex flex-col hover:border-[#0D5F4E] transition-all duration-200 group relative"
-      onClick={() => !isEditing && onStartEdit()}
-    >
-      {/* Header */}
-      <div className="mb-4">
-        <h3 className="text-xs font-semibold text-[#2D2D2D] uppercase tracking-wider mb-1">
-          {block.title}
-        </h3>
-        <p className="text-xs text-[#A3A3A3] leading-relaxed">{block.helper}</p>
-      </div>
-
-      {/* Items */}
-      <div className="flex-1 space-y-2 mb-3 pb-8">
-        {block.items.length === 0 && !isEditing && (
-          <p className="text-sm text-[#A3A3A3] italic">Add 1–3 key points</p>
-        )}
-        {block.items.map((item, index) => (
-          <div
-            key={index}
-            className="flex items-start gap-2 text-sm text-[#2D2D2D] group/item"
+      <main className="max-w-[1600px] mx-auto px-6 lg:px-12 py-8 lg:py-12">
+        {/* Title Section */}
+        <div className="mb-12">
+          <button
+            onClick={() => onNavigate && onNavigate('lean-canvas-v2')}
+            className="text-sm text-[#0D5F4E] hover:text-[#0a4d3f] mb-4 inline-flex items-center gap-1 transition-colors"
           >
-            <span className="text-[#0D5F4E] mt-1">•</span>
-            <span className="flex-1 leading-relaxed">{item}</span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onRemoveItem(block.id, index);
-              }}
-              className="opacity-0 group-hover/item:opacity-100 p-1 hover:bg-[#FEF2F2] rounded transition-all duration-200"
-            >
-              <X className="w-3 h-3 text-[#EF4444]" />
-            </button>
-          </div>
-        ))}
-      </div>
+            <ArrowLeft className="w-4 h-4" />
+            View Classic Lean Canvas
+          </button>
 
-      {/* Input */}
-      {isEditing && (
-        <div className="border-t border-[#E8E6E1] pt-3">
-          <textarea
-            ref={inputRef}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            onBlur={onEndEdit}
-            placeholder="Type and press Enter to add..."
-            className="w-full text-sm text-[#2D2D2D] placeholder:text-[#A3A3A3] focus:outline-none resize-none"
-            rows={2}
-            autoFocus
-          />
-          <p className="text-xs text-[#A3A3A3] mt-2">Press Enter to add · Shift+Enter for new line</p>
+          <h1 className="text-4xl lg:text-5xl font-light text-[#212427] mb-3">
+            Lean Canvas
+          </h1>
+
+          <p className="text-lg text-gray-600 leading-relaxed max-w-3xl mb-2">
+            A strategic one-page business model template for validating your
+            startup idea. Complete each section thoughtfully to build a
+            comprehensive view of your business.
+          </p>
+
+          {canvas.lastSaved && (
+            <p className="text-sm text-gray-400">
+              Last saved {canvas.lastSaved}
+            </p>
+          )}
         </div>
-      )}
 
-      {/* AI Icon - Bottom Right Corner */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onAIClick();
-        }}
-        className="absolute bottom-3 right-3 p-2 rounded-lg bg-[#F5F5F3] text-[#6B9D89] hover:bg-[#0D5F4E] hover:text-white transition-all duration-200 opacity-0 group-hover:opacity-100"
-        title="AI Assist"
-      >
-        <Sparkles className="w-4 h-4" />
-      </button>
+        {/* Three-Column Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Column 1: Problem Side */}
+          <div className="space-y-6 lg:space-y-8">
+            <CanvasCard
+              title="Problem"
+              helperText="List the top 3 problems your customers face"
+              placeholder="e.g., 1. Manual data entry takes 10+ hours/week&#10;2. High error rates cost $5K/month&#10;3. No real-time visibility into operations"
+              value={canvas.problem}
+              onChange={(value) => updateField('problem', value)}
+              maxLength={250}
+              hasAIEnhance
+            />
+
+            <CanvasCard
+              title="Existing Alternatives"
+              helperText="How do people solve this problem today?"
+              placeholder="e.g., Manual spreadsheets, legacy tools like Salesforce, hiring more staff"
+              value={canvas.existingAlternatives}
+              onChange={(value) => updateField('existingAlternatives', value)}
+              maxLength={200}
+              hasAIEnhance
+            />
+
+            <CanvasCard
+              title="Key Metrics"
+              helperText="What numbers will you track to measure success?"
+              placeholder="e.g., Monthly active users, Time saved per user, Customer retention rate"
+              value={canvas.keyMetrics}
+              onChange={(value) => updateField('keyMetrics', value)}
+              maxLength={200}
+              hasAIEnhance
+            />
+          </div>
+
+          {/* Column 2: Solution Side */}
+          <div className="space-y-6 lg:space-y-8">
+            <CanvasCard
+              title="Solution"
+              helperText="How will you solve the problems above?"
+              placeholder="e.g., 1. AI-powered automation reduces manual work by 80%&#10;2. Real-time error detection and correction&#10;3. Live dashboard with predictive analytics"
+              value={canvas.solution}
+              onChange={(value) => updateField('solution', value)}
+              maxLength={250}
+              hasAIEnhance
+            />
+
+            <CanvasCard
+              title="Unique Value Proposition"
+              helperText="What makes you different? Make it clear and compelling."
+              placeholder="e.g., Cut operational costs by 60% in 30 days—no training required"
+              value={canvas.uvp}
+              onChange={(value) => updateField('uvp', value)}
+              maxLength={120}
+              hasAIEnhance
+              isHighlighted
+            />
+
+            <CanvasCard
+              title="Unfair Advantage"
+              helperText="What can't be easily copied or bought?"
+              placeholder="e.g., Proprietary dataset, exclusive partnerships, unique team expertise"
+              value={canvas.unfairAdvantage}
+              onChange={(value) => updateField('unfairAdvantage', value)}
+              maxLength={150}
+              hasAIEnhance
+            />
+
+            <CanvasCard
+              title="Channels"
+              helperText="How will you reach your customers?"
+              placeholder="e.g., LinkedIn ads, industry conferences, direct sales, content marketing"
+              value={canvas.channels}
+              onChange={(value) => updateField('channels', value)}
+              maxLength={200}
+              hasAIEnhance
+            />
+          </div>
+
+          {/* Column 3: Customer & Economics */}
+          <div className="space-y-6 lg:space-y-8">
+            <CanvasCard
+              title="Customer Segments"
+              helperText="Who are your target customers? Be specific."
+              placeholder="e.g., Mid-market SaaS companies (50-200 employees) with manual operations"
+              value={canvas.customerSegments}
+              onChange={(value) => updateField('customerSegments', value)}
+              maxLength={200}
+              hasAIEnhance
+            />
+
+            <CanvasCard
+              title="Early Adopters"
+              helperText="Which specific customers will you target first?"
+              placeholder="e.g., Operations managers at B2B SaaS startups who recently raised Series A"
+              value={canvas.earlyAdopters}
+              onChange={(value) => updateField('earlyAdopters', value)}
+              maxLength={200}
+              hasAIEnhance
+            />
+
+            <CanvasCard
+              title="Cost Structure"
+              helperText="What are your main costs?"
+              placeholder="e.g., Fixed: Engineering team ($30K/mo), cloud hosting ($2K/mo)&#10;Variable: Customer support ($100/customer)"
+              value={canvas.costStructure}
+              onChange={(value) => updateField('costStructure', value)}
+              maxLength={200}
+              hasAIEnhance
+            />
+
+            <CanvasCard
+              title="Revenue Streams"
+              helperText="How will you make money?"
+              placeholder="e.g., SaaS subscription at $499/month per seat, enterprise plan at $5K/month"
+              value={canvas.revenueStreams}
+              onChange={(value) => updateField('revenueStreams', value)}
+              maxLength={200}
+              hasAIEnhance
+            />
+          </div>
+        </div>
+
+        {/* Continue Button */}
+        <div className="mt-12 flex justify-center">
+          <button
+            onClick={handleContinue}
+            className="px-8 py-3 bg-[#0D5F4E] text-white font-medium rounded-lg hover:bg-[#0a4d3f] transition-colors shadow-sm"
+          >
+            Continue to Opportunity Canvas →
+          </button>
+        </div>
+      </main>
     </div>
   );
 }

@@ -45,6 +45,9 @@ import DashboardMainPage from './app/dashboard/main/page';
 import RoadmapPage from './app/dashboard/roadmap/page';
 import LeanCanvasPage from './app/lean-canvas/page';
 import LeanCanvasAIPage from './app/lean-canvas-ai/page';
+import LeanCanvasV2Page from './app/lean-canvas-v2/page';
+import OpportunityCanvasPage from './app/opportunity-canvas/page';
+import NineDayPlanPage from './app/90-day-plan/page';
 import SitemapPage from './app/sitemap/page';
 import IdeationPage from './app/dashboard/ideation/page';
 import OnboardingPage from './app/onboarding/page';
@@ -68,9 +71,20 @@ import HomeV5Page from './app/home-v5/page';
 import HomeV6Page from './pages/home-v6';
 import FlowDiagramsPage from './app/diagrams/flows/page';
 import AIFlowsPage from './app/diagrams/ai-flows/page';
+import AIImpactPlannerPage from './app/ai-impact-planner/page';
+import AIImpactResultsPage from './app/ai-impact-planner/results/page';
+import AIImpactActionPage from './app/ai-impact-planner/action/page';
+import AskTrendsPage from './app/ai-impact-planner/ask/page';
+import ChatIntakePage from './app/chat-intake/page';
+import StartupProfilePage from './app/startup-profile/page';
+import MarketResearchHubPage from './app/market-research-hub/page';
+import IdeaWallPage from './app/idea-wall/page';
+import StoryMapPage from './app/story-map/page';
+import ExperimentsLabPage from './app/experiments-lab/page';
+import StyleGuidePage from './app/style-guide/page';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'home-v5' | 'home-v6' | 'onboarding' | 'onboarding-v2' | 'onboarding-animation-demo' | 'onboarding-minimal' | 'onboarding-v3' | 'smart-interview' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'events' | 'event-detail' | 'events-discover' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'ai-products-v3' | 'ai-gtm' | 'ai-startup-landscape' | 'startup-validator' | 'startup-validator-v2' | 'startup-validator-v3' | 'startup-validator-v4' | 'validator-chat' | 'validator' | 'validator-run' | 'validator-report' | 'validator-test' | 'running-agents' | 'diagrams-flows' | 'diagrams-ai-flows'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'home-v5' | 'home-v6' | 'onboarding' | 'onboarding-v2' | 'onboarding-animation-demo' | 'onboarding-minimal' | 'onboarding-v3' | 'smart-interview' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'lean-canvas-v2' | 'opportunity-canvas' | '90-day-plan' | 'events' | 'event-detail' | 'events-discover' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'ai-products-v3' | 'ai-gtm' | 'ai-startup-landscape' | 'startup-validator' | 'startup-validator-v2' | 'startup-validator-v3' | 'startup-validator-v4' | 'validator-chat' | 'validator' | 'validator-run' | 'validator-report' | 'validator-test' | 'running-agents' | 'diagrams-flows' | 'diagrams-ai-flows' | 'ai-impact-planner' | 'ai-impact-results' | 'ai-impact-action' | 'ask-trends' | 'chat-intake' | 'startup-profile' | 'market-research-hub' | 'idea-wall' | 'story-map' | 'experiments-lab' | 'style-guide'>('home');
   const [routeParams, setRouteParams] = useState<Record<string, string>>({});
 
   const handleNavigate = (page: string) => {
@@ -127,6 +141,18 @@ export default function App() {
 
   if (currentPage === 'lean-canvas-ai') {
     return <LeanCanvasAIPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'lean-canvas-v2') {
+    return <LeanCanvasV2Page onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'opportunity-canvas') {
+    return <OpportunityCanvasPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === '90-day-plan') {
+    return <NineDayPlanPage onNavigate={handleNavigate} />;
   }
 
   if (currentPage === 'events') {
@@ -319,6 +345,50 @@ export default function App() {
 
   if (currentPage === 'diagrams-ai-flows') {
     return <AIFlowsPage />;
+  }
+
+  if (currentPage === 'ai-impact-planner') {
+    return <AIImpactPlannerPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'ai-impact-results') {
+    return <AIImpactResultsPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'ai-impact-action') {
+    return <AIImpactActionPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'ask-trends') {
+    return <AskTrendsPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'chat-intake') {
+    return <ChatIntakePage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'startup-profile') {
+    return <StartupProfilePage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'market-research-hub') {
+    return <MarketResearchHubPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'idea-wall') {
+    return <IdeaWallPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'story-map') {
+    return <StoryMapPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'experiments-lab') {
+    return <ExperimentsLabPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'style-guide') {
+    return <StyleGuidePage onNavigate={handleNavigate} />;
   }
 
   return (

@@ -4,6 +4,7 @@ const footerLinks = {
     links: [
       { label: 'Home V5', href: '/home-v5', isRoute: true, routeName: 'home-v5' },
       { label: 'Home V6', href: '/home-v6', isRoute: true, routeName: 'home-v6' },
+      { label: 'Home V7', href: '/home-v7', isRoute: true, routeName: 'home-v7' },
       { label: 'How it works', href: '/how-it-works', isRoute: true, routeName: 'how-it-works' },
       { label: 'Pricing', href: '#' },
       { label: 'Security', href: '#' },
@@ -25,8 +26,17 @@ const footerLinks = {
     links: [
       { label: 'Main Dashboard', href: '/dashboard/main', isRoute: true, routeName: 'dashboard-main' },
       { label: 'Kanban Dashboard', href: '/dashboard', isRoute: true, routeName: 'dashboard' },
+      { label: 'Chat Intake', href: '/chat-intake', isRoute: true, routeName: 'chat-intake' },
+      { label: 'Startup Profile', href: '/startup-profile', isRoute: true, routeName: 'startup-profile' },
       { label: 'Lean Canvas', href: '/lean-canvas', isRoute: true, routeName: 'lean-canvas' },
       { label: 'Lean Canvas with AI', href: '/lean-canvas-ai', isRoute: true, routeName: 'lean-canvas-ai' },
+      { label: 'Lean Canvas V2', href: '/lean-canvas-v2', isRoute: true, routeName: 'lean-canvas-v2' },
+      { label: 'Opportunity Canvas', href: '/opportunity-canvas', isRoute: true, routeName: 'opportunity-canvas' },
+      { label: 'Market Research Hub', href: '/market-research-hub', isRoute: true, routeName: 'market-research-hub' },
+      { label: 'Idea Wall', href: '/idea-wall', isRoute: true, routeName: 'idea-wall' },
+      { label: 'Story Map', href: '/story-map', isRoute: true, routeName: 'story-map' },
+      { label: 'Experiments Lab', href: '/experiments-lab', isRoute: true, routeName: 'experiments-lab' },
+      { label: '90-Day Plan', href: '/90-day-plan', isRoute: true, routeName: '90-day-plan' },
       { label: 'Startup Validator', href: '/startup-validator', isRoute: true, routeName: 'startup-validator' },
       { label: 'Startup Validator V2', href: '/startup-validator-v2', isRoute: true, routeName: 'startup-validator-v2' },
       { label: 'Startup Validator V3', href: '/startup-validator-v3', isRoute: true, routeName: 'startup-validator-v3' },
@@ -40,6 +50,7 @@ const footerLinks = {
       { label: 'Blog', href: '#' },
       { label: 'Careers', href: '#' },
       { label: 'Contact', href: '#' },
+      { label: 'Style Guide', href: '/style-guide', isRoute: true, routeName: 'style-guide' },
     ],
   },
   diagrams: {
@@ -65,6 +76,13 @@ const footerLinks = {
       { label: 'AI Products Intelligence 2024-2026', href: '/infographics/ai-products-v3', isRoute: true, routeName: 'ai-products-v3' },
       { label: 'AI GTM Report 2025', href: '/infographics/ai-gtm', isRoute: true, routeName: 'ai-gtm' },
       { label: 'AI Startup Landscape 2025-2026', href: '/infographics/ai-startup-landscape', isRoute: true, routeName: 'ai-startup-landscape' },
+    ],
+  },
+  trendIntelligence: {
+    title: 'Trend Intelligence',
+    links: [
+      { label: 'AI Impact Planner', href: '/ai-impact-planner', isRoute: true, routeName: 'ai-impact-planner' },
+      { label: 'Ask the Trends', href: '/ask-trends', isRoute: true, routeName: 'ask-trends' },
     ],
   },
 };
@@ -95,7 +113,7 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 lg:gap-16">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-12 lg:gap-8">
             {/* Product Column */}
             <div className="space-y-6">
               <h3 className="text-sm text-gray-900 uppercase tracking-wider">
@@ -166,6 +184,7 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
                   <li key={index}>
                     <a
                       href={link.href}
+                      onClick={(e) => handleLinkClick(e, link)}
                       className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
                     >
                       {link.label}
@@ -202,6 +221,26 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
               </h3>
               <ul className="space-y-3">
                 {footerLinks.resources.links.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleLinkClick(e, link)}
+                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Trend Intelligence Column */}
+            <div className="space-y-6">
+              <h3 className="text-sm text-gray-900 uppercase tracking-wider">
+                {footerLinks.trendIntelligence.title}
+              </h3>
+              <ul className="space-y-3">
+                {footerLinks.trendIntelligence.links.map((link, index) => (
                   <li key={index}>
                     <a
                       href={link.href}
