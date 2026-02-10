@@ -4,10 +4,76 @@
 
 ---
 
-## 🎯 LATEST UPDATE: Validator Wireframes Documentation ✅
+## 🎯 LATEST UPDATE: Validator Report Spec Added ✅
 
 **Date:** February 10, 2026  
 **Status:** ✅ Complete
+
+### What Was Done
+- Created comprehensive validator report specification
+- Documented 14-section report structure with real-world examples
+- Defined AI context panel with 4-block system
+- Specified PDF export and citation tracking
+
+### File Created
+- ✅ `/docs/01-validator/02-validator-report.md` - Report viewer spec
+
+### Report Highlights
+- **Route:** `/validator/report/:reportId`
+- **14 Sections:** Problem → Customer → Market → Competition → Risks → MVP → Next Steps → Scores → Tech → Revenue → Team → Questions → Resources → Financials
+- **AI Context Panel:** 4 blocks per section (More Detail, Why Matters, Risks & Gaps, Validate Next)
+- **Citation Tracking:** All claims linked to sources
+- **PDF Export:** A4 format with cover, TOC, citations
+- **Execution Trace:** 7-agent transparency (duration, tokens, cost)
+- **Real Example:** Dental AI scheduling tool (72/100, GO verdict)
+
+**Mental Model:** 14 sections → Context on demand → Citations → Actions
+
+**Complete Validator Flow:**
+1. `/docs/01-validator/00-wireframes.md` - 6-screen journey
+2. `/docs/01-validator/01-progress.md` - Pipeline execution (7 agents)
+3. `/docs/01-validator/02-validator-report.md` - Report viewer (14 sections)
+
+---
+
+## 📊 PREVIOUS UPDATE: Validator Documentation Reorganized to 01-validator ✅
+
+**Date:** February 10, 2026  
+**Status:** ✅ Complete
+
+### What Was Done
+- Moved validator wireframes to numbered directory structure
+- Created progress screen specification document
+- Consolidated validator docs under `/docs/01-validator/`
+
+### Files Created/Moved
+- ✅ `/docs/01-validator/00-wireframes.md` - Complete flow wireframes (6 screens)
+- ✅ `/docs/01-validator/01-progress.md` - Progress screen spec (7-agent pipeline)
+- ✅ Deleted `/docs/validator/00-wireframes.md` (moved to 01-validator)
+- ✅ Deleted `/docs/validator/01-progress.md` (moved to 01-validator)
+
+### Directory Structure
+- `/docs/01-lean/` - Lean Canvas & related tools
+- `/docs/01-validator/` - Validator flow documentation (NEW)
+- Follows numbered prefix pattern for consistency
+
+### Progress Screen Spec Highlights
+- **Route:** `/validator/run/:sessionId`
+- **Polling:** 2s intervals, 180s max
+- **7 Agents:** Extract → Research → Competitors → Score → MVP → Compose → Verify
+- **States:** running, complete, partial, failed
+- **Auto-redirect:** 1s after completion
+- **Error Handling:** Partial success, total failure, timeout recovery
+- **Zombie Cleanup:** 6-minute threshold
+
+**Mental Model:** 7 agents → Sequential execution → Live updates → Auto-redirect
+
+---
+
+## 📊 PREVIOUS UPDATE: Validator Wireframes Documentation ✅
+
+**Date:** February 10, 2026  
+**Status:** ✅ Complete (now reorganized to 01-validator)
 
 ### What Was Created
 - Comprehensive validator flow wireframes
