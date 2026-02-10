@@ -61,6 +61,7 @@ export const productNavigation = {
     icon: 'TrendingUp',
     description: 'Market intelligence',
     links: [
+      { name: 'Validator V3 Report', route: 'validator-v3', status: 'active' as const, badge: 'New' },
       { name: 'AI Landscape', route: 'ai-landscape', status: 'active' as const },
       { name: 'AI Adoption 2025', route: 'ai-adoption-2025', status: 'active' as const },
       { name: 'AI Industry Adoption', route: 'ai-industry-adoption', status: 'active' as const },

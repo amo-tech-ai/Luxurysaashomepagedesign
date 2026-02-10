@@ -5,6 +5,7 @@ const footerLinks = {
       { label: 'Home V5', href: '/home-v5', isRoute: true, routeName: 'home-v5' },
       { label: 'Home V6', href: '/home-v6', isRoute: true, routeName: 'home-v6' },
       { label: 'Home V7', href: '/home-v7', isRoute: true, routeName: 'home-v7' },
+      { label: 'Home V8', href: '/home-v8', isRoute: true, routeName: 'home-v8' },
       { label: 'How it works', href: '/how-it-works', isRoute: true, routeName: 'how-it-works' },
       { label: 'Pricing', href: '#' },
       { label: 'Security', href: '#' },
@@ -19,6 +20,8 @@ const footerLinks = {
       { label: 'Minimal Onboarding', href: '/onboarding-minimal', isRoute: true, routeName: 'onboarding-minimal' },
       { label: 'Onboarding V3', href: '/onboarding-v3', isRoute: true, routeName: 'onboarding-v3' },
       { label: 'Pitch Deck Generator', href: '/pitch-deck', isRoute: true, routeName: 'pitch-deck' },
+      { label: 'Validator V2 Report', href: '/validator-v2', isRoute: true, routeName: 'validator-v2' },
+      { label: 'Validator V3 Report', href: '/validator-v3', isRoute: true, routeName: 'validator-v3' },
     ],
   },
   dashboard: {

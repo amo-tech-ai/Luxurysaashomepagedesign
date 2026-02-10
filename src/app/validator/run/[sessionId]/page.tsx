@@ -24,75 +24,46 @@ export default function ValidatorRunPage({ sessionId, onNavigate }: ValidatorRun
     { name: 'VerifyAgent', label: 'Verify report', status: 'queued' },
   ]);
   const [sessionStatus, setSessionStatus] = useState<'running' | 'complete' | 'partial' | 'failed'>('running');
-  const [reportId, setReportId] = useState<string | null>(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Poll for status updates
-    const pollStatus = async () => {
-      try {
-        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-        const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-        if (!supabaseUrl || !supabaseAnonKey) {
-          throw new Error('Supabase not configured');
-        }
-
-        const response = await fetch(
-          `${supabaseUrl}/functions/v1/validator-status?session_id=${sessionId}`,
-          {
-            headers: {
-              'Authorization': `Bearer ${supabaseAnonKey}`,
-            },
-          }
+    // DEMO MODE: Simulate progress with mock data
+    let currentStepIndex = 0;
+    
+    const progressInterval = setInterval(() => {
+      if (currentStepIndex < steps.length) {
+        // Mark current step as running
+        setSteps(prevSteps => 
+          prevSteps.map((step, idx) => {
+            if (idx < currentStepIndex) {
+              return { ...step, status: 'done' as const };
+            } else if (idx === currentStepIndex) {
+              return { ...step, status: 'running' as const };
+            }
+            return step;
+          })
         );
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch status');
-        }
-
-        const data = await response.json();
-        setSessionStatus(data.status);
-
-        // Update step statuses
-        const updatedSteps = steps.map(step => {
-          const run = data.runs?.find((r: any) => r.agent_name === step.name);
-          if (run) {
-            return {
-              ...step,
-              status: run.status,
-              error: run.error_message,
-            };
-          }
-          return step;
-        });
-        setSteps(updatedSteps);
-
-        // If complete, navigate to report
-        if ((data.status === 'complete' || data.status === 'partial') && data.report_id) {
-          setReportId(data.report_id);
-          setTimeout(() => {
-            onNavigate?.(`validator/report/${data.report_id}`);
-          }, 1500);
-        }
-
-        // If failed, show error
-        if (data.status === 'failed') {
-          setError('Validation failed. Please try again.');
-        }
-
-      } catch (err) {
-        console.error('Status poll error:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch status');
+        currentStepIndex++;
+      } else {
+        // All steps complete
+        setSteps(prevSteps => 
+          prevSteps.map(step => ({ ...step, status: 'done' as const }))
+        );
+        setSessionStatus('complete');
+        clearInterval(progressInterval);
+        
+        // Navigate to demo report after completion
+        setTimeout(() => {
+          onNavigate?.('validator-report');
+        }, 1500);
       }
+    }, 2000); // Each step takes 2 seconds
+
+    return () => {
+      clearInterval(progressInterval);
     };
-
-    // Poll every 2 seconds
-    const interval = setInterval(pollStatus, 2000);
-    pollStatus(); // Initial fetch
-
-    return () => clearInterval(interval);
-  }, [sessionId, onNavigate]);
+  }, [onNavigate]);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -126,7 +97,7 @@ export default function ValidatorRunPage({ sessionId, onNavigate }: ValidatorRun
       <header className="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
           <button 
-            onClick={() => onNavigate?.('home-v5')}
+            onClick={() => onNavigate?.('home')}
             className="flex items-center gap-3 group"
           >
             <div className="w-8 h-8 bg-[#0d5f4e] rounded-lg flex items-center justify-center">
@@ -218,6 +189,15 @@ export default function ValidatorRunPage({ sessionId, onNavigate }: ValidatorRun
         {/* Session Info */}
         <div className="mt-6 text-center text-sm text-gray-500">
           Session ID: {sessionId}
+        </div>
+
+        {/* Info Box */}
+        <div className="mt-8 p-6 bg-gradient-to-br from-[#DCF9E3] to-[#F5F3EF] border border-[#3B5F52]/20 rounded-xl">
+          <div className="text-sm text-[#3B5F52] mb-2 font-medium">Demo Mode</div>
+          <p className="text-sm text-[#6B7280]">
+            This is a demonstration showing how the AI validation pipeline processes your startup idea through 7 specialized agents. 
+            In production, this connects to real AI models for comprehensive analysis.
+          </p>
         </div>
       </main>
     </div>

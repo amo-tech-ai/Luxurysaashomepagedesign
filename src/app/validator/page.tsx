@@ -6,56 +6,26 @@ interface ValidatorPageProps {
 }
 
 export default function ValidatorPage({ onNavigate }: ValidatorPageProps) {
-  const [input, setInput] = useState('');
+  const [inputText, setInputText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
 
   const handleSubmit = async () => {
-    if (!input.trim()) {
-      setError('Please describe your startup idea');
-      return;
-    }
+    if (!inputText.trim()) return;
 
     setIsSubmitting(true);
-    setError('');
+    setError(null);
 
     try {
-      // Call Supabase edge function
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-      if (!supabaseUrl || !supabaseAnonKey) {
-        throw new Error('Supabase not configured');
-      }
-
-      // Get auth token (for now, use anon key)
-      const authToken = supabaseAnonKey;
-
-      const response = await fetch(`${supabaseUrl}/functions/v1/validator-start`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({ input_text: input }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to start validation');
-      }
-
-      const data = await response.json();
-
-      // Navigate to progress page
-      if (data.session_id) {
-        onNavigate?.(`validator/run/${data.session_id}`);
-      } else {
-        throw new Error('No session ID returned');
-      }
-
+      // DEMO MODE: Use mock data instead of Supabase
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
+      
+      const mockSessionId = 'demo-' + Date.now();
+      
+      // Navigate to run page with mock session
+      onNavigate?.(`validator/run/${mockSessionId}`);
+      
     } catch (err) {
-      console.error('Validation error:', err);
       setError(err instanceof Error ? err.message : 'Failed to start validation');
       setIsSubmitting(false);
     }
@@ -121,8 +91,8 @@ export default function ValidatorPage({ onNavigate }: ValidatorPageProps) {
 
           <div className="space-y-4">
             <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Example: We're building an AI-powered operating system for founders that guides them from initial idea validation through daily execution. The problem is that early-stage founders spend weeks researching tools, creating pitch decks, and validating ideas manually when they should be building. Our solution uses AI agents to handle strategy, validation, and execution planning in one guided flow..."
               className="w-full h-48 px-4 py-3 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#0d5f4e] focus:border-transparent text-[#212427] placeholder:text-gray-400"
@@ -141,7 +111,7 @@ export default function ValidatorPage({ onNavigate }: ValidatorPageProps) {
               </p>
               <button
                 onClick={handleSubmit}
-                disabled={!input.trim() || isSubmitting}
+                disabled={!inputText.trim() || isSubmitting}
                 className="px-6 py-3 bg-[#0d5f4e] hover:bg-[#0a4a3a] disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-lg transition-all flex items-center gap-2 group"
               >
                 {isSubmitting ? (
@@ -180,6 +150,15 @@ export default function ValidatorPage({ onNavigate }: ValidatorPageProps) {
               Comprehensive analysis from market sizing to MVP roadmap
             </p>
           </div>
+        </div>
+
+        {/* Demo Notice */}
+        <div className="mt-8 p-6 bg-gradient-to-br from-[#DCF9E3] to-[#F5F3EF] border border-[#3B5F52]/20 rounded-xl">
+          <div className="text-sm text-[#3B5F52] mb-2 font-medium">Demo Mode</div>
+          <p className="text-sm text-[#6B7280]">
+            This demonstration shows the validation workflow UI. Click "Generate Report" to see 
+            the progress page and comprehensive validation report with sample data.
+          </p>
         </div>
       </main>
     </div>

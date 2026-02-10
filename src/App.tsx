@@ -40,12 +40,13 @@ import PitchDeckAIDemoPage from './app/pitch-deck/ai-suggestions-demo/page';
 import PitchDeckAIEnhancedPage from './app/pitch-deck/ai-suggestions-enhanced-demo/page';
 import PitchDeckV2Page from './app/pitch-deck/page-v2';
 import DashboardPage from './app/dashboard/page';
-import DashboardV2Page from './app/dashboard-v2/page';
+import DashboardV2Page from './app/dashboardv2/page';
 import DashboardMainPage from './app/dashboard/main/page';
 import RoadmapPage from './app/dashboard/roadmap/page';
 import LeanCanvasPage from './app/lean-canvas/page';
 import LeanCanvasAIPage from './app/lean-canvas-ai/page';
 import LeanCanvasV2Page from './app/lean-canvas-v2/page';
+import LeanCanvasV4Page from './app/lean-canvas-v4/page';
 import OpportunityCanvasPage from './app/opportunity-canvas/page';
 import NineDayPlanPage from './app/90-day-plan/page';
 import SitemapPage from './app/sitemap/page';
@@ -69,6 +70,8 @@ import RunningAgentsPage from './app/running-agents/page';
 import SmartInterviewPage from './app/smart-interview/page';
 import HomeV5Page from './app/home-v5/page';
 import HomeV6Page from './pages/home-v6';
+import HomeV7Page from './app/home-v7/page';
+import HomeV8Page from './app/home-v8/page';
 import FlowDiagramsPage from './app/diagrams/flows/page';
 import AIFlowsPage from './app/diagrams/ai-flows/page';
 import AIImpactPlannerPage from './app/ai-impact-planner/page';
@@ -82,9 +85,32 @@ import IdeaWallPage from './app/idea-wall/page';
 import StoryMapPage from './app/story-map/page';
 import ExperimentsLabPage from './app/experiments-lab/page';
 import StyleGuidePage from './app/style-guide/page';
+import ValidatorReportDemoPage from './app/validator-report/page';
+import ValidatorV2Page from './app/validator-v2/page';
+import ValidatorV3Page from './app/validator-v3/page';
+import StrategySystemDemoPage from './app/strategy-system-demo/page';
+import FounderDashboardV2Page from './app/founder-dashboard-v2/page';
+import KanbanPage from './app/kanban/page';
+import TasksPage from './app/tasks/page';
+import InvestorStrategyPage from './app/investor-strategy/page';
+import CRMPage from './app/crm/page';
+import ReportsPage from './app/reports/page';
+import DataRoomPage from './app/data-room/page';
+import WorkspacePage from './app/workspace/page';
+import ValidationCanvasPage from './app/validate/canvas/page';
+import ValuePropositionPage from './app/value-proposition/page';
+import ImmersiveExperienceCanvasPage from './app/immersive-experience-canvas/page';
+import AIReadinessCanvasPage from './app/ai-readiness-canvas/page';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'home-v5' | 'home-v6' | 'onboarding' | 'onboarding-v2' | 'onboarding-animation-demo' | 'onboarding-minimal' | 'onboarding-v3' | 'smart-interview' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'lean-canvas' | 'lean-canvas-ai' | 'lean-canvas-v2' | 'opportunity-canvas' | '90-day-plan' | 'events' | 'event-detail' | 'events-discover' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'ai-products-v3' | 'ai-gtm' | 'ai-startup-landscape' | 'startup-validator' | 'startup-validator-v2' | 'startup-validator-v3' | 'startup-validator-v4' | 'validator-chat' | 'validator' | 'validator-run' | 'validator-report' | 'validator-test' | 'running-agents' | 'diagrams-flows' | 'diagrams-ai-flows' | 'ai-impact-planner' | 'ai-impact-results' | 'ai-impact-action' | 'ask-trends' | 'chat-intake' | 'startup-profile' | 'market-research-hub' | 'idea-wall' | 'story-map' | 'experiments-lab' | 'style-guide'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'home-v1' | 'home-v5' | 'home-v6' | 'home-v7' | 'home-v8' | 'onboarding' | 'onboarding-v2' | 'onboarding-animation-demo' | 'onboarding-minimal' | 'onboarding-v3' | 'smart-interview' | 'sitemap' | 'dashboard' | 'dashboard-v2' | 'dashboard-main' | 'dashboard-roadmap' | 'dashboard-ideation' | 'founder-dashboard-v2' | 'dashboardv2' | 'kanban' | 'tasks' | 'investor-strategy' | 'crm' | 'reports' | 'data-room' | 'workspace' | 'validate-canvas' | 'value-proposition' | 'immersive-experience-canvas' | 'ai-readiness-canvas' | 'lean-canvas' | 'lean-canvas-ai' | 'lean-canvas-v2' | 'lean-canvas-v4' | 'opportunity-canvas' | '90-day-plan' | 'events' | 'event-detail' | 'events-discover' | 'how-it-works' | 'how-it-works-pitch' | 'how-pitch-works' | 'how-it-works-v2' | 'how-it-works-v3' | 'ai-landscape' | 'ai-adoption-2025' | 'ai-industry-adoption' | 'ai-jobs-future-work' | 'ai-jobs-v2' | 'pitch-deck' | 'pitch-deck-v2' | 'pitch-deck-editor' | 'pitch-deck-dashboard' | 'ai-chatbot-demo' | 'pitch-deck-wizard' | 'pitch-deck-ai-demo' | 'pitch-deck-ai-enhanced' | 'ai-hubs' | 'ai-products' | 'ai-products-v2' | 'ai-products-v3' | 'ai-gtm' | 'ai-startup-landscape' | 'startup-validator' | 'startup-validator-v2' | 'startup-validator-v3' | 'startup-validator-v4' | 'validator-chat' | 'validator' | 'validator-v2' | 'validator-v3' | 'validator-run' | 'validator-report' | 'validator-test' | 'running-agents' | 'diagrams-flows' | 'diagrams-ai-flows' | 'ai-impact-planner' | 'ai-impact-results' | 'ai-impact-action' | 'ask-trends' | 'chat-intake' | 'startup-profile' | 'market-research-hub' | 'idea-wall' | 'story-map' | 'experiments-lab' | 'style-guide' | 'strategy-system-demo'>(() => {
+    // Initialize from URL on first load
+    const path = window.location.pathname;
+    if (path === '/' || path === '') return 'dashboardv2';
+    // Remove leading slash and convert to page name
+    const pageName = path.slice(1);
+    return pageName as any || 'dashboardv2';
+  });
   const [routeParams, setRouteParams] = useState<Record<string, string>>({});
 
   const handleNavigate = (page: string) => {
@@ -93,12 +119,17 @@ export default function App() {
     if (parts[0] === 'validator' && parts[1] === 'run' && parts[2]) {
       setCurrentPage('validator-run');
       setRouteParams({ sessionId: parts[2] });
+      window.history.pushState({}, '', `/validator/run/${parts[2]}`);
     } else if (parts[0] === 'validator' && parts[1] === 'report' && parts[2]) {
       setCurrentPage('validator-report');
       setRouteParams({ reportId: parts[2] });
+      window.history.pushState({}, '', `/validator/report/${parts[2]}`);
     } else {
       setCurrentPage(page as any);
       setRouteParams({});
+      // Update URL to match the page
+      const urlPath = page === 'home' || page === 'home-v1' ? '/' : `/${page}`;
+      window.history.pushState({}, '', urlPath);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -110,8 +141,23 @@ export default function App() {
       handleNavigate(customEvent.detail);
     };
 
+    // Handle browser back/forward buttons
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path === '/' || path === '') {
+        setCurrentPage('dashboardv2');
+      } else {
+        const pageName = path.slice(1);
+        setCurrentPage(pageName as any);
+      }
+    };
+
     window.addEventListener('navigate', handleNavigationEvent);
-    return () => window.removeEventListener('navigate', handleNavigationEvent);
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('navigate', handleNavigationEvent);
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
   // Simple client-side routing
@@ -135,6 +181,58 @@ export default function App() {
     return <IdeationPage onNavigate={handleNavigate} />;
   }
 
+  if (currentPage === 'founder-dashboard-v2') {
+    return <FounderDashboardV2Page onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'dashboardv2') {
+    return <DashboardV2Page onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'kanban') {
+    return <KanbanPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'tasks') {
+    return <TasksPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'investor-strategy') {
+    return <InvestorStrategyPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'crm') {
+    return <CRMPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'reports') {
+    return <ReportsPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'data-room') {
+    return <DataRoomPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'workspace') {
+    return <WorkspacePage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'validate-canvas') {
+    return <ValidationCanvasPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'value-proposition') {
+    return <ValuePropositionPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'immersive-experience-canvas') {
+    return <ImmersiveExperienceCanvasPage onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'ai-readiness-canvas') {
+    return <AIReadinessCanvasPage onNavigate={handleNavigate} />;
+  }
+
   if (currentPage === 'lean-canvas') {
     return <LeanCanvasPage onNavigate={handleNavigate} />;
   }
@@ -145,6 +243,10 @@ export default function App() {
 
   if (currentPage === 'lean-canvas-v2') {
     return <LeanCanvasV2Page onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'lean-canvas-v4') {
+    return <LeanCanvasV4Page onNavigate={handleNavigate} />;
   }
 
   if (currentPage === 'opportunity-canvas') {
@@ -311,12 +413,25 @@ export default function App() {
     return <ValidatorPage onNavigate={handleNavigate} />;
   }
 
+  if (currentPage === 'validator-v2') {
+    return <ValidatorV2Page onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'validator-v3') {
+    return <ValidatorV3Page onNavigate={handleNavigate} />;
+  }
+
   if (currentPage === 'validator-run') {
     return <ValidatorRunPage onNavigate={handleNavigate} sessionId={routeParams.sessionId} />;
   }
 
   if (currentPage === 'validator-report') {
     return <ValidatorReportPage onNavigate={handleNavigate} reportId={routeParams.reportId} />;
+  }
+
+  // Static demo validator report page
+  if (currentPage === 'validator-report' && !routeParams.reportId) {
+    return <ValidatorReportDemoPage onNavigate={handleNavigate} />;
   }
 
   if (currentPage === 'validator-test') {
@@ -337,6 +452,14 @@ export default function App() {
 
   if (currentPage === 'home-v6') {
     return <HomeV6Page />;
+  }
+
+  if (currentPage === 'home-v7') {
+    return <HomeV7Page onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === 'home-v8') {
+    return <HomeV8Page onNavigate={handleNavigate} />;
   }
 
   if (currentPage === 'diagrams-flows') {
@@ -391,30 +514,40 @@ export default function App() {
     return <StyleGuidePage onNavigate={handleNavigate} />;
   }
 
-  return (
-    <div className="min-h-screen">
-      <NavigationBar onNavigate={handleNavigate} currentPage={currentPage} />
-      <Hero />
-      <HowItWorks />
-      <InsightStatement />
-      <Features />
-      <StartupSystem />
-      <ValuePillars />
-      <GuidedFlow />
-      <SingleSource />
-      <Outcomes />
-      <PitchDeckSection onNavigate={handleNavigate} />
-      <FinalCTA onNavigate={handleNavigate} />
-      <Footer onNavigate={handleNavigate} />
-      
-      {/* AI Chatbot - Available on all pages */}
-      <AIChatbot 
-        currentContext="dashboard"
-        startupStage="validation"
-        onActionApply={(actionId) => {
-          console.log('Action applied:', actionId);
-        }}
-      />
-    </div>
-  );
+  if (currentPage === 'strategy-system-demo') {
+    return <StrategySystemDemoPage onNavigate={handleNavigate} />;
+  }
+
+  // Route for original home (now called home-v1)
+  if (currentPage === 'home-v1') {
+    return (
+      <div className="min-h-screen">
+        <NavigationBar onNavigate={handleNavigate} currentPage={currentPage} />
+        <Hero />
+        <HowItWorks />
+        <InsightStatement />
+        <Features />
+        <StartupSystem />
+        <ValuePillars />
+        <GuidedFlow />
+        <SingleSource />
+        <Outcomes />
+        <PitchDeckSection onNavigate={handleNavigate} />
+        <FinalCTA onNavigate={handleNavigate} />
+        <Footer onNavigate={handleNavigate} />
+        
+        {/* AI Chatbot - Available on all pages */}
+        <AIChatbot 
+          currentContext="dashboard"
+          startupStage="validation"
+          onActionApply={(actionId) => {
+            console.log('Action applied:', actionId);
+          }}
+        />
+      </div>
+    );
+  }
+
+  // Default home route now shows home-v8
+  return <HomeV8Page onNavigate={handleNavigate} />;
 }

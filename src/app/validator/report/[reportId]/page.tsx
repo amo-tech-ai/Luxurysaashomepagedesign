@@ -20,54 +20,225 @@ export default function ValidatorReportPage({ reportId, onNavigate }: ValidatorR
 
   const fetchReport = async () => {
     try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      // DEMO MODE: Use sample data
+      await new Promise(resolve => setTimeout(resolve, 800)); // Simulate loading
+      
+      const mockReportContent: ReportContent = {
+        summary_verdict: {
+          overall_verdict: 'CAUTION',
+          score: 62,
+          confidence: 'Medium',
+          one_sentence_summary: 'Strong problem-solution fit with premium travelers, but faces extreme competition from well-funded incumbents and requires rapid user traction to validate real-time trust advantage.',
+        },
+        problem_clarity: {
+          problem_statement: 'Travelers experience "mid-trip pivot chaos" when plans fail due to weather, closures, or personal preference changes, requiring rapid re-planning with trusted, real-time information.',
+          severity_score: 8,
+          frequency_score: 7,
+          urgency_score: 9,
+          problem_validation: 'Validated through 23 user interviews; 87% report mid-trip pivot as top-3 travel pain point. Evidence shows current solutions (Google Maps, guidebooks) fail during disruptions.',
+        },
+        customer_use_case: {
+          target_customer: 'Premium leisure travelers (35-55, $150K+ household income) who value spontaneity but need trust signals during mid-trip changes.',
+          use_case_description: 'During a 5-day Barcelona trip, weather forces indoor alternatives. User needs instant, contextual venue recommendations with real-time status and trust validation.',
+          value_proposition: 'AI-powered concierge that adapts itineraries in real-time with verified venue status and contextual recommendations, reducing re-planning stress from 2+ hours to 5 minutes.',
+          willingness_to_pay_estimate: 'High - 65% of interviewed users willing to pay $15-30 per trip for real-time solution. Comparable to premium navigation apps.',
+        },
+        market_sizing: {
+          tam: '$4.15B',
+          sam: '$1.0B',
+          som: '$500M',
+          market_growth_rate: '12% CAGR (2024-2028)',
+          methodology: 'Top-down: Global travel app market ($4.15B) × Premium segment (25%) × Real-time planning need (40%). Validated against Expedia/TripAdvisor TAM disclosures.',
+          citations: [
+            { title: 'Travel Tech Market Report 2024', url: 'example.com/report', source: 'Allied Market Research' },
+            { title: 'Premium Travel Segment Analysis', url: 'example.com/premium', source: 'McKinsey Travel' },
+          ],
+        },
+        competition: {
+          competitors: [
+            {
+              name: 'Google Maps',
+              description: 'Dominant navigation with real-time traffic but limited contextual trip planning and no trust signals for recommendations.',
+              strength: 'High',
+              weakness: 'Generic recommendations, no personalization, no trip context awareness',
+            },
+            {
+              name: 'Mindtrip',
+              description: 'AI travel planning startup ($20M Series A) focused on pre-trip itinerary generation with limited real-time adaptation.',
+              strength: 'Medium',
+              weakness: 'Weak mid-trip pivot capability, no real-time venue verification',
+            },
+            {
+              name: 'Expedia',
+              description: 'Booking-focused platform with some discovery features but optimized for pre-trip reservations, not in-trip changes.',
+              strength: 'High',
+              weakness: 'Booking-centric UI, slow to adapt, no AI-powered real-time replanning',
+            },
+            {
+              name: 'Layla',
+              description: 'AI travel assistant focused on inspiration and booking, limited real-time contextual adaptation.',
+              strength: 'Low',
+              weakness: 'Pre-trip focus, limited real-time data integration',
+            },
+          ],
+          differentiation_summary: 'Unlike Google Maps (generic) or Mindtrip (pre-trip focus), we specialize in real-time, contextual mid-trip pivots with verified venue data and trust signals.',
+          competitive_moat: 'Real-time venue verification pipeline + contextual AI that understands trip progress + trust signal architecture. Defensible through data network effects as users validate venues.',
+          citations: [
+            { title: 'Mindtrip Series A Announcement', url: 'example.com/mindtrip', source: 'TechCrunch' },
+            { title: 'Google Maps Feature Analysis', url: 'example.com/maps', source: 'Product Analysis' },
+          ],
+        },
+        risks_assumptions: {
+          top_risks: [
+            {
+              risk_description: 'Google Maps launches AI-powered contextual planning within 12 months',
+              severity: 'High',
+              mitigation_strategy: 'Build proprietary trust signal layer and focus on premium segment Google under-serves. Establish user lock-in through saved trip context.',
+            },
+            {
+              risk_description: 'Real-time venue data hallucination damages user trust irreversibly',
+              severity: 'High',
+              mitigation_strategy: 'Implement "Wizard of Oz" concierge for first 100 users to manually verify all recommendations. Build hallucination detection system before scaling.',
+            },
+            {
+              risk_description: 'User acquisition cost exceeds $50/user, making unit economics negative',
+              severity: 'Medium',
+              mitigation_strategy: 'Target boutique travel agencies and hotel concierges as B2B distribution channel. Leverage word-of-mouth in premium traveler communities.',
+            },
+          ],
+          critical_assumptions: [
+            {
+              assumption: 'Users will trust AI-generated recommendations during stressful mid-trip situations',
+              validation_method: 'Run 20-user beta with real trips. Measure trust score before/after pivots. Target: 80% would use again.',
+            },
+            {
+              assumption: 'Real-time venue status can be sourced reliably at <$0.10 per query',
+              validation_method: 'Build proof-of-concept data pipeline with Google Places API + web scraping. Test on 100 Barcelona venues.',
+            },
+            {
+              assumption: 'Premium travelers will pay $20-30 per trip for this solution',
+              validation_method: 'A/B test pricing with beta users. Offer $10, $20, $30 tiers and measure conversion + feature usage correlation.',
+            },
+          ],
+        },
+        mvp_scope: {
+          mvp_description: 'WhatsApp-based "Wizard of Oz" concierge where AI suggests pivots but human verifies venue status before delivery. Tests core value prop without building full tech stack.',
+          core_features: [
+            'Real-time venue status verification',
+            'Contextual trip understanding (weather, time, preferences)',
+            'Trust signal display (reviews, real-time crowding)',
+            'Instant pivot suggestions (3-5 options)',
+            'Booking link integration',
+          ],
+          phased_approach: [
+            {
+              phase_name: 'Phase 1: Manual Concierge (4 weeks)',
+              description: 'WhatsApp bot frontend with human-verified recommendations. Test value prop with 20 beta users on real trips.',
+              duration: '4 weeks',
+              key_milestones: [
+                'Recruit 20 beta users from premium travel communities',
+                'Build WhatsApp bot interface with Twilio',
+                'Create internal recommendation verification dashboard',
+                'Measure: 80% would recommend to friend, <5min response time',
+              ],
+            },
+            {
+              phase_name: 'Phase 2: Hybrid AI (6 weeks)',
+              description: 'AI generates recommendations, humans spot-check 20%. Build real-time data pipeline for top 50 US cities.',
+              duration: '6 weeks',
+              key_milestones: [
+                'Integrate Google Places + Yelp APIs',
+                'Build AI recommendation engine (GPT-4 based)',
+                'Implement hallucination detection (compare 3 data sources)',
+                'Scale to 100 users, measure accuracy >90%',
+              ],
+            },
+            {
+              phase_name: 'Phase 3: Full Automation (8 weeks)',
+              description: 'Native iOS app with fully automated AI recommendations, real-time venue verification, and trust signal UI.',
+              duration: '8 weeks',
+              key_milestones: [
+                'Launch iOS TestFlight app',
+                'Implement map-based UI with trust signals',
+                'Add payment processing ($20/trip)',
+                'Target: 500 users, $10K MRR, NPS >50',
+              ],
+            },
+          ],
+          estimated_timeline: '18 weeks (4.5 months) from start to iOS launch',
+        },
+        next_steps: {
+          immediate_actions: [
+            {
+              priority: 'HIGH',
+              title: 'Hallucination Audit on 100 Venues',
+              description: 'Test GPT-4 recommendations against real venue status for 100 Barcelona locations. Measure false positive rate and build detection heuristics.',
+              effort: '1 week',
+              impact: 'Critical - validates core technical risk before user commitment',
+            },
+            {
+              priority: 'HIGH',
+              title: 'Recruit 5 Beta Users for WhatsApp Test',
+              description: 'Find 5 premium travelers planning trips in next 30 days. Offer free concierge service in exchange for detailed feedback.',
+              effort: '1 week',
+              impact: 'High - validates willingness to use during real trips',
+            },
+            {
+              priority: 'MEDIUM',
+              title: 'Interview 3 Boutique Travel Agencies',
+              description: 'Explore B2B distribution channel. Could agencies white-label this for their clients? What commission would they expect?',
+              effort: '1 week',
+              impact: 'Medium - could solve user acquisition challenge',
+            },
+            {
+              priority: 'MEDIUM',
+              title: 'Map Google Maps Product Roadmap',
+              description: 'Research Google I/O announcements, patent filings, and product manager LinkedIn activity to anticipate competitive response.',
+              effort: '3 days',
+              impact: 'Medium - informs urgency and differentiation strategy',
+            },
+            {
+              priority: 'LOW',
+              title: 'Design Trust Signal UI Mockups',
+              description: 'Create Figma mockups showing how trust signals (real-time crowding, review highlights, verification badges) appear in recommendations.',
+              effort: '3 days',
+              impact: 'Low - helps communicate vision to beta users',
+            },
+          ],
+        },
+      };
 
-      if (!supabaseUrl || !supabaseAnonKey) {
-        throw new Error('Supabase not configured');
-      }
+      const mockReport: ValidatorReport = {
+        id: reportId,
+        session_id: 'demo-session-123',
+        user_id: 'demo-user',
+        report_json: mockReportContent,
+        verified: true,
+        verification_json: {
+          verified: true,
+          missing_sections: [],
+          failed_agents: [],
+          warnings: [],
+          timestamp: new Date().toISOString(),
+        },
+        created_at: new Date().toISOString(),
+      };
 
-      // Fetch report
-      const reportResponse = await fetch(
-        `${supabaseUrl}/rest/v1/validator_reports?id=eq.${reportId}&select=*`,
-        {
-          headers: {
-            'apikey': supabaseAnonKey,
-            'Authorization': `Bearer ${supabaseAnonKey}`,
-          },
-        }
-      );
+      const mockRuns: ValidatorRun[] = [
+        { id: '1', session_id: 'demo-session-123', agent_name: 'ExtractorAgent', model_used: 'gpt-4', tool_used: {}, input_json: {}, output_json: {}, citations: [], status: 'done', created_at: new Date().toISOString() },
+        { id: '2', session_id: 'demo-session-123', agent_name: 'ResearchAgent', model_used: 'gpt-4', tool_used: {}, input_json: {}, output_json: {}, citations: [], status: 'done', created_at: new Date().toISOString() },
+        { id: '3', session_id: 'demo-session-123', agent_name: 'CompetitorAgent', model_used: 'gpt-4', tool_used: {}, input_json: {}, output_json: {}, citations: [], status: 'done', created_at: new Date().toISOString() },
+        { id: '4', session_id: 'demo-session-123', agent_name: 'ScoringAgent', model_used: 'gpt-4', tool_used: {}, input_json: {}, output_json: {}, citations: [], status: 'done', created_at: new Date().toISOString() },
+        { id: '5', session_id: 'demo-session-123', agent_name: 'MVPAgent', model_used: 'gpt-4', tool_used: {}, input_json: {}, output_json: {}, citations: [], status: 'done', created_at: new Date().toISOString() },
+        { id: '6', session_id: 'demo-session-123', agent_name: 'ComposerAgent', model_used: 'gpt-4', tool_used: {}, input_json: {}, output_json: {}, citations: [], status: 'done', created_at: new Date().toISOString() },
+        { id: '7', session_id: 'demo-session-123', agent_name: 'VerifyAgent', model_used: 'gpt-4', tool_used: {}, input_json: {}, output_json: {}, citations: [], status: 'done', created_at: new Date().toISOString() },
+      ];
 
-      if (!reportResponse.ok) {
-        throw new Error('Failed to fetch report');
-      }
-
-      const reportData = await reportResponse.json();
-      if (!reportData || reportData.length === 0) {
-        throw new Error('Report not found');
-      }
-
-      setReport(reportData[0]);
-
-      // Fetch runs
-      const runsResponse = await fetch(
-        `${supabaseUrl}/rest/v1/validator_runs?session_id=eq.${reportData[0].session_id}&select=*&order=created_at.asc`,
-        {
-          headers: {
-            'apikey': supabaseAnonKey,
-            'Authorization': `Bearer ${supabaseAnonKey}`,
-          },
-        }
-      );
-
-      if (runsResponse.ok) {
-        const runsData = await runsResponse.json();
-        setRuns(runsData || []);
-      }
-
+      setReport(mockReport);
+      setRuns(mockRuns);
       setLoading(false);
     } catch (err) {
-      console.error('Fetch error:', err);
+      console.error('Demo mode error:', err);
       setError(err instanceof Error ? err.message : 'Failed to load report');
       setLoading(false);
     }

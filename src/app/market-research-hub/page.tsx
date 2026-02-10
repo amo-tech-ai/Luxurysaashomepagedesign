@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { FileText, TrendingUp, AlertTriangle, Info, CheckCircle2, Search, ExternalLink } from 'lucide-react';
+import { DashboardLayout } from '../../components/DashboardLayout';
 
 interface Source {
   id: string;
@@ -29,7 +30,11 @@ interface EvidenceGap {
   suggestion: string;
 }
 
-export default function MarketResearchHub() {
+interface MarketResearchHubProps {
+  onNavigate?: (page: string) => void;
+}
+
+export default function MarketResearchHub({ onNavigate }: MarketResearchHubProps) {
   const [filters, setFilters] = useState({
     industryReports: true,
     competitor: true,
@@ -107,16 +112,13 @@ export default function MarketResearchHub() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F7] p-6">
-      <div className="max-w-[1600px] mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl mb-2">Market Research Hub</h1>
-          <p className="text-gray-600">
-            {filteredSources.length} sources found across {sources.length} categories
-          </p>
-        </div>
-
+    <DashboardLayout
+      title="Market Research Hub"
+      subtitle={`${filteredSources.length} sources found across ${sources.length} categories`}
+      onNavigate={onNavigate}
+      activeNav="market-research-hub"
+    >
+      <div className="p-8">
         <div className="grid grid-cols-12 gap-6">
           {/* Left Panel - Sources & Filters */}
           <div className="col-span-3">
@@ -405,6 +407,6 @@ export default function MarketResearchHub() {
           </div>
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

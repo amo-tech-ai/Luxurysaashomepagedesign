@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Save, Download, Share2, ArrowLeft, Check, AlertTriangle } from 'lucide-react';
 import { CanvasCard } from '../lean-canvas/components/CanvasCard';
+import { DashboardLayout } from '../../components/DashboardLayout';
 
 interface OpportunityCanvasState {
   usersCustomers: string;
@@ -174,23 +175,18 @@ export default function OpportunityCanvasPage({ onNavigate }: OpportunityCanvasP
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF9F7]">
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <button
-            onClick={handleHome}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="w-8 h-8 bg-[#0D5F4E] rounded-lg flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">S</span>
-            </div>
-            <span className="text-lg font-light">StartupAI</span>
-          </button>
-
-          {/* Completion Tracker (Desktop) */}
-          <div className="hidden md:flex items-center gap-4">
+    <DashboardLayout
+      title="Opportunity Canvas"
+      subtitle="Focus on your primary opportunity. Define who you'll serve, what problem you'll solve, and how you'll validate your assumptions."
+      onNavigate={onNavigate}
+      activeNav="opportunity-canvas"
+      lastUpdated={canvas.lastSaved}
+    >
+      {/* Action Buttons Bar */}
+      <div className="bg-white border-b border-[#E8E6E1] px-8 py-4">
+        <div className="flex items-center justify-between">
+          {/* Completion Tracker */}
+          <div className="flex items-center gap-4">
             <span className="text-sm text-gray-500">Completion</span>
             <span className="text-sm font-medium">
               {completedSections}/{totalSections}
@@ -232,60 +228,10 @@ export default function OpportunityCanvasPage({ onNavigate }: OpportunityCanvasP
             </button>
           </div>
         </div>
-
-        {/* Mobile Progress Bar */}
-        <div className="md:hidden px-6 pb-3">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-gray-500">
-              {completedSections}/{totalSections} sections
-            </span>
-            <span className="text-xs font-medium">{completionPercentage}%</span>
-          </div>
-          <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-[#0D5F4E] transition-all duration-500"
-              style={{ width: `${completionPercentage}%` }}
-            />
-          </div>
-        </div>
-      </header>
+      </div>
 
       {/* Main Content */}
-      <main className="max-w-[1600px] mx-auto px-6 lg:px-12 py-8 lg:py-12">
-        {/* Title Section */}
-        <div className="mb-12">
-          <button
-            onClick={handleBack}
-            className="text-sm text-[#0D5F4E] hover:text-[#0a4d3f] mb-4 inline-flex items-center gap-1 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Lean Canvas
-          </button>
-
-          <h1 className="text-4xl lg:text-5xl font-light text-[#212427] mb-3">
-            Opportunity Canvas
-          </h1>
-
-          <p className="text-lg text-gray-600 leading-relaxed max-w-3xl mb-2">
-            Focus on your primary opportunity. Define who you'll serve, what problem you'll solve, and how you'll validate your assumptions in the next 90 days.
-          </p>
-
-          {canvas.lastSaved && (
-            <p className="text-sm text-gray-400">
-              Last saved {canvas.lastSaved}
-            </p>
-          )}
-
-          {leanCanvasData && (
-            <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200">
-              <p className="text-sm text-gray-600 mb-1">From your Lean Canvas:</p>
-              <p className="text-base font-medium text-gray-900">
-                {leanCanvasData.uvp || 'No value proposition set'}
-              </p>
-            </div>
-          )}
-        </div>
-
+      <div className="p-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column: User & Problem Focus */}
           <div className="space-y-6 lg:space-y-8">
@@ -442,7 +388,7 @@ export default function OpportunityCanvasPage({ onNavigate }: OpportunityCanvasP
             Generate 90-Day Plan →
           </button>
         </div>
-      </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }

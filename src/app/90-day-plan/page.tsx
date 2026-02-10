@@ -13,10 +13,11 @@ import {
   DragEndEvent
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { ArrowLeft, Download, Share2, Save, ChevronDown } from 'lucide-react';
+import { Download, Share2, Save, ChevronDown } from 'lucide-react';
 import { KanbanCard } from './components/KanbanCard';
 import { KanbanColumn } from './components/KanbanColumn';
 import { generateKanbanCards } from './lib/cardGenerator';
+import { DashboardLayout } from '../../components/DashboardLayout';
 
 interface Card {
   id: string;
@@ -132,18 +133,6 @@ export default function NineDayPlanPage({ onNavigate }: NineDayPlanPageProps) {
     setActiveCard(null);
   };
 
-  const handleBack = () => {
-    if (onNavigate) {
-      onNavigate('opportunity-canvas');
-    }
-  };
-
-  const handleHome = () => {
-    if (onNavigate) {
-      onNavigate('home');
-    }
-  };
-
   const handleSave = () => {
     localStorage.setItem('90-day-plan', JSON.stringify(cards));
     alert('Progress saved!');
@@ -167,34 +156,60 @@ export default function NineDayPlanPage({ onNavigate }: NineDayPlanPageProps) {
   const currentSprintData = SPRINTS.find(s => s.id === currentSprint) || SPRINTS[0];
 
   return (
-    <div className="min-h-screen bg-[#FAF9F7]">
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <button
-            onClick={handleHome}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="w-8 h-8 bg-[#0D5F4E] rounded-lg flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">S</span>
+    <DashboardLayout
+      title="90-Day Validation Plan"
+      subtitle="Transform your startup assumptions into a 6-sprint validation roadmap. Drag cards to track progress and build evidence."
+      onNavigate={onNavigate}
+      activeNav="90-day-plan"
+    >
+      {/* Action Bar */}
+      <div className="bg-white border-b border-[#E8E6E1] px-8 py-4">
+        <div className="flex items-center justify-between">
+          {/* Sprint Selector */}
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <button
+                onClick={() => setSprintDropdownOpen(!sprintDropdownOpen)}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                <span className="text-sm font-medium">{currentSprintData.name}</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              
+              {sprintDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                  {SPRINTS.map((sprint) => (
+                    <button
+                      key={sprint.id}
+                      onClick={() => {
+                        setCurrentSprint(sprint.id);
+                        setSprintDropdownOpen(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors ${
+                        currentSprint === sprint.id ? 'bg-[#E8F4F1]' : ''
+                      }`}
+                    >
+                      <div className="font-medium text-sm">{sprint.name}</div>
+                      <div className="text-xs text-gray-500 mt-1">{sprint.goal}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-            <span className="text-lg font-light">StartupAI</span>
-          </button>
 
-          {/* Sprint Selector (Desktop) */}
-          <div className="hidden md:flex items-center gap-4">
-            <span className="text-sm text-gray-500">Sprint Progress</span>
-            <span className="text-sm font-medium">
-              {completedCards}/{totalCards} cards
-            </span>
-            <div className="w-32 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[#0D5F4E] transition-all duration-500"
-                style={{ width: `${progressPercentage}%` }}
-              />
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-500">Sprint Progress</span>
+              <span className="text-sm font-medium">
+                {completedCards}/{totalCards} cards
+              </span>
+              <div className="w-32 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#0D5F4E] transition-all duration-500"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
+              <span className="text-sm font-medium">{progressPercentage}%</span>
             </div>
-            <span className="text-sm font-medium">{progressPercentage}%</span>
           </div>
 
           {/* Actions */}
@@ -209,7 +224,7 @@ export default function NineDayPlanPage({ onNavigate }: NineDayPlanPageProps) {
             <button
               onClick={handleExport}
               className="p-2 text-gray-700 hover:text-[#0D5F4E] hover:bg-gray-100 rounded-lg transition-colors"
-              title="Export board"
+              title="Export plan"
             >
               <Download className="w-4 h-4" />
             </button>
@@ -223,132 +238,49 @@ export default function NineDayPlanPage({ onNavigate }: NineDayPlanPageProps) {
           </div>
         </div>
 
-        {/* Mobile Progress Bar */}
-        <div className="md:hidden px-6 pb-3">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-gray-500">
-              {completedCards}/{totalCards} cards
-            </span>
-            <span className="text-xs font-medium">{progressPercentage}%</span>
-          </div>
-          <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-[#0D5F4E] transition-all duration-500"
-              style={{ width: `${progressPercentage}%` }}
-            />
-          </div>
+        {/* Sprint Goal */}
+        <div className="mt-4 p-3 bg-[#E8F4F1] rounded-lg">
+          <div className="text-xs text-gray-600 mb-1">Sprint Goal:</div>
+          <div className="text-sm font-medium text-[#0d5f4e]">{currentSprintData.goal}</div>
         </div>
-      </header>
+      </div>
 
-      {/* Main Content */}
-      <main className="max-w-[1800px] mx-auto px-6 lg:px-12 py-8 lg:py-12">
-        {/* Title Section */}
-        <div className="mb-8">
-          <button
-            onClick={handleBack}
-            className="text-sm text-[#0D5F4E] hover:text-[#0a4d3f] mb-4 inline-flex items-center gap-1 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Opportunity Canvas
-          </button>
-
-          <h1 className="text-4xl lg:text-5xl font-light text-[#212427] mb-3">
-            90-Day Validation Plan
-          </h1>
-
-          <p className="text-lg text-gray-600 leading-relaxed max-w-3xl mb-6">
-            Execute your validation strategy in 6 two-week sprints. Drag cards between columns to track progress.
-          </p>
-
-          {/* Sprint Selector */}
-          <div className="relative">
-            <button
-              onClick={() => setSprintDropdownOpen(!sprintDropdownOpen)}
-              className="flex items-center gap-3 px-6 py-4 bg-white border border-gray-200 rounded-xl hover:border-[#0D5F4E] transition-colors w-full md:w-auto"
-            >
-              <div>
-                <div className="text-sm text-gray-500 text-left">Current Sprint</div>
-                <div className="text-lg font-medium text-[#212427]">{currentSprintData.name}</div>
-              </div>
-              <ChevronDown className="w-5 h-5 text-gray-400 ml-auto" />
-            </button>
-
-            {sprintDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 w-full md:w-[500px] bg-white border border-gray-200 rounded-xl shadow-xl z-50">
-                {SPRINTS.map(sprint => (
-                  <button
-                    key={sprint.id}
-                    onClick={() => {
-                      setCurrentSprint(sprint.id);
-                      setSprintDropdownOpen(false);
-                    }}
-                    className={`w-full px-6 py-4 text-left hover:bg-gray-50 transition-colors first:rounded-t-xl last:rounded-b-xl border-b last:border-b-0 ${
-                      currentSprint === sprint.id ? 'bg-[#F5F3EF]' : ''
-                    }`}
-                  >
-                    <div className="font-medium text-[#212427] mb-1">{sprint.name}</div>
-                    <div className="text-sm text-gray-600">{sprint.goal}</div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Sprint Goal */}
-          <div className="mt-6 p-4 bg-[#0D5F4E]/5 border border-[#0D5F4E]/20 rounded-lg">
-            <div className="text-sm text-[#0D5F4E] font-medium mb-1">Sprint Goal</div>
-            <div className="text-base text-gray-900">{currentSprintData.goal}</div>
-          </div>
-        </div>
-
-        {/* Kanban Board */}
+      {/* Kanban Board */}
+      <div className="p-8 overflow-x-auto">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-            {COLUMNS.map(column => {
-              const columnCards = sprintCards.filter(card => card.columnId === column.id);
-              
-              return (
-                <KanbanColumn
-                  key={column.id}
-                  id={column.id}
-                  title={column.title}
-                  color={column.color}
-                  cards={columnCards}
-                  cardCount={columnCards.length}
-                />
-              );
-            })}
+          <div className="flex gap-6 min-w-max">
+            {COLUMNS.map((column) => (
+              <KanbanColumn
+                key={column.id}
+                column={column}
+                cards={sprintCards.filter(card => card.columnId === column.id)}
+              />
+            ))}
           </div>
-
           <DragOverlay>
             {activeCard ? (
-              <div className="rotate-3 opacity-90">
-                <KanbanCard card={activeCard} isDragging />
+              <div className="opacity-50">
+                <KanbanCard card={activeCard} />
               </div>
             ) : null}
           </DragOverlay>
         </DndContext>
 
-        {/* Help Text */}
-        <div className="mt-12 p-6 bg-white border border-gray-200 rounded-xl">
-          <h3 className="text-lg font-medium text-[#212427] mb-3">How to Use This Board</h3>
-          <ul className="space-y-2 text-sm text-gray-600">
-            <li><strong>Backlog:</strong> Cards to be started this sprint</li>
-            <li><strong>To Do:</strong> Ready to work on next</li>
-            <li><strong>Doing:</strong> Currently in progress</li>
-            <li><strong>Done:</strong> Completed with evidence collected</li>
-            <li><strong>Learnings:</strong> Key insights and decisions documented</li>
-          </ul>
-          <p className="mt-4 text-sm text-gray-500">
-            Tip: Move cards to "Learnings" when you've analyzed results and made a decision (pivot, persevere, or iterate).
-          </p>
-        </div>
-      </main>
-    </div>
+        {/* Empty State */}
+        {sprintCards.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500">No validation cards for this sprint yet.</p>
+            <p className="text-sm text-gray-400 mt-2">
+              Complete the Lean Canvas and Opportunity Canvas to generate cards.
+            </p>
+          </div>
+        )}
+      </div>
+    </DashboardLayout>
   );
 }

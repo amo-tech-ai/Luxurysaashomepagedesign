@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Save, Download, Share2, ArrowLeft, Sparkles, Check } from 'lucide-react';
 import { CanvasCard } from './components/CanvasCard';
+import { AISuggestionsPanel } from './components/AISuggestionsPanel';
+import { DashboardLayout } from '../../components/DashboardLayout';
 
 interface LeanCanvasState {
   problem: string;
@@ -40,6 +42,11 @@ interface LeanCanvasPageProps {
 export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
   const [canvas, setCanvas] = useState<LeanCanvasState>(INITIAL_STATE);
   const [isSaving, setIsSaving] = useState(false);
+  const [aiPanelOpen, setAiPanelOpen] = useState(false);
+  const [selectedBlock, setSelectedBlock] = useState<{
+    title: string;
+    field: keyof LeanCanvasState;
+  } | null>(null);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -118,24 +125,34 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-[#FAF9F7]">
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <button
-            onClick={handleHome}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="w-8 h-8 bg-[#0D5F4E] rounded-lg flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">S</span>
-            </div>
-            <span className="text-lg font-light">StartupAI</span>
-          </button>
+  const handleAIEnhance = (title: string, field: keyof LeanCanvasState) => {
+    setSelectedBlock({ title, field });
+    setAiPanelOpen(true);
+  };
 
-          {/* Completion Tracker (Desktop) */}
-          <div className="hidden md:flex items-center gap-4">
+  const handleAddSuggestion = (value: string) => {
+    if (selectedBlock) {
+      updateField(selectedBlock.field, value);
+    }
+  };
+
+  const handleClosePanel = () => {
+    setAiPanelOpen(false);
+  };
+
+  return (
+    <DashboardLayout
+      title="Lean Canvas"
+      subtitle="A strategic one-page business model template for validating your startup idea. Complete each section thoughtfully to build a comprehensive view of your business."
+      onNavigate={onNavigate}
+      activeNav="lean-canvas"
+      lastUpdated={canvas.lastSaved}
+    >
+      {/* Action Buttons Bar */}
+      <div className="bg-white border-b border-[#E8E6E1] px-8 py-4">
+        <div className="flex items-center justify-between">
+          {/* Completion Tracker */}
+          <div className="flex items-center gap-4">
             <span className="text-sm text-gray-500">Completion</span>
             <span className="text-sm font-medium">
               {completedSections}/{totalSections}
@@ -177,53 +194,10 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
             </button>
           </div>
         </div>
-
-        {/* Mobile Progress Bar */}
-        <div className="md:hidden px-6 pb-3">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-gray-500">
-              {completedSections}/{totalSections} sections
-            </span>
-            <span className="text-xs font-medium">{completionPercentage}%</span>
-          </div>
-          <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-[#0D5F4E] transition-all duration-500"
-              style={{ width: `${completionPercentage}%` }}
-            />
-          </div>
-        </div>
-      </header>
+      </div>
 
       {/* Main Content */}
-      <main className="max-w-[1600px] mx-auto px-6 lg:px-12 py-8 lg:py-12">
-        {/* Title Section */}
-        <div className="mb-12">
-          <button
-            onClick={() => onNavigate && onNavigate('lean-canvas-v2')}
-            className="text-sm text-[#0D5F4E] hover:text-[#0a4d3f] mb-4 inline-flex items-center gap-1 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            View Classic Lean Canvas
-          </button>
-
-          <h1 className="text-4xl lg:text-5xl font-light text-[#212427] mb-3">
-            Lean Canvas
-          </h1>
-
-          <p className="text-lg text-gray-600 leading-relaxed max-w-3xl mb-2">
-            A strategic one-page business model template for validating your
-            startup idea. Complete each section thoughtfully to build a
-            comprehensive view of your business.
-          </p>
-
-          {canvas.lastSaved && (
-            <p className="text-sm text-gray-400">
-              Last saved {canvas.lastSaved}
-            </p>
-          )}
-        </div>
-
+      <div className="p-8">
         {/* Three-Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Column 1: Problem Side */}
@@ -236,6 +210,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('problem', value)}
               maxLength={250}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Problem', 'problem')}
             />
 
             <CanvasCard
@@ -246,6 +221,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('existingAlternatives', value)}
               maxLength={200}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Existing Alternatives', 'existingAlternatives')}
             />
 
             <CanvasCard
@@ -256,6 +232,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('keyMetrics', value)}
               maxLength={200}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Key Metrics', 'keyMetrics')}
             />
           </div>
 
@@ -269,6 +246,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('solution', value)}
               maxLength={250}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Solution', 'solution')}
             />
 
             <CanvasCard
@@ -280,6 +258,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               maxLength={120}
               hasAIEnhance
               isHighlighted
+              onAIEnhanceClick={() => handleAIEnhance('Unique Value Proposition', 'uvp')}
             />
 
             <CanvasCard
@@ -290,6 +269,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('unfairAdvantage', value)}
               maxLength={150}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Unfair Advantage', 'unfairAdvantage')}
             />
 
             <CanvasCard
@@ -300,6 +280,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('channels', value)}
               maxLength={200}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Channels', 'channels')}
             />
           </div>
 
@@ -313,6 +294,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('customerSegments', value)}
               maxLength={200}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Customer Segments', 'customerSegments')}
             />
 
             <CanvasCard
@@ -323,6 +305,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('earlyAdopters', value)}
               maxLength={200}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Early Adopters', 'earlyAdopters')}
             />
 
             <CanvasCard
@@ -333,6 +316,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('costStructure', value)}
               maxLength={200}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Cost Structure', 'costStructure')}
             />
 
             <CanvasCard
@@ -343,6 +327,7 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
               onChange={(value) => updateField('revenueStreams', value)}
               maxLength={200}
               hasAIEnhance
+              onAIEnhanceClick={() => handleAIEnhance('Revenue Streams', 'revenueStreams')}
             />
           </div>
         </div>
@@ -356,7 +341,16 @@ export default function LeanCanvasPage({ onNavigate }: LeanCanvasPageProps) {
             Continue to Opportunity Canvas →
           </button>
         </div>
-      </main>
-    </div>
+      </div>
+
+      {/* AI Enhancement Panel */}
+      <AISuggestionsPanel
+        isOpen={aiPanelOpen}
+        onClose={handleClosePanel}
+        blockTitle={selectedBlock?.title || ''}
+        blockValue={selectedBlock ? canvas[selectedBlock.field] : ''}
+        onAddSuggestion={handleAddSuggestion}
+      />
+    </DashboardLayout>
   );
 }
