@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CheckCircle2, AlertCircle, FileText, TrendingUp, Target, Shield, Rocket, ChevronRight, X, Database } from 'lucide-react';
+import { CheckCircle2, AlertCircle, FileText, TrendingUp, Target, Shield, Rocket, ChevronRight, X, Database, Eye } from 'lucide-react';
 import type { ValidatorReport, ValidatorRun, ReportContent } from '@/types/validator';
 
 interface ValidatorReportPageProps {
@@ -307,6 +307,13 @@ export default function ValidatorReportPage({ reportId, onNavigate }: ValidatorR
                 <span className="font-medium">AI-Verified</span>
               </div>
             )}
+            <button
+              onClick={() => onNavigate?.('validator-report-visual')}
+              className="px-4 py-2 bg-[#0d5f4e] text-white rounded-lg text-sm hover:bg-[#0a4a3a] transition-all flex items-center gap-2"
+            >
+              <Eye className="w-4 h-4" />
+              Visual View
+            </button>
             <button
               onClick={() => setTraceOpen(true)}
               className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm hover:border-[#0d5f4e] hover:text-[#0d5f4e] transition-all flex items-center gap-2"

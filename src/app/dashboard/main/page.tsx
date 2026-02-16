@@ -28,9 +28,10 @@ import {
   Home,
   Clock,
   Zap,
-  CheckCircle2,
+  BarChart3,
   Bell,
   MoreHorizontal,
+  CheckCircle2,
   TrendingDown,
 } from 'lucide-react';
 
@@ -87,6 +88,7 @@ export default function DashboardMainPage({ onNavigate, activeView = 'main' }: D
           <p className="text-xs font-semibold text-[#A3A3A3] uppercase tracking-wider px-4 mb-3 mt-6">
             Tools
           </p>
+          <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Product Roadmap" onClick={() => onNavigate?.('gantt')} />
           <NavItem icon={<Users className="w-5 h-5" />} label="CRM" onClick={() => {}} />
           <NavItem icon={<FileText className="w-5 h-5" />} label="Documents" onClick={() => {}} />
           <NavItem icon={<Grid3x3 className="w-5 h-5" />} label="Lean Canvas" onClick={() => onNavigate?.('lean-canvas')} />

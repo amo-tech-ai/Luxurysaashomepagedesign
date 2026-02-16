@@ -56,12 +56,15 @@ const footerLinks = {
       { label: 'Style Guide', href: '/style-guide', isRoute: true, routeName: 'style-guide' },
     ],
   },
-  diagrams: {
-    title: 'Diagrams',
+  ai: {
+    title: 'AI',
     links: [
       { label: 'Flow Diagrams', href: '/diagrams/flows', isRoute: true, routeName: 'diagrams-flows' },
       { label: 'AI Agent Flows', href: '/diagrams/ai-flows', isRoute: true, routeName: 'diagrams-ai-flows' },
       { label: 'Running AI Agents', href: '/running-agents', isRoute: true, routeName: 'running-agents' },
+      { label: 'AI Impact Planner', href: '/ai-impact-planner', isRoute: true, routeName: 'ai-impact-planner' },
+      { label: 'Ask the Trends', href: '/ask-trends', isRoute: true, routeName: 'ask-trends' },
+      { label: 'Fashion 2026 V3', href: '/infographics/fashion-2026-v3', isRoute: true, routeName: 'fashion-2026-v3' },
     ],
   },
   resources: {
@@ -79,13 +82,6 @@ const footerLinks = {
       { label: 'AI Products Intelligence 2024-2026', href: '/infographics/ai-products-v3', isRoute: true, routeName: 'ai-products-v3' },
       { label: 'AI GTM Report 2025', href: '/infographics/ai-gtm', isRoute: true, routeName: 'ai-gtm' },
       { label: 'AI Startup Landscape 2025-2026', href: '/infographics/ai-startup-landscape', isRoute: true, routeName: 'ai-startup-landscape' },
-    ],
-  },
-  trendIntelligence: {
-    title: 'Trend Intelligence',
-    links: [
-      { label: 'AI Impact Planner', href: '/ai-impact-planner', isRoute: true, routeName: 'ai-impact-planner' },
-      { label: 'Ask the Trends', href: '/ask-trends', isRoute: true, routeName: 'ask-trends' },
     ],
   },
 };
@@ -197,13 +193,13 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
               </ul>
             </div>
 
-            {/* Diagrams Column */}
+            {/* AI Column */}
             <div className="space-y-6">
               <h3 className="text-sm text-gray-900 uppercase tracking-wider">
-                {footerLinks.diagrams.title}
+                {footerLinks.ai.title}
               </h3>
               <ul className="space-y-3">
-                {footerLinks.diagrams.links.map((link, index) => (
+                {footerLinks.ai.links.map((link, index) => (
                   <li key={index}>
                     <a
                       href={link.href}
@@ -224,26 +220,6 @@ export function Footer({ onNavigate }: { onNavigate?: (page: string) => void }) 
               </h3>
               <ul className="space-y-3">
                 {footerLinks.resources.links.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      onClick={(e) => handleLinkClick(e, link)}
-                      className="text-gray-600 hover:text-[#0d5f4e] transition-colors duration-200"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Trend Intelligence Column */}
-            <div className="space-y-6">
-              <h3 className="text-sm text-gray-900 uppercase tracking-wider">
-                {footerLinks.trendIntelligence.title}
-              </h3>
-              <ul className="space-y-3">
-                {footerLinks.trendIntelligence.links.map((link, index) => (
                   <li key={index}>
                     <a
                       href={link.href}

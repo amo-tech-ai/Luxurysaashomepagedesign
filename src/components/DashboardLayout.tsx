@@ -19,7 +19,8 @@ import {
   Settings,
   FlaskConical,
   Glasses,
-  Sparkles
+  Sparkles,
+  Eye
 } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -46,10 +47,13 @@ const navItems = {
     { id: '90-day-plan', label: '90-Day Plan', icon: Calendar },
     { id: 'kanban', label: 'Kanban Board', icon: KanbanSquare },
     { id: 'tasks', label: 'Tasks', icon: CheckSquare },
+    { id: 'gantt', label: 'Product Roadmap', icon: BarChart3 },
   ],
   INTELLIGENCE: [
     { id: 'market-research-hub', label: 'Market Research', icon: TrendingUp },
     { id: 'opportunity-canvas', label: 'Opportunity Canvas', icon: Target },
+    { id: 'validator-report-visual', label: 'Visual Validator', icon: Eye },
+    { id: 'validator-report-visual-v2', label: 'Visual Validator V2', icon: Eye },
   ],
   FUNDRAISING: [
     { id: 'investor-strategy', label: 'Investor Strategy', icon: Users },
